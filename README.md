@@ -1,2 +1,2 @@
-# python_projects
+# Python Projects
 A place for all my python projects
