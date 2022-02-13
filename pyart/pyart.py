@@ -1,4 +1,6 @@
+import os
 
+from typing import List, Dict
 
 """
 Duck
@@ -6,8 +8,6 @@ Duck
 <(o )__
  ( ._>/ 
   `--' 
-    
-
 
 
 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -52,21 +52,9 @@ _█_________▄▄▄▄_ ▄▄▄▄_█
 _█__█████_▐▓▓▌_▐▓▓▌_█ 
 _█__█████_▐▓▓▌_▐▓▓▌_█ 
 _█__█████_▐▓▓▌_▐▓▓▌_█ 
-_█__█████_▀▀▀▀_ ▀▀▀▀ █✿ ✿ 
+_█__█████_▀▀▀▀_ ▀▀▀ █✿ ✿ 
 _█__█████_____________ █(\\|/) 
 _____________██ _____________██ 
-_____________█ 
-______________█ 
-_______________██ 
-_________________██ 
-___________________██ 
-__________________██ 
-_________________███ 
-______________████ 
-___________█████ 
-_________██████ 
-_______██████
-
 
 
 
@@ -464,16 +452,60 @@ __●__ ●
 
 """
 
+class ArtPiece:
+  def __init__(self, title: str, img_data: str=None):
+      self.title = ""
+      self.img_data = img_data
+      
+      self.matrix = None
+      self.get_matrix()
+  
+  def __str__(self) -> str:
+    txt = f"{self.title}\n{self.img_data}"
+    return txt
+  
+  def update_image(self, new_img_data:str):
+    self.img_data = new_img_data
+    self.get_matrix()
+
+  def get_matrix(self) -> List[List[str]]:
+    if self.img_data is None:
+      return False
+
+    if self.matrix is None:
+      self.matrix = []
+
+    lines = self.img_data.split("\n")
+
+    for line in lines:
+      chars = line.split("")
+      self.matrix.append(chars)
+    
+    return True
 
 
+def test_ArtPiece():
+  test_piece = f"""
+────────▄█▀▄
+──────▄██▀▀▀▀▄
+────▄███▀▀▀▀▀▀▀▄
+──▄████▀▀▀▀▀▀▀▀▀▀▄
+▄█████▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+"""
+
+  pyramid = ArtPiece("Pyramid", test_piece)
+
+  print(pyramid)
 
 
 def main():
-    # Make Gallery to hold art pieces
-    main_gallery = Gallery(name)
+    # # Make Gallery to hold art pieces
+    # main_gallery = Gallery(name)
 
-    # takes in multiline fstring for img_data
-    new_piece = ArtPiece(title, img_data)
+    # # takes in multiline fstring for img_data
+    # new_piece = ArtPiece(title, img_data)
+    
+    test_ArtPiece()
 
 
 if __name__ == '__main__':
