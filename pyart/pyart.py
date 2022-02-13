@@ -456,17 +456,27 @@ class ArtPiece:
   def __init__(self, title: str, img_data: str=None):
       self.title = title
       self.img_data = img_data
-      
+
+      self.width = 0
+      self.height = 0
+
       self.matrix = None
       self.get_matrix()
   
   def __str__(self) -> str:
-    txt = f"{self.title}\n{'emtpy' if self.img_data is None else self.img_data}"
+    txt = f"{self.title} [{self.width}x{self.height}]\n{'emtpy' if self.img_data is None else self.img_data}"
     return txt
   
   def update_image(self, new_img_data:str):
     self.img_data = new_img_data
     self.get_matrix()
+
+  def set_dimensions(self):
+    if self.matrix is None:
+      return False
+    
+    self.width = len(self.matrix[0])
+    self.height = len(self.matrix)
 
   def get_matrix(self) -> List[List[str]]:
     if self.img_data is None:
@@ -481,6 +491,9 @@ class ArtPiece:
       chars = list(line)
       self.matrix.append(chars)
     
+    # Set Width and Height
+    self.set_dimensions()
+
     return True
 
 
