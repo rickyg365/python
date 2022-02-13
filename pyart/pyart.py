@@ -454,14 +454,14 @@ __●__ ●
 
 class ArtPiece:
   def __init__(self, title: str, img_data: str=None):
-      self.title = ""
+      self.title = title
       self.img_data = img_data
       
       self.matrix = None
       self.get_matrix()
   
   def __str__(self) -> str:
-    txt = f"{self.title}\n{self.img_data}"
+    txt = f"{self.title}\n{'emtpy' if self.img_data is None else self.img_data}"
     return txt
   
   def update_image(self, new_img_data:str):
