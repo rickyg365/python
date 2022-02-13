@@ -539,7 +539,7 @@ class ArtGallery:
         with open(self.filepath, 'w') as out_json:
             json.dump(new_list, out_json, indent=4)
     
-    def add_piece(new_piece: ArtPiece):
+    def add_piece(self, new_piece: ArtPiece):
         self.pieces.append(new_piece)
 
 
