@@ -447,8 +447,10 @@ __●__ ●
 
 class ArtPiece:
   def __init__(self, title: str, img_data: str=None):
+      if img_data is not None:
+          img_data = img_data.strip()
       self.title = title
-      self.img_data = img_data.strip()
+      self.img_data = img_data
 
       self.width = 0
       self.height = 0
@@ -457,7 +459,15 @@ class ArtPiece:
       self.get_matrix()
   
   def __str__(self) -> str:
-    txt = f"{self.title} [{self.width}x{self.height}]\n{'emtpy' if self.img_data is None else self.img_data}"
+    image = self.img_data
+
+    if self.img_data is None:
+        image = 'emtpy' 
+    
+    txt = f"""\r
+{image}
+{self.title} [{self.width}x{self.height}]
+"""
     return txt
   
   def update_image(self, new_img_data:str):
@@ -490,6 +500,11 @@ class ArtPiece:
     return True
 
 
+class ArtGallery:
+    def __init__(self):
+        ...
+
+
 def test_ArtPiece():
   test_piece = f"""
 ────────▄█▀▄
@@ -499,10 +514,11 @@ def test_ArtPiece():
 ▄█████▀▀▀▀▀▀▀▀▀▀▀▀▀▄
 """
 
-  pyramid = ArtPiece("Pyramid", test_piece)
+  pyramid = ArtPiece("Pyramid")
 
   print(pyramid)
-  print(pyramid.matrix)
+  pyramid.update_image(test_piece)
+  print(pyramid)
 
 def main():
     # # Make Gallery to hold art pieces
