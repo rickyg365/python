@@ -1,5 +1,6 @@
 import os
 
+import json
 from typing import List, Dict
 
 """
@@ -469,14 +470,22 @@ class ArtPiece:
 {self.title} [{self.width}x{self.height}]
 """
     return txt
+
+  def json_that_shit(self):
+      output_json = {
+          "title": self.title,
+          "image_text": self.img_data,
+          "image_matrix": self.matrix
+      }
+      return output_json
   
   def update_image(self, new_img_data:str):
-    self.img_data = new_img_data.strip()
-    self.get_matrix()
+      self.img_data = new_img_data.strip()
+      self.get_matrix()
 
   def set_dimensions(self):
     if self.matrix is None:
-      return False
+        return False
     
     self.width = len(self.matrix[0])
     self.height = len(self.matrix)
@@ -501,8 +510,31 @@ class ArtPiece:
 
 
 class ArtGallery:
-    def __init__(self):
-        ...
+    def __init__(self, filepath="default_gallery.json"):
+        self.filepath = filepath
+        
+        self.name = "No Name"
+        self.pieces = []
+
+    def __str__(self) -> str:
+        txt = f"{self.name}"
+
+        for art_piece in self.pieces:
+            txt += f"\n\n{art_piece}"
+        return txt
+
+    def load(self):
+        with open(self.filepath, 'r') as input_data:
+            raw_data = json.loads(input_data)
+
+    
+    def save(self):
+        new_list = []
+        for piece in self.pieces:
+            current_data = piece.json_that_shit()
+            new_list.append(current_data)
+        
+        json.save(new_list)      
 
 
 def test_ArtPiece():
