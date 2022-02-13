@@ -478,7 +478,7 @@ class ArtPiece:
     lines = self.img_data.split("\n")
 
     for line in lines:
-      chars = line.split("")
+      chars = list(line)
       self.matrix.append(chars)
     
     return True
