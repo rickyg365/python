@@ -525,7 +525,9 @@ class ArtGallery:
 
     def load(self):
         with open(self.filepath, 'r') as input_data:
-            raw_data = json.loads(input_data)
+            raw_data = json.load(input_data)
+            # Parse data if needed
+            self.pieces = raw_data
 
     
     def save(self):
@@ -534,7 +536,11 @@ class ArtGallery:
             current_data = piece.json_that_shit()
             new_list.append(current_data)
         
-        json.save(new_list)      
+        with open(self.filepath, 'w') as out_json:
+            json.dump(new_list, out_json, indent=4)
+    
+    def add_piece(self, new_piece: ArtPiece):
+        self.pieces.append(new_piece)
 
 
 def test_ArtPiece():
@@ -551,6 +557,17 @@ def test_ArtPiece():
   print(pyramid)
   pyramid.update_image(test_piece)
   print(pyramid)
+
+  new_gallery = ArtGallery("test_gallery.json")
+
+  new_gallery.add_piece(pyramid)
+
+  new_gallery.save()
+
+
+def test_Gallery():
+    ...
+
 
 def main():
     # # Make Gallery to hold art pieces
