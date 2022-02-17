@@ -6,6 +6,10 @@ from typing import List
 
 
 """ 
+Bugs:
+   Cant use dict because the same letter cant be used as an index
+
+
 Plan:
 
 4 letter word
@@ -70,14 +74,19 @@ class Round:
         return f"Length of word list: {self.length}\n{items}"
     
     def check_guess(self, guess, chosen_word, status):
+        """ Check status of each letter and update the status object """
         word_length = len(guess)
+
+        more_than = word_length > 4
+        less_than = word_length < 4
+
+        if more_than or less_than:
+            return False
 
         for i in range(word_length):
             if guess[i] == chosen_word[i]:
                 status[guess[i]] = True
                 continue
-        
-        print(self.final_status(status))
 
         return status
     
@@ -88,13 +97,14 @@ class Round:
         return True
 
     def final_status(self, status):
-        final_report = "\n"
+        final_report = ""
         for letter, val in status.items():
-            stat_symbol = " " if val else "X"
+            stat_symbol = "*" if val else " "
             final_report += f"[{stat_symbol}] "
         return final_report
 
     def start(self):
+        # Starting Variables
         # Choose random word
         r = random.randint(0, self.length-1)
         chosen_word = self.word_bank[r]
@@ -102,45 +112,51 @@ class Round:
         blank_status = dict.fromkeys(chosen_word, False)
         current_status = dict.fromkeys(chosen_word, False)
 
+        report = ""
+
         guessed = False
         max_turn_limit = 6
         
-        # Let player Guess
-        for i in range(max_turn_limit):
-            print(self.final_status(current_status))
-            user_input = input(">>> ")
+        # Intro
+        print("Guess the Word!")
 
-            current_status = self.check_guess(user_input, chosen_word, blank_status)
+        # Let player Guess
+        for _ in range(max_turn_limit):
+            # Reset Status
+            current_status = {**blank_status}
+
+
+            user_input = input("\n>>> ")
+            
+            current_status = self.check_guess(user_input, chosen_word, current_status)
+            report += f"\n{_+1}. {self.final_status(current_status)} | {user_input}"
+            
             guessed = self.check_win(current_status)
 
+            print(report)
             if guessed:
                 break
-        # Print Results
 
         if not guessed:
-            print(f"Failed!: Word was {chosen_word}")
-        else:
-            print(f"You Won! {chosen_word}")
+            print(f"\nFailed! Word was {chosen_word}")
+            return
         
-        print(self.final_status(current_status))
+        # Default is Win
+        print(f"\nYou Won! Word was {chosen_word}")
 
 
 if __name__ == "__main__":
+    cols, rows = os.get_terminal_size()
+
     filepath = "sample_word_bank.txt"
     new_round = Round(filepath)
-    new_round.start()
 
-    # print(new_round)
+    while True:
+        new_round.start()
+        
+        cont = input("\nContinue?: ")
 
-
-
-
-
-
-
-
-
-
-
-
-
+        if cont.lower() == 'n':
+            break
+        
+        print(f"{cols*'-'}")
