@@ -1,8 +1,13 @@
 import os
 import json
 
+import datetime
+from textwrap import indent
+
 import pandas as pd
 import yfinance as yf
+
+from typing import List, Dict
 
 """
 Data we want to store
@@ -40,120 +45,81 @@ sample_live_data = {
 }
 
 
-# Stock Symbols
-msft = 'MSFT'
-
-# Get Data
-msft_data = yf.Ticker(msft)
-
-# Get the historical prices
-msft_DF = msft_data.history(period='1d') 
-
-# Get DF Columns
-msft_columns = msft_DF.columns
-
-# Print Values for Columns
-for key in msft_columns:
-    value = msft_DF[f"{key}"]
-
-    print(f"{key}: \n{value.values[0]}\n")
-
-
-# Convert to Json, pandas return it as a string json so use loads instead of load
-msft_JSON = msft_DF.to_json(indent=4)
-
-# Load as python obj
-msft_python = json.loads(msft_JSON)
-
-# Get Keys
-msft_json_keys = [k for k in msft_python.keys()]
-
-print(msft_json_keys)
-
-# Print Values for each key
-for key in msft_json_keys:
-    value = [x for x in msft_python[key].values()][0]  # Should only be 1 value
-
-    print(f"{key}: {value}")
-
-
-print(msft_JSON)
-
-print(msft_python)
-
-print(msft_columns)
-
-
-
 class StockData:
-    def __init__(self, ticker_symbol=None):
+    def __init__(self, ticker_symbol: str):
         self.symbol = ticker_symbol
+   
+        self.current_time = datetime.datetime.now().strftime('%m_%d_%Y')
+
+        self.json_file = f"{self.symbol}.json"
+
         self.ticker = yf.Ticker(ticker_symbol)
 
-        self.latest_df = self.historical()
-        self.latest_json = self.json()
-        self.live_data = self.python_obj()
+        self.data_frame = self.get_data()
+        self.py_obj = self.parsed_python()
+        self.json_text = json.dumps(self.py_obj, indent=4)
 
     def __str__(self) -> str:
-        pass
+        text = f"""[{self.symbol}]: {self.json_file}
+{self.data_frame}
 
-    def historical(self, period='1d', start=None, end=None) -> pd.DataFrame:
-        return self.ticker.history(period=period, start=start, end=end)
-    
-    def raw_json(self):
-        # Get Updated Historical
-        raw_df = self.historical()
+{self.json_text}
 
+{self.py_obj}
+"""
+        return text
+
+    def get_data(self, days="1d"):
+        data = self.ticker.history(days)
+        return data
+        
+    def parsed_python(self) -> Dict[str, any]:
+        cleaned = {}
         # Convert to Json, pandas return it as a string json so use loads instead of load
-        new_json_string = raw_df.to_json(indent=4)
+        new_json_string = self.data_frame.to_json(indent=4)
 
         # Load as python obj
-        msft_python = json.loads(new_json_string)
+        raw_py_obj = json.loads(new_json_string)
 
         # Get Keys
-        msft_json_keys = [k for k in msft_python.keys()]
-
-        print(msft_json_keys)
+        obj_keys = [k for k in raw_py_obj.keys()]
 
         # Print Values for each key
-        for key in msft_json_keys:
-            value = [x for x in msft_python[key].values()][0]  # Should only be 1 value
+        for key in obj_keys:
+            value = [x for x in raw_py_obj[key].values()][0]  # Should only be 1 value
+            cleaned[key] = value
 
-            print(f"{key}: {value}")
-        
-    def raw_python_obj(self):
-         # Get Updated Historical
-        raw_df = self.historical()
+        return cleaned        
 
-        # Convert to Json, pandas return it as a string json so use loads instead of load
-        new_json_string = raw_df.to_json(indent=4)
-
-        # Load as python obj
-        return json.loads(new_json_string)
-
+    def save_json(self):
+        try:
+            with open(self.json_file, 'w') as out_json:
+                json.dump(self.py_obj, out_json, indent=4)
+        except Exception as e:
+            print(e)
     
+    def load_json(self):
+        with open(self.json_file, 'r') as in_json:
+            data = json.load(in_json)
+        return data
+
+
+my_stocks = [
+    "MSFT",
+    "TSLA"
+]
+
+
+for stock in my_stocks:
+    new_stock = StockData(stock)
+    print(new_stock.get_data('5d'))
+    print(new_stock)
+    new_stock.save_json()
 
 
 
-print(StockData("MSFT").historical('5d'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Get Initial Data from yahoo as DF
+# Convert to Dict and Parse
+# Save Json (File) from dict
+# lOad Json (File) to dict
 

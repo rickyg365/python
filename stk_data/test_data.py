@@ -4,8 +4,7 @@ import json
 import pandas as pd
 import yfinance as yf
 
-from data import Stock
-
+from data import StockData
 
 
 
