@@ -2,9 +2,9 @@ import os
 import json
 
 import datetime
-from textwrap import indent
 
 import pandas as pd
+import numpy as np
 import yfinance as yf
 
 from typing import List, Dict
@@ -43,6 +43,11 @@ sample_live_data = {
        "dt2": [max, min, 22.1],
    }
 }
+# ? or
+live_data = [
+
+]
+
 
 
 class StockData:
@@ -55,7 +60,7 @@ class StockData:
 
         self.ticker = yf.Ticker(ticker_symbol)
 
-        self.data_frame = self.get_data()
+        self.data_frame = self.get_data("5d")  # self.load_json()
         self.py_obj = self.parsed_python()
         self.json_text = json.dumps(self.py_obj, indent=4)
 
@@ -73,49 +78,61 @@ class StockData:
         data = self.ticker.history(days)
         return data
         
-    def parsed_python(self) -> Dict[str, any]:
+    def parsed_python(self):
         cleaned = {}
-        # Convert to Json, pandas return it as a string json so use loads instead of load
-        new_json_string = self.data_frame.to_json(indent=4)
 
-        # Load as python obj
-        raw_py_obj = json.loads(new_json_string)
+        all_columns = [c for c in self.data_frame.columns]
+        all_dates = [d for d in self.data_frame[all_columns[0]].keys()]
 
-        # Get Keys
-        obj_keys = [k for k in raw_py_obj.keys()]
+        for date in all_dates:
+            new_date_data = {}
+            for col in all_columns:
+                value = self.data_frame[col][date]
 
-        # Print Values for each key
-        for key in obj_keys:
-            value = [x for x in raw_py_obj[key].values()][0]  # Should only be 1 value
-            cleaned[key] = value
+                # Parsing
+                match type(value):
+                    case np.int64:
+                        value = int(value)
+                    case np.float64:
+                        value = float(value)
+                    case _:
+                        break
+
+                new_date_data[col] = value
+        cleaned[f"{date}"] = new_date_data
+        
+        # print(cleaned)
+        # print(len(cleaned))
 
         return cleaned        
 
     def save_json(self):
         try:
             with open(self.json_file, 'w') as out_json:
-                json.dump(self.py_obj, out_json, indent=4)
+                json.dump(self.py_obj, out_json, indent=4, separators=(',', ': '))
         except Exception as e:
             print(e)
     
-    def load_json(self):
-        with open(self.json_file, 'r') as in_json:
-            data = json.load(in_json)
-        return data
+    def load_json(self) -> pd.DataFrame:
+        try:
+            with open(self.json_file, 'r') as in_json:
+                data = json.load(in_json)
+            return pd.DataFrame(data, index=[k for k in data.keys()])
+        except FileNotFoundError:
+            return self.get_data("1d")
 
 
-my_stocks = [
-    "MSFT",
-    "TSLA"
-]
+if __name__ == "__main__":
+    my_stocks = [
+        "MSFT",
+        "TSLA"
+    ]
 
-
-for stock in my_stocks:
-    new_stock = StockData(stock)
-    print(new_stock.get_data('5d'))
-    print(new_stock)
-    new_stock.save_json()
-
+    for stock in my_stocks:
+        new_stock = StockData(stock)
+        print(new_stock.get_data('5d'))
+        print(new_stock)
+        new_stock.save_json()
 
 
 # Get Initial Data from yahoo as DF
