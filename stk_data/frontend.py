@@ -9,7 +9,7 @@ from handle_json import load_json, save_json
 class StockManager:
     def __init__(self, data_filepath:str="stock_data.json"):
         self.filepath = data_filepath
-        self.stocks = {}
+        self.stocks = []
 
         self.load()
 
@@ -20,18 +20,14 @@ class StockManager:
         if not new_stock:
             return False
         
-        self.stocks[new_ticker_symbol] = new_stock
+        self.stocks.append(*new_stock)
         return True
 
     def remove_stock(self, ticker_symbol: str):
-        print(self.stocks)
-        if ticker_symbol not in self.stocks.keys():
-            return False
-
-        # del self.stocks[ticker_symbol]
-        removed_data = self.stocks.pop(ticker_symbol)
+        for stock in self.stocks:
+            if stock.ticker == ticker_symbol:
+                removed_data = self.stocks.pop(stock)
         # print(f"Removed: {removed_data}")
-
         return True
     
     def update_stock(self, ticker_symbol):
@@ -41,35 +37,33 @@ class StockManager:
         if not new_stock:
             return False
         
-        self.stocks[ticker_symbol] = [ *self.stocks[ticker_symbol], *new_stock]
+        for stock in new_stock:
+            self.stocks.append(stock)
         return
 
     def load(self):
         # Loaded stocks
         if os.path.isfile(self.filepath):
             new_stocks = load_json(self.filepath)
-            def parse_func(raw_data):
-                output = {}
-                for ticker_symbol, stocks in raw_data.items():
-                    new_list = []
-                    for stock in stocks:
-                        removed_symbol = stock.pop('ticker')
-                        new_date = stock.pop('date')
+            output = []
+            for ticker_symbol, stocks in raw_data.items():
+                new_list = []
+                for stock in stocks:
+                    removed_symbol = stock.pop('ticker')
+                    new_date = stock.pop('date')
 
-                        new_data = { **stock }
-                        new_list.append(Stock(removed_symbol, new_date, new_data))
-                    output[ticker_symbol] = new_list
-                return output
-            self.stocks = parse_func(new_stocks)
+                    new_data = { **stock }
+                    new_list.append(Stock(removed_symbol, new_date, new_data))
+                output[ticker_symbol] = new_list
+            return output
+        self.stocks = parse_func(new_stocks)
 
     def save(self):
-        json_dict = {}
-        for ticker_symbol, company_data in self.stocks.items():
-            json_list = []
-            for stock in company_data:
-                json_list.append(stock.export())
-            json_dict[ticker_symbol] = json_list
-        save_json(self.filepath, json_dict)
+        json_list = []
+        for stock in self.stocks:
+            json_list.append(stock.export())
+            
+        save_json(self.filepath, json_list)
 
 
 def main():
@@ -79,8 +73,8 @@ def main():
     # new_stock_manager.add_stock("MSFT")
 
     # new_stock_manager.update_stock("MSFT")
-    # new_stock_manager.save()
     print(new_stock_manager.stocks)
+    
     # new_stock_manager.remove_stock("MSFT")
     new_stock_manager.save()
 
