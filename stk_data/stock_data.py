@@ -61,13 +61,10 @@ def get_data(ticker_symbol: str, days:str="1d") -> List[Stock]:
     return new_stocks
 
 def main():
-    new_data = get_data("TSLA", "5d") 
-    print(get_data("MSFT"))
-    print(new_data)
-
-    print(new_data[0].export())
-    # save_json("test.json", new_data[0].export())
-    print(load_json('test.json'))
+    # new_data = get_data("TSLA", "5d") 
+    # print(get_data("MSFT"))
+    # print(new_data)
+    # print(new_data[0].export())
     return
 
 if __name__ == "__main__":
