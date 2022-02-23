@@ -1,86 +1,151 @@
 import os
 
+import json
+
 from stock_object import Stock
-
 from stock_data import get_data
-from handle_json import load_json, save_json
 
+from typing import List
 
 class StockManager:
-    def __init__(self, data_filepath:str="stock_data.json"):
-        self.filepath = data_filepath
-        self.stocks = []
+    def __init__(self, input_filepath="data/stock_data.json"):
+        self.filepath = input_filepath
+        self.stock_symbols = set()
 
-        self.load()
+        self.stocks = self.load()
+
+    def __repr__(self):
+        text = f"""Tickers: {self.stock_symbols}
+Entries: {len(self.stocks)}
+Filepath: {self.filepath}"""
+        return text
 
     def add_stock(self, new_ticker_symbol: str):
-        """"""        
+        """ Adds new stock or provides update for most recent data """
+        if new_ticker_symbol in self.stock_symbols:
+            print("UPDATE")
+            self.update_stock(new_ticker_symbol)
+            return
+
         new_stock = get_data(new_ticker_symbol)
 
         if not new_stock:
             return False
-        
+
+        self.stock_symbols.add(new_ticker_symbol)
         self.stocks.append(*new_stock)
         return True
 
     def remove_stock(self, comparison_obj, comparison_type="ticker"):
         chosen_comparison = None
+
         match comparison_type:
             case "ticker":
-                compare_by_ticker = lambda x: x.ticker_symbol != comparison_obj
-                chosen_comparison = compare_by_ticker
-            case "date":
-                compare_by_date = lambda x: x.date != comparison_obj
-                chosen_comparison = compare_by_date
+                # Compare by Ticker
+                chosen_comparison = lambda x: x.ticker_symbol != comparison_obj
 
-        new_list = list(filter(chosen_comparison, self.stocks))
-        print(new_list)
-        self.stocks = new_list
+            case "date":
+                # Compare by Date
+                chosen_comparison = lambda x: x.date != comparison_obj
+
+        self.stocks = list(filter(chosen_comparison, self.stocks))
         return True
-    
+
+    def remove_multi(self, ticker_list):
+        # Clear Stock Manager
+        for tsymbol in ticker_list:
+            self.remove_stock(tsymbol)
+            self.stock_symbols.remove(tsymbol)
+
     def update_stock(self, ticker_symbol):
         """ Checks previous 30 days of data and updates adds """
-        new_stock = get_data(ticker_symbol, '1mo')
+        new_stock = get_data(ticker_symbol, '1d')
 
         if not new_stock:
             return False
+
+        new_entry = new_stock[0]
         
-        for stock in new_stock:
-            self.stocks.append(stock)
+        filtered_stocks = list(filter(lambda x: x.ticker_symbol == ticker_symbol, self.stocks))
+        for stock in filtered_stocks:
+            print(new_entry)
+            print(stock)
+            print("\n")
+            if new_entry == stock:
+                return
+            # same_date = new_entry.date == stock.date
+            # same_ticker = new_entry.ticker_symbol == stock.ticker_symbol
+            # if same_date and same_ticker:
+            #     return
+
+        for stock_data in new_stock:
+            self.stocks.append(stock_data)
         return
 
-    def load(self):
-        # Loaded stocks
+    def check_date(self, new_date):
+        """ Check a dates data or if it doesnt exist retrieve it from yf  """
+        return
+
+    def load(self) -> List[Stock]:
+        """ Load stock data as a list of Stock objects """
+        output_data = []
+
+        # If file Exists Load Stocks
         if os.path.isfile(self.filepath):
-            new_stocks = load_json(self.filepath)
-            output = []
-            for stock in new_stocks:
-                # Spread Data
+            # Read in Raw File Data    
+            with open(self.filepath, 'r') as in_json:
+                new_data = json.load(in_json)
+            
+            # Parse Data
+            for stock in new_data:
+                # Split Data
                 ticker_symbol = stock['ticker_symbol']
                 new_date = stock['date']
+
+                # Could use .pop() above to also remove value but for now we'll leave this redundancy, for ease of export
                 new_data = { **stock }
 
-                output.append(Stock(ticker_symbol, new_date, new_data))
-            self.stocks = output
+                if ticker_symbol not in self.stock_symbols:
+                    self.stock_symbols.add(ticker_symbol)
+                
+                # Create new Stock obj and add to list
+                output_data.append(Stock(ticker_symbol, new_date, new_data))
+            
+        return output_data
+            
+        # self.stocks = load_data(self.filepath)
         
     def save(self):
         json_list = []
         for stock in self.stocks:
-            json_list.append(stock.export())
-            
-        save_json(self.filepath, json_list)
+            json_list.append(stock.export())        
+
+        # save_data(self.filepath, json_list)
+        with open(self.filepath, 'w') as out_json:
+            json.dump(json_list , out_json, indent=4)
 
 
 def main():
     new_stock_manager = StockManager()
+    print(new_stock_manager)
 
-    # new_stock_manager.add_stock("TSLA")
-    # new_stock_manager.add_stock("MSFT")
+    all_sym = [*new_stock_manager.stock_symbols]
+
+    # Clear Stock Manager
+    # new_stock_manager.remove_multi(all_sym)
+
+    # Add new Stocks
+    new_stocks = [
+        "TSLA",
+        "MSFT"
+    ]
+
+    for new_stock_ticker in new_stocks:
+        new_stock_manager.add_stock(new_stock_ticker)
 
     # new_stock_manager.update_stock("MSFT")
     print(new_stock_manager.stocks)
-    
-    new_stock_manager.remove_stock("MSFT")
+
     new_stock_manager.save()
 
 

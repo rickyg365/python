@@ -1,4 +1,3 @@
-import os
 import datetime
 
 import numpy as np
@@ -8,7 +7,6 @@ import yfinance as yf
 from typing import List, Dict
 
 from stock_object import Stock
-from handle_json import save_json, load_json
 
 
 def clean_dataframe_value(raw_data):
@@ -33,23 +31,25 @@ def extract_data(ticker_symbol:str, input_data: pd.DataFrame) -> Stock:
     all_dates = [d for d in input_data[all_columns[0]].keys()]
 
     for date in all_dates:
+        # Convert to String (raw obj is datetime obj from pd.dataframe)
         new_date = date.date().strftime("%m-%d-%Y")
 
         new_data = {}
+        # Iterate columns (Open, High, Close...)
         for col in all_columns:
             # Raw Value
             value = input_data[col][date]
 
             # Parse
             cleaned_value = clean_dataframe_value(value)
-            #! DEBUG
-            #! print(f"{col}: {type(cleaned_value)}")
+
             # Add Parsed value to dict
             new_data[col] = cleaned_value
+            #! DEBUG
+            #! print(f"{col}: {type(cleaned_value)}")
         # Add stock to final list
         stocks.append(Stock(ticker_symbol, new_date, new_data))
     return stocks
-
 
 
 def get_data(ticker_symbol: str, days:str="1d") -> List[Stock]:
@@ -58,6 +58,7 @@ def get_data(ticker_symbol: str, days:str="1d") -> List[Stock]:
 
     # Extract Data
     new_stocks = extract_data(ticker_symbol, new_ticker_data)
+
     return new_stocks
 
 def main():
