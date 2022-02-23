@@ -6,7 +6,7 @@ import pandas as pd
 import yfinance as yf
 from typing import List, Dict
 
-from stock_object import Stock
+from utils.stock_object import Stock
 
 
 def clean_dataframe_value(raw_data):
