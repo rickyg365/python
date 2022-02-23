@@ -10,6 +10,7 @@ from utils.stock_data import get_data
 
 """
 Todo: sort data before save and during load or when you add
+TODO: Updates values as the day goes by make a day tracker that scans for an update every hour! 
 
 """
 
