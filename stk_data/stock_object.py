@@ -14,7 +14,7 @@ class Stock:
 
     def export(self) -> Dict[str, any]:
         export_dict = {
-            "ticker": self.ticker_symbol,
+            "ticker_symbol": self.ticker_symbol,
             "date": self.date,
         }
 

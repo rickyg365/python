@@ -23,11 +23,19 @@ class StockManager:
         self.stocks.append(*new_stock)
         return True
 
-    def remove_stock(self, ticker_symbol: str):
-        for stock in self.stocks:
-            if stock.ticker == ticker_symbol:
-                removed_data = self.stocks.pop(stock)
-        # print(f"Removed: {removed_data}")
+    def remove_stock(self, comparison_obj, comparison_type="ticker"):
+        chosen_comparison = None
+        match comparison_type:
+            case "ticker":
+                compare_by_ticker = lambda x: x.ticker_symbol != comparison_obj
+                chosen_comparison = compare_by_ticker
+            case "date":
+                compare_by_date = lambda x: x.date != comparison_obj
+                chosen_comparison = compare_by_date
+
+        new_list = list(filter(chosen_comparison, self.stocks))
+        print(new_list)
+        self.stocks = new_list
         return True
     
     def update_stock(self, ticker_symbol):
@@ -46,18 +54,15 @@ class StockManager:
         if os.path.isfile(self.filepath):
             new_stocks = load_json(self.filepath)
             output = []
-            for ticker_symbol, stocks in raw_data.items():
-                new_list = []
-                for stock in stocks:
-                    removed_symbol = stock.pop('ticker')
-                    new_date = stock.pop('date')
+            for stock in new_stocks:
+                # Spread Data
+                ticker_symbol = stock['ticker_symbol']
+                new_date = stock['date']
+                new_data = { **stock }
 
-                    new_data = { **stock }
-                    new_list.append(Stock(removed_symbol, new_date, new_data))
-                output[ticker_symbol] = new_list
-            return output
-        self.stocks = parse_func(new_stocks)
-
+                output.append(Stock(ticker_symbol, new_date, new_data))
+            self.stocks = output
+        
     def save(self):
         json_list = []
         for stock in self.stocks:
@@ -75,7 +80,7 @@ def main():
     # new_stock_manager.update_stock("MSFT")
     print(new_stock_manager.stocks)
     
-    # new_stock_manager.remove_stock("MSFT")
+    new_stock_manager.remove_stock("MSFT")
     new_stock_manager.save()
 
 
