@@ -97,16 +97,21 @@ Filepath: {self.filepath}"""
             for stock in new_data:
                 # Split Data
                 ticker_symbol = stock['ticker_symbol']
-                new_date = stock['date']
-
+                # new_date = stock['date']
+                # new_open = stock['open']
+                # new_high = stock['high']
+                # new_low = stock['low']
+                # new_close = stock['close']
+                # new_volume = stock['volume']
+                # new_dividends = stock['dividends']
+                # new_stock_splits = stock['stock_splits']
                 # Could use .pop() above to also remove value but for now we'll leave this redundancy, for ease of export
-                new_data = { **stock }
 
                 if ticker_symbol not in self.stock_symbols:
                     self.stock_symbols.add(ticker_symbol)
                 
                 # Create new Stock obj and add to list
-                output_data.append(Stock(ticker_symbol, new_date, new_data))
+                output_data.append(Stock(**stock))
             
         return output_data
             
@@ -115,7 +120,7 @@ Filepath: {self.filepath}"""
     def save(self):
         json_list = []
         for stock in self.stocks:
-            json_list.append(stock.export())        
+            json_list.append(stock.export())
 
         # save_data(self.filepath, json_list)
         with open(self.filepath, 'w') as out_json:
@@ -129,19 +134,21 @@ def main():
     all_sym = [*new_stock_manager.stock_symbols]
 
     # Clear Stock Manager
-    new_stock_manager.remove_multi(all_sym)
+    # print("removed")
+    # new_stock_manager.remove_multi(all_sym)
 
     # Add new Stocks
-    new_stocks = [
-        "TSLA",
-        "MSFT"
-    ]
+    # new_stocks = [
+    #     "TSLA",
+    #     "MSFT"
+    # ]
+    # for new_stock_ticker in new_stocks:
+    #     # If already in, check for update
+    #     new_stock_manager.add_stock(new_stock_ticker)
 
-    for new_stock_ticker in new_stocks:
-        # If already in, check for update
-        new_stock_manager.add_stock(new_stock_ticker)
-
+    # print("removed")
     # new_stock_manager.update_stock("MSFT")
+    print(new_stock_manager)
     print(new_stock_manager.stocks)
 
     new_stock_manager.save()

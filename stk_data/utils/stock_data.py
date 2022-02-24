@@ -38,17 +38,18 @@ def extract_data(ticker_symbol:str, input_data: pd.DataFrame) -> Stock:
         # Iterate columns (Open, High, Close...)
         for col in all_columns:
             # Raw Value
+            key = f"{col}".strip().replace(" ", "_").lower()
             value = input_data[col][date]
 
             # Parse
             cleaned_value = clean_dataframe_value(value)
 
             # Add Parsed value to dict
-            new_data[col] = cleaned_value
+            new_data[key] = cleaned_value
             #! DEBUG
             #! print(f"{col}: {type(cleaned_value)}")
         # Add stock to final list
-        stocks.append(Stock(ticker_symbol, new_date, new_data))
+        stocks.append(Stock(ticker_symbol, new_date, **new_data))
     return stocks
 
 
