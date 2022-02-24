@@ -22,9 +22,10 @@ class StockAPI:
         self.stocks = self.load()
 
     def __repr__(self):
-        text = f"""Tickers: {self.stock_symbols}
+        text = f"""Tickers: {", ".join(self.stock_symbols)}
 Entries: {len(self.stocks)}
-Filepath: {self.filepath}"""
+Filepath: {self.filepath}
+"""
         return text
 
     def add_stock(self, new_ticker_symbol: str):
@@ -94,24 +95,26 @@ Filepath: {self.filepath}"""
                 new_data = json.load(in_json)
             
             # Parse Data
-            for stock in new_data:
-                # Split Data
-                ticker_symbol = stock['ticker_symbol']
-                # new_date = stock['date']
-                # new_open = stock['open']
-                # new_high = stock['high']
-                # new_low = stock['low']
-                # new_close = stock['close']
-                # new_volume = stock['volume']
-                # new_dividends = stock['dividends']
-                # new_stock_splits = stock['stock_splits']
-                # Could use .pop() above to also remove value but for now we'll leave this redundancy, for ease of export
+            output_data = [Stock(**stock) for stock in new_data]
+            self.stock_symbols = set((x.get("ticker_symbol") for x in new_data))
+            # for stock in new_data:
+            #     # Split Data
+            #     ticker_symbol = stock['ticker_symbol']
+            #     # new_date = stock['date']
+            #     # new_open = stock['open']
+            #     # new_high = stock['high']
+            #     # new_low = stock['low']
+            #     # new_close = stock['close']
+            #     # new_volume = stock['volume']
+            #     # new_dividends = stock['dividends']
+            #     # new_stock_splits = stock['stock_splits']
+            #     # Could use .pop() above to also remove value but for now we'll leave this redundancy, for ease of export
 
-                if ticker_symbol not in self.stock_symbols:
-                    self.stock_symbols.add(ticker_symbol)
+            #     if ticker_symbol not in self.stock_symbols:
+            #         self.stock_symbols.add(ticker_symbol)
                 
-                # Create new Stock obj and add to list
-                output_data.append(Stock(**stock))
+            #     # Create new Stock obj and add to list
+            #     output_data.append(Stock(**stock))
             
         return output_data
             
