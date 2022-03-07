@@ -21,6 +21,16 @@ class Recipe:
 
         # Name and Description
         header=f"{self.name}:\n{sep2}\n{parse_paragraph(self.description, self.max_width)}\n{sep2}"
+
+        return header
+    
+    def full_str(self) -> str:
+        # Define Seperators
+        sep1 = f"{self.max_width*'-'}"
+        sep2 = f"{self.max_width*'_'}"
+
+        # Name and Description
+        header=f"{self.name}:\n{sep2}\n{parse_paragraph(self.description, self.max_width)}\n{sep2}"
         
         # Ingredients
         ingredients_text = f"\nIngredients:\n{sep1}"
@@ -80,7 +90,7 @@ def main():
 
     # Display | str() Method
     # print(json.dumps(new_recipe.export(), indent=4))
-    print(new_recipe)
+    print(new_recipe.full_str())
 
 if __name__ == '__main__':
     main()

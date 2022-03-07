@@ -37,7 +37,8 @@ class RecipeBook:
         return self.recipes
 
     def add_recipe(self, raw_recipe: Dict[str, any]):
-        return
+        self.recipes.append(Recipe(**raw_recipe))
+        return True
 
     def delete_recipe(self, recipe_id: int):
         return
