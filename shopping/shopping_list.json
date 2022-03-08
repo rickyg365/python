@@ -1,0 +1,116 @@
+[
+    {
+        "name": "cup noodle",
+        "price": 6.99,
+        "quantity_amount": 24,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "pancake mix",
+        "price": 5.29,
+        "quantity_amount": 96,
+        "quantity_unit": "oz"
+    },
+    {
+        "name": "shin ramen",
+        "price": 14.99,
+        "quantity_amount": 0,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "chai tea latte",
+        "price": 7.99,
+        "quantity_amount": 3,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "grandma cookies",
+        "price": 8.49,
+        "quantity_amount": 33,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "creamer",
+        "price": 9.99,
+        "quantity_amount": 192,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "sugar",
+        "price": 7.49,
+        "quantity_amount": 10,
+        "quantity_unit": "lb"
+    },
+    {
+        "name": "popcorn",
+        "price": 13.99,
+        "quantity_amount": 44,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "rice",
+        "price": 20.94,
+        "quantity_amount": 20,
+        "quantity_unit": "lb"
+    },
+    {
+        "name": "ranch",
+        "price": 10.99,
+        "quantity_amount": 2,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "mayo",
+        "price": 8.49,
+        "quantity_amount": 64,
+        "quantity_unit": "oz"
+    },
+    {
+        "name": "red seasoning",
+        "price": 6.99,
+        "quantity_amount": 1,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "tajin",
+        "price": 8.99,
+        "quantity_amount": 2,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "diced tomatoes",
+        "price": 7.99,
+        "quantity_amount": 8,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "lechera",
+        "price": 9.99,
+        "quantity_amount": 6,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "elote",
+        "price": 11.49,
+        "quantity_amount": 12,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "mac n cheese",
+        "price": 10.49,
+        "quantity_amount": 12,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "oatmeal",
+        "price": 10.99,
+        "quantity_amount": 52,
+        "quantity_unit": "ct"
+    },
+    {
+        "name": "supreme pizza",
+        "price": 12.99,
+        "quantity_amount": 2,
+        "quantity_unit": "ct"
+    }
+]
