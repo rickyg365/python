@@ -1,0 +1,116 @@
+[
+    {
+        "name": "cup noodle",
+        "price": 6.99,
+        "amount": 24,
+        "unit": "ct"
+    },
+    {
+        "name": "pancake mix",
+        "price": 5.29,
+        "amount": 96,
+        "unit": "oz"
+    },
+    {
+        "name": "shin ramen",
+        "price": 14.99,
+        "amount": 0,
+        "unit": "ct"
+    },
+    {
+        "name": "chai tea latte",
+        "price": 7.99,
+        "amount": 3,
+        "unit": "ct"
+    },
+    {
+        "name": "grandma cookies",
+        "price": 8.49,
+        "amount": 33,
+        "unit": "ct"
+    },
+    {
+        "name": "creamer",
+        "price": 9.99,
+        "amount": 192,
+        "unit": "ct"
+    },
+    {
+        "name": "sugar",
+        "price": 7.49,
+        "amount": 10,
+        "unit": "lb"
+    },
+    {
+        "name": "popcorn",
+        "price": 13.99,
+        "amount": 44,
+        "unit": "ct"
+    },
+    {
+        "name": "rice",
+        "price": 20.94,
+        "amount": 20,
+        "unit": "lb"
+    },
+    {
+        "name": "ranch",
+        "price": 10.99,
+        "amount": 2,
+        "unit": "ct"
+    },
+    {
+        "name": "mayo",
+        "price": 8.49,
+        "amount": 64,
+        "unit": "oz"
+    },
+    {
+        "name": "red seasoning",
+        "price": 6.99,
+        "amount": 1,
+        "unit": "ct"
+    },
+    {
+        "name": "tajin",
+        "price": 8.99,
+        "amount": 2,
+        "unit": "ct"
+    },
+    {
+        "name": "diced tomatoes",
+        "price": 7.99,
+        "amount": 8,
+        "unit": "ct"
+    },
+    {
+        "name": "lechera",
+        "price": 9.99,
+        "amount": 6,
+        "unit": "ct"
+    },
+    {
+        "name": "elote",
+        "price": 11.49,
+        "amount": 12,
+        "unit": "ct"
+    },
+    {
+        "name": "mac n cheese",
+        "price": 10.49,
+        "amount": 12,
+        "unit": "ct"
+    },
+    {
+        "name": "oatmeal",
+        "price": 10.99,
+        "amount": 52,
+        "unit": "ct"
+    },
+    {
+        "name": "supreme pizza",
+        "price": 12.99,
+        "amount": 2,
+        "unit": "ct"
+    }
+]
