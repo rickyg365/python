@@ -18,25 +18,28 @@ def get_shopping_item() -> ShoppingItem:
 
 
 class ShoppingList:
-    def __init__(self, starting_list: List[ShoppingItem]=None):
+    def __init__(self, custom_filepath:str="shopping_list", starting_list: List[ShoppingItem]=None):
         if starting_list is None:
             starting_list = []
 
         self.items = starting_list
         self.total = 0.00
 
-        self.default_filepath = "shopping_list.json"
+        self.filepath = custom_filepath
+        valid_extension = [
+            "json",
+            "csv"
+        ]
 
     def __repr__(self) -> str:
         sep = f"{40*'-'}"
 
         text = f"[ Shopping List ]:\n{sep}"
-
+        # Iterate thorugh items
         for _, item in enumerate(self.items, start=1):
             text += f"\n {_:>2}. {item}"      
-
+        # Add final total
         text += f"\n{sep}\nTotal: ${self.total:.2f}\n{sep}"
-
         return text
 
     def select_item(self, item_id: int) -> ShoppingItem:
@@ -50,19 +53,19 @@ class ShoppingList:
         self.total += shopping_item.price
         return True
 
-    # def add_new_item(self, raw_item: Dict[str, any]):
-    #     self.items.append(ShoppingItem(**raw_item))
-    #     return True
-
     def delete_item(self, item_id: int):
         return
 
     def edit_item(self, item_id: int):
         return
 
-    def load_json(self):
+    def load_json(self, new_filepath: str=None):
         """ Load Recipes from json format """
-        with open(self.default_filepath, 'r') as in_json:
+        final_path = f"{self.filepath}.json"
+        if new_filepath is not None:
+            final_path = new_filepath
+
+        with open(final_path, 'r') as in_json:
             load_data = json.load(in_json)
         
         for data_entry in load_data:
@@ -70,9 +73,13 @@ class ShoppingList:
 
         return True
     
-    def load_csv(self):
+    def load_csv(self, new_filepath: str=None):
         """ Load Recipes from csv format """
-        with open("shopping_list.csv", 'r') as in_csv:
+        final_path = f"{self.filepath}.csv"
+        if new_filepath is not None:
+            final_path = new_filepath
+
+        with open(final_path, 'r') as in_csv:
             csv_data = csv.reader(in_csv)
 
             for _, line in enumerate(csv_data):
@@ -84,27 +91,40 @@ class ShoppingList:
                 item_amount = int(line[2]) if line[2] != '' else 0
                 item_unit = line[3] if line[3] != '' else 'ct'
 
-                new_item = ShoppingItem(item_name, item_price, item_amount, item_unit)
-                self.add_item(new_item)
+                self.add_item(ShoppingItem(item_name, item_price, item_amount, item_unit))
 
         return True
 
-    def save_json(self):
+    def save_json(self, new_filepath: str=None):
         """ Save Recipes to json format """
+        final_path = f"{self.filepath}.json"
+        if new_filepath is not None:
+            final_path = new_filepath
+
         new_list = []
         for item in self.items:
-            export_data = item.export()
-            new_list.append(export_data)
+            new_list.append(item.export())
         
-        with open(self.default_filepath, 'w') as out_json:
+        with open(f"{self.filepath}.json", 'w') as out_json:
             json.dump(new_list, out_json, indent=4)
 
         return True
 
-    def save_csv(self):
+    def save_csv(self, new_filepath:str=None):
         """ Save Recipes to csv format """
-        return
-    
+        final_path = f"{self.filepath}.csv"
+        if new_filepath is not None:
+            final_path = new_filepath
+
+        with open(final_path, 'w', newline='') as out_csv:
+            attributes = ["name", "price", "amount", "unit"]
+            writer = csv.DictWriter(out_csv, fieldnames=attributes, )
+
+            writer.writeheader()
+            for item in self.items:
+                writer.writerow(item.export())
+
+        return True    
 
 
 def main():
@@ -124,10 +144,11 @@ def main():
     
 
 
-    # shopping_list.load_csv()
-    shopping_list.load_json()
+    shopping_list.load_csv()
+    # shopping_list.load_json()
 
     # shopping_list.save_json()
+    # shopping_list.save_csv()
     
     print("")
     print(shopping_list)
