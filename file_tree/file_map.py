@@ -6,6 +6,8 @@ from typing import List, Dict
 from rich import print
 from rich.tree import Tree
 
+# Need to use depth for search
+
 """
 Create File Map
 """
@@ -78,10 +80,10 @@ def get_all(raw_directory=None ,debug=False):
         directory = os.getcwd()
 
     for root, dirs, files in os.walk(directory, topdown=True):
-        print(directory)
+        # print(directory)
         directory_level = root.replace(directory, "")
         directory_level = directory_level.count(os.sep)
-        print(directory_level)
+        # print(directory_level)
         # Edit dirs to be excluded
         dirs[:] = [d for d in dirs if d not in excluded]
         
@@ -96,11 +98,11 @@ def get_all(raw_directory=None ,debug=False):
         for dir in dirs:
             if dir not in visited_dirs:
                 visited_dirs.append(dir)
-                print(visited_dirs)
+                # print(visited_dirs)
                 tree_map[root_name].append(f"{dir}")
             else:
-                tree_map[]
-        # for dir in dirs:
+                pass
+        # for dir in dirs:  
         #     tree_map[root_name] = dir
         
         # Debug
@@ -117,19 +119,19 @@ def get_all(raw_directory=None ,debug=False):
 def create_file_map(file_map: Dict[str, str], debug:bool=False):
     
     root = list(file_map.keys())[0]
-    output_tree = Tree(f"[yellow]* {root} [green](Root Directory)")
+    output_tree = Tree(f"[red]{root.title()}/ [yellow](Root Directory)")
 
     new_base = output_tree
     
     # Can directly edit dirs if using topdown in os.walk
     for dir, files in file_map.items():
         if dir != root:
-            new_base = output_tree.add(f"[yellow]{dir}/")
+            new_base = output_tree.add(f"[red]{dir}/")
 
         for file in files:
-            new_base.add(f"{file}")
+            new_base.add(f"[green]{file}")
         
-    print(file_map)
+    # print(file_map)
         
     return output_tree
         
