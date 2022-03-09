@@ -1,0 +1,42 @@
+[
+    {
+        "name": "coffee",
+        "price": 14.99,
+        "amount": 1,
+        "unit": "ct",
+        "purchase_date": "02-28-22",
+        "expiration_date": ""
+    },
+    {
+        "name": "sugar",
+        "price": 11.99,
+        "amount": 10,
+        "unit": "lbs",
+        "purchase_date": "02-28-22",
+        "expiration_date": ""
+    },
+    {
+        "name": "creamer",
+        "price": 7.99,
+        "amount": 192,
+        "unit": "ct",
+        "purchase_date": "02-28-22",
+        "expiration_date": ""
+    },
+    {
+        "name": "milk",
+        "price": 3.69,
+        "amount": 1,
+        "unit": "gal",
+        "purchase_date": "02-28-22",
+        "expiration_date": "03-12-22"
+    },
+    {
+        "name": "Vanilla",
+        "price": 2.99,
+        "amount": 1,
+        "unit": "ct",
+        "purchase_date": "02-28-22",
+        "expiration_date": ""
+    }
+]
