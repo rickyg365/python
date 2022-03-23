@@ -159,10 +159,6 @@ col_height = 12ch
 #1. Leave at least 1ch at the edge
 #2. Only start and exit should break outer boundary
 #3. No circular paths (for now)
-
-
-
-
 """
 
 
