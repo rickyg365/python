@@ -1,7 +1,5 @@
 import os
 
-from py import test
-
 from display import Screen
 from text_box import TextBox
 
