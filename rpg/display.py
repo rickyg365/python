@@ -15,6 +15,11 @@ class Screen:
         self.display_grid = self.blank_screen_data
         self.occupied_data = self.reset_occupied_data
 
+        # TODO: Implement Caches
+        self.data_cache = None
+        self.string_cache = None
+        self.occupied_data_cache = None
+
         #  "Trigger": action
         self.input_choices = actions
 
@@ -55,6 +60,13 @@ class Screen:
         print(grid_text)
         input(">>> ")
 
+    def reset_screen(self):
+        self.display_grid = self.blank_screen_data
+        self.occupied_data = self.reset_occupied_data
+    
+    def fill_screen(self, fill_value):
+        self.display_grid = [[fill_value for y in range(self.width)] for x in range(self.length-2)]
+
     def set_grid_point(self, new_char: str, row: int, col: int):
         built_key = f"{row}{col}"
         # Boundary Check
@@ -88,22 +100,18 @@ class Screen:
                 continue
 
             for j, char in enumerate(row):
-               
                 c = start_col + j
-
-                print(r , c)                  
-
+                # print(r , c)
                 if c >= self.width-1:
                     continue
 
                 self.update_grid_point(char, r, c)
 
-
     def perform_action(self, trigger: str):
         # if trigger in self.input_choices:
         # empty_function => lambda x: None
-        empty_fun = lambda : None
-        self.input_choices.get(trigger, empty_fun)()
+        empty_fun = lambda x: None
+        self.input_choices.get(trigger, empty_fun)(self)
 
     def run(self):
         while True:

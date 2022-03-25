@@ -88,9 +88,9 @@ def main():
         "",
         f"{'Yup!':^{box_width}}"
         ]
-    new_text_box = TextBox(text_lines, (4, 25))
+    new_text_box = TextBox(text_lines, (box_length, box_width))
 
-    print(new_text_box)
+    # print(new_text_box)
 
     # all_text = ""
     # for row in new_text_box.data:
@@ -105,7 +105,8 @@ def main():
     # for i, row in enumerate(new_text_box.data):
     #     for j, char in enumerate(row):
     #         new_screen.update_grid_point(char, i, j)
-    new_screen.draw_text_box(new_text_box.data, 17) # 21 - 4 = 17
+    
+    new_screen.draw_text_box(new_text_box.data, 16, 44) # 21 - 5 = 16 | 71 - 27 = 44
 
     new_screen.print_screen()
     
