@@ -1,0 +1,28 @@
+[ Raccoons ]
+----------------------------------------
+A mammal that lives in cities
+
+Fast | Rabies | Common
+________________________________________
+
+
+[ Velociraptor ]
+----------------------------------------
+a type of dinosaur
+
+Fast | 2 Legs | Tail
+________________________________________
+
+[ Pandas ]
+----------------------------------------
+A type of bear that eats bamboo
+
+Slow | Vege | Bear
+________________________________________
+
+[ Raccoons ]
+----------------------------------------
+A mammal that lives in cities
+
+Fast | Rabies | Common
+________________________________________
