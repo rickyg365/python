@@ -12,6 +12,7 @@ class Display:
         self.length = len(input_data_list)
 
         self.curr_element = 0
+        self.card = False
         self.running = True
         self.use_keyboard = use_keyboard
 
@@ -35,7 +36,7 @@ class Display:
 
         if self.curr_element < 0:
             self.curr_element = 0
-    
+
     def handle_input(self):
         user_input = input(">>> ")
         if user_input == 'q':
@@ -45,6 +46,15 @@ class Display:
             self.next_item()
         if user_input == 'p':
             self.prev_item()
+        if user_input == 'card':
+            self.card = True
+        if user_input == 'detail':
+            self.card = False
+        if user_input == 'toggle':
+            if self.card:
+                self.card = False
+            else:
+                self.card = True
 
         if len(user_input) and user_input[0] in '0123456789':
             item_number = int(user_input)
@@ -61,11 +71,11 @@ class Display:
     def display_current(self):
         os.system('cls')
         # Card View
-        # print(self.list[self.curr_element].card_view())
-
-        # Regular View
-        print(self.list[self.curr_element])
-
+        if self.card:
+            print(self.list[self.curr_element].card_view())
+        else:
+            # Regular View
+            print(self.list[self.curr_element])
         
     def on_press(self, key):
         # print(f"{key} pressed!")
