@@ -46,7 +46,7 @@ class Display:
         if user_input == 'p':
             self.prev_item()
 
-        if user_input[0] in '0123456789':
+        if len(user_input) and user_input[0] in '0123456789':
             item_number = int(user_input)
             if item_number <= 0:
                 self.curr_element = 0
@@ -60,7 +60,12 @@ class Display:
 
     def display_current(self):
         os.system('cls')
+        # Card View
+        # print(self.list[self.curr_element].card_view())
+
+        # Regular View
         print(self.list[self.curr_element])
+
         
     def on_press(self, key):
         # print(f"{key} pressed!")
@@ -92,6 +97,10 @@ class Display:
             #     on_release=self.on_release)
             # listener.start()
         else:
+            listener = keyboard.Listener(
+                on_press=self.on_press,
+                on_release=self.on_release)
+            listener.start()
             while self.running:
                 self.display_current()
                 self.handle_input()

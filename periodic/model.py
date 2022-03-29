@@ -29,7 +29,56 @@ class PeriodicElement:
     def __post_init__(self):
         self.width = min(len(self.name) + 2, 15)
 
-    def __str__(self):
+    def __str__(self) -> str:
+        max_width = 50
+        entry_width = 25
+        
+        left_header = f" #{self.atomic_number} [{self.symbol}]: {self.name}"
+        header = f"""{'-'*50}\n{left_header:<{entry_width}}{f'{self.standard_state} ':>{entry_width}}""" 
+        
+        # Optional Attributes        
+        atomic_mass = f"{'Atomic Mass:':<{entry_width}}{f'{self.atomic_mass}':>{entry_width}}"
+        group = f"{'Chemical Group Block:':<{entry_width}}{f'{self.chemical_group_block}':>{entry_width}}"
+        density = f"{'Density:':<{entry_width}}{f'{self.density} g/L':>{entry_width}}"   # | g/cm^3
+        elec_config = f"{'Electron Configuration:':<{entry_width}}{f'{self.electron_configuration}':>{entry_width}}"
+        elec_neg = f"{'Electro Negativity:':<{entry_width}}{f'{self.electro_negativity}':>{entry_width}}"
+        hex_clr = f"{'CPK Hex Color:':<{entry_width}}{f'#{self.cpk_hex_color}':>{entry_width}}"
+        atomic_radius = f"{'Atomic Radius:':<{entry_width}}{f'{self.atomic_radius} pm':>{entry_width}}"  # van der Waals
+        ion_energy = f"{'Ionization Energy:':<{entry_width}}{f'{self.ionization_energy} eV':>{entry_width}}"
+        elec_affinity = f"{'Electron Affinity:':<{entry_width}}{f'{self.electron_affinity} eV':>{entry_width}}"
+        oxi_states = f"{'Oxidation State:':<{entry_width}}{f'{self.oxidation_states}':>{entry_width}}"
+        standard_state = f"{'Standard State:':<{entry_width}}{f'{self.standard_state}':>{entry_width}}"
+        melt_point = f"{'Melting Point:':<{entry_width}}{f'{self.melting_point} K':>{entry_width}}"
+        boil_point = f"{'Boiling Point:':<{entry_width}}{f'{self.boiling_point} K':>{entry_width}}"
+        year = f"{'Year Discovered:':<{entry_width}}{f'{self.year_discovered}':>{entry_width}}"
+        
+        text = f"{header}"
+        text += f"""
+{'-'*50}
+{group}
+{hex_clr}
+
+{density}
+{atomic_mass}
+{atomic_radius}
+
+{elec_config}
+{oxi_states}
+
+{elec_neg}
+{ion_energy}
+{elec_affinity}
+
+{melt_point}
+{boil_point}
+
+{standard_state}
+{year}
+{'-'*50}
+"""
+        return text
+
+    def card_view(self):
         if self.string_cache is not None and not self.recache:
             return self.string_cache
 
