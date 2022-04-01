@@ -1,0 +1,10 @@
+{
+    "log_config": {
+        "filename": "main_log.txt",
+        "level": "debug",
+        "format": "%(asctime)s  [%(levelname)s] > %(message)s",
+        "datefmt": "[%m-%d-%Y] ~ %I:%M:%S %p"
+    },
+    "date_format": "%m-%d-%Y %I:%M:%S %p",
+    "last_checked": "03-31-2022 06:09:01 PM"
+}
