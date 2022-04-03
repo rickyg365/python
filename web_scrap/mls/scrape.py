@@ -83,16 +83,34 @@ class ScrapeMLS:
         txt = ""
         return txt
 
+# Status Code map
+def status_info(raw_status_code):
+    # code_map = {
+    #     200:  "ok",
+    #     300: "redirect",
+    #     400: "error"
+    # }
 
+    ok_range = 200 <= raw_status_code < 300
+    redirect_range = 300 <= raw_status_code < 400 
+    error_range = 400 <= raw_status_code < 500
+
+    if ok_range:
+        return "ok"
+    if redirect_range:
+        return "redirect"
+    if error_range:
+        return "error"
 
 def test_url(url):
     page = requests.get(url, headers=headers)
     status = page.status_code
     soup = BeautifulSoup(page.content, 'html.parser')
-    print(status)
+    print(status, status_info(status), '\n')
 
     if status != 200:
         return
+
     print(soup.prettify)
 
 
@@ -106,7 +124,7 @@ def main():
     # Requires proper name and capitals for state initials
     complete_url_2 = f"{base_url}?q={city_name.title()}+{state_initials.upper()}"
 
-    # test_url(complete_url_1)    
+    test_url(complete_url_1)    
     # test_url(complete_url_2)
 
     # test_url("https://mls.foreclosure.com/listings/city-of-industry-ca/")
