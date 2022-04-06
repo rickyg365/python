@@ -1,7 +1,7 @@
 import os
 from typing import Dict, List
 
-from recipe import Recipe
+from models.recipe import Recipe
 
 
 # Seearch Recipes

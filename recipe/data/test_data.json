@@ -1,0 +1,22 @@
+{
+    "name": "Philly CheeseSteak",
+    "description": "A delicious blend of steak and cheese grilled with peppers and enjoyed on a nice bread roll.",
+    "ingredients": {
+        "salt": "1 teaspoon",
+        "pepper": "1 teaspoon",
+        "Steak": "1 lb",
+        "Cheese": "1/2 lb",
+        "Onion": "1 whole",
+        "Bell Peppers": "2 whole",
+        "French Roll": "1 loaf"
+    },
+    "steps": [
+        "Chop Onion, Bell Peppers, and Steak",
+        "Grill and season Veggies",
+        "Grill and season Steak",
+        "Top Steak with Cheese",
+        "Toast French Roll",
+        "Assemble",
+        "Enjoy"
+    ]
+}

@@ -1,10 +1,9 @@
 import os
 import json
-from tracemalloc import start
 
 from typing import List, Dict
 
-from recipe import Recipe
+from models.recipe import Recipe
 from get_recipe import RecipeFetcher
 
 
