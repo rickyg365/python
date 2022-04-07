@@ -13,16 +13,24 @@ class Recipe:
     ingredients: Dict[str, str]
     steps: List[str]
     max_width: int = 45
+    detail: bool = True
 
     def __str__(self) -> str:
+        # Detailed view
+        if self.detail:
+            return self.full_str()
+
         # Define Seperators
         sep1 = f"{self.max_width*'-'}"
         sep2 = f"{self.max_width*'_'}"
 
         # Name and Description
-        header=f"{self.name}:\n{sep2}\n{parse_paragraph(self.description, self.max_width)}\n{sep2}"
+        header=f"\n{self.name}:\n{sep2}\n{parse_paragraph(self.description, self.max_width)}\n{sep2}"
 
         return header
+    
+    def set_detail_level(self, detailed: bool):
+        self.detail = detailed
     
     def full_str(self) -> str:
         # Define Seperators
@@ -90,7 +98,7 @@ def main():
 
     # Display | str() Method
     # print(json.dumps(new_recipe.export(), indent=4))
-    print(new_recipe.full_str())
+    print(new_recipe)
 
 if __name__ == '__main__':
     main()

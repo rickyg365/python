@@ -25,7 +25,8 @@ def main():
     print(test_data)
 
     recipe = Recipe(**test_data)
-    print(recipe.full_str())
+    recipe.set_detail_level(False)
+    print(recipe)
 
 if __name__ == '__main__':
     main()
