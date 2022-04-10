@@ -1,0 +1,8 @@
+1. https://jikan.moe/  # Anime
+2. https://www.animenewsnetwork.com/encyclopedia/api.php
+3. https://pokeapi.co/
+4. https://developer.usajobs.gov/API-Reference
+5. https://www.nobelprize.org/about/developer-zone-2/
+6. https://www.itis.gov/ws_description.html
+7. https://api.nasa.gov/
+8. 
