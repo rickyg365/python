@@ -1,0 +1,34 @@
+[
+    {
+        "title": "Test Title 1",
+        "description": "description",
+        "start_time": {
+            "hour": 1,
+            "minute": 0,
+            "second": 0,
+            "am": false
+        },
+        "end_time": {
+            "hour": 1,
+            "minute": 25,
+            "second": 0,
+            "am": false
+        }
+    },
+    {
+        "title": "Test Title 2",
+        "description": "description",
+        "start_time": {
+            "hour": 8,
+            "minute": 0,
+            "second": 0,
+            "am": true
+        },
+        "end_time": {
+            "hour": 8,
+            "minute": 40,
+            "second": 0,
+            "am": true
+        }
+    }
+]
