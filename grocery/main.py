@@ -6,6 +6,8 @@ from dataclasses import dataclass
 
 from grocery_view import SingleRowView
 
+from data_input import input_grocery_item
+
 
 """ 
 sample_grocery_data = {
@@ -57,7 +59,8 @@ class GroceryItem:
         # Pythonic
         output = vars(self)
 
-        return output
+        # Remove Private
+        return {k: v for (k, v) in output.items() if k[0] != '_'}
     
     def cache(self):
         # Use cached data, makes a copy
@@ -79,6 +82,20 @@ class GroceryItem:
             self._config_cache = self.generate_config()
         return self._config_cache
 
+def input_loop(data_config):
+    input_list = []
+
+    while True:
+        user_input = input_grocery_item(data_config)
+
+        if not user_input:
+            break
+        
+        input_list.append(user_input)
+
+    return input_list
+
+
 def main():
     test_path = "data/test.json"
     sample_path = "data/sample.json"
@@ -97,6 +114,13 @@ def main():
 
     new_item_view = SingleRowView(new_item_data)
 
+    new_item_config = new_item.config()
+
+    # User Input
+    raw_data = input_loop(new_item_config)
+
+    save(raw_data, "test_input.json")
+
     # Display
     print(new_item)
     print(new_item_data)
@@ -105,8 +129,8 @@ def main():
     print(new_item_view)
 
     # Save
-    save_data = new_item.to_dict()
-    save(save_data, test_path)
+    # save_data = new_item.to_dict()
+    # save(save_data, test_path)
 
 if __name__ == '__main__':
     main()

@@ -16,6 +16,9 @@ def input_grocery_item(data_config: Dict[str, str]):
     for key, key_type in data_config.items():
         new_data_point = input(f"{key.title()}: ")
 
+        if new_data_point == 'q':
+            return False
+
         # Parse input
         match key_type:
             case "str":
