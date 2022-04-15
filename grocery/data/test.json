@@ -1,0 +1,21 @@
+{
+    "id": "prodfru001",
+    "name": "apple",
+    "categories": [
+        "produce",
+        "fruit"
+    ],
+    "_data": {
+        "id": "prodfru001",
+        "name": "apple",
+        "categories": [
+            "produce",
+            "fruit"
+        ]
+    },
+    "_config_cache": {
+        "id": "str",
+        "name": "str",
+        "categories": "list"
+    }
+}
