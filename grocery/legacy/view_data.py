@@ -1,8 +1,7 @@
 import os
 
-from grocery_item.view import SingleRowView
-from utils.load_save import load, save
-from grocery_item.model import GroceryItem
+from grocery_view import SingleRowView
+from main import load, save, GroceryItem
 
 
 def show_data(filepath):

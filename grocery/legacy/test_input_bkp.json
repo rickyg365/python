@@ -1,0 +1,12 @@
+[
+    {
+        "id": "prodfru001",
+        "name": "Apple",
+        "categories": ["Produce", "Fruit"]
+    },
+    {
+        "id": "prodfru002",
+        "name": "Banana",
+        "categories": ["Produce", "Fruit"]
+    }
+]
