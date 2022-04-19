@@ -1,0 +1,16 @@
+[
+    {
+        "airline": "flair airlines",
+        "price": 66.15,
+        "departure": {
+            "name": "San Francisco",
+            "code": "SFO"
+        },
+        "departure_time": "04/17/22 09:15 AM",
+        "arrival": {
+            "name": "Vancouver International Airport",
+            "code": "YVR"
+        },
+        "arrival_time": "04/17/22 11:40 AM"
+    }
+]
