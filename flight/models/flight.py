@@ -30,8 +30,11 @@ class Flight:
 
         # Convert time delta into total seconds
         self.duration = time_delta.total_seconds()
-
+        
     def __str__(self) -> str:
+        # if self.view is not None:
+        #     return f"{self.view}"
+
         # Format Time
         date_format = f"%m/%d/%y %I:%M %p"
 
@@ -40,12 +43,18 @@ class Flight:
 
         total_days, total_hours, total_minutes, total_seconds = parse_seconds(self.duration)
 
+        # Convert into display string
+        days = "" if total_days == 0 else f"{total_days:.0f}days"
+        hours = "" if total_hours == 0 else f"{total_hours:.0f}hr"
+        minutes = "" if total_minutes == 0 else f"{total_minutes:.0f}min"
+        seconds = "" if total_seconds == 0 else f"{total_seconds:.0f}sec"
+
         txt = f"""\n[ {self.airline} ]: {self.departure.code:^5} -> {self.arrival.code:^5}
 {'-'*60}
 [{d_time:^17}]  {self.departure.name:^10}
 [{a_time:^17}]  {self.arrival.name:^10}
 {'-'*60}
-Total Duration:  {total_hours:.0f}hr {total_minutes:.0f}min {total_seconds:.0f}sec"""
+Total Price: ${self.price}  Total Duration: {days} {hours} {minutes} {seconds}"""
         return txt
     
     def to_dict(self):
@@ -68,6 +77,7 @@ def main():
         "name": "San Francisco",
         "code": "SFO"
     }
+
     vancouver_data = {
         "name": "Vancouver International Airport",
         "code": "YVR"
@@ -88,6 +98,7 @@ def main():
     }
 
     flight1 = Flight(**flight_data1)
+    
     print(flight1)
 
 if __name__ == '__main__':
