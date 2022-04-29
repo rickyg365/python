@@ -1,5 +1,7 @@
 import os
 
+import json
+
 from typing import List
 from dataclasses import dataclass
 
@@ -11,11 +13,13 @@ class Budget:
     target_price: float
     total_price: float = 0.00
     items: List[Item] = None
+    cache_path: str = "data/grocery_item_cache/items.json"
+
 
     def __post_init__(self):
         if self.items is None or len(self.items) <= 0:
             self.items = []
-        return
+            return
 
         # Get initial total, based on passed items
         total = 0.00
@@ -62,7 +66,34 @@ class Budget:
 
         return True
 
+    def save_items(self):
+        # Clean Items
+        cached_items = []
+        for item in self.items:
+            cached_items.append(item.cache())
+
+        with open(self.cache_path, 'w') as out_file:
+            json.dump(cached_items, out_file, indent=4)
+        return True
+    
+    def load_items(self):
+        # Erase Current Cache?
+        self.items = []
+
+        # Load in Items
+        with open(self.cache_path, 'r') as in_file:
+            raw_items = json.load(in_file)
         
+        # Parse Items
+        for raw_item in raw_items:
+            # Clean Item
+            clean_item = raw_item
+            
+            # Add to list
+            self.items.append(Item(**clean_item))
+        
+        return True    
+
 
 def main():
     new_budget = Budget(100.00)
@@ -71,6 +102,7 @@ def main():
     print(new_budget)
     print(new_budget.price_difference)
     new_budget.get_item_by_id("1")
+    new_budget.save_items()
 
 if __name__ == '__main__':
     main()

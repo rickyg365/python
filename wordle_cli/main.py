@@ -13,13 +13,14 @@ from database import load_wordbank
 ?----------------------------------------------?
 * Program: Wordle Clone                        *
 * Author: Rickyg3                              *
-* Version: 1.1                                 *
+* Version: 2.0                                 *
 ?----------------------------------------------?
 
 
 ? [ Version History ]:
 ?-----------------------------------------------
-* - V 1.1 -> Refactor
+* - V 2.0 -> Re Design
+  - V 1.1 -> Refactor
   - V 1.0 -> Added Rich for console colors
   - V 0.0 -> Base Code
 ?-----------------------------------------------
@@ -33,123 +34,73 @@ Todo: Decouple Main Game Loop from other code
 """
 
 
-class ReferenceWord:
-    def __init__(self, reference_word: str):
-        self.reference = reference_word
-        self.reference_length = len(reference_word)
-
-        self.blank_status = ["not in" for _ in range(self.reference_length)]
-
-    def compare(self, new_word: str):
-        new_status = [*self.blank_status]
-        if len(new_word) != self.reference_length:
-            # Invalid Entry
-            return self.blank_status
+class WordleGame:
+    def __init__(self, new_filepath="data/four_letter_wb.txt"):
+        self.filepath = new_filepath
+        self.word_bank = None
+        self.word_length = None
         
-        for _ in range(self.reference_length):
-            if new_word[_] in self.reference:
-                new_status[_] = "in"
+        self.load_data()
+        self.game_board = self.blank_game_board()
 
-            if self.reference[_] == new_word[_]:
-                new_status[_] = "match"
-        
-        return new_status
+    def __str__(self) -> str:
+        txt = f"{self.filepath} Loaded!"
+        txt += f"{self.word_length} long"
+        return txt
+
+    def blank_game_board(self):
+        new_game_board = [['[black on white] [/]' for i in range(self.word_length)] for j in range(6)]
+        print(new_game_board)
+        return new_game_board
     
-    def display_comparison(self, word, status):
-        final_report = ""
-
-        for _, letter in enumerate(word):
-            match = f'[green]{letter}[/green]'
-            in_word = f"[yellow]{letter}[/yellow]"
-            not_in = f'[red]{letter}[/red]'
-
-            match status[_]:
-                case "match":
-                    final_report += f"{match} "
-                case "in":
-                    final_report += f"{in_word} "
-                case "not in":
-                    final_report += f"{not_in} "
-
-        return final_report
-
-
-class WordleMatch:
-    def __init__(self, custom_path: str="default_wordbank.txt"):
-        self.path = custom_path
-        self.word_bank = load_wordbank(custom_path)
-        
-        self.length = len(self.word_bank)
-        self.max_guesses = 6
-
-        self.guesses = []
-        self.win_status = False
-
-
-    def __repr__(self) -> str:
-        items = f"Length of word list: {self.length}\n"
-        for item in self.word_bank:
-            items += f" - {item}\n"
-        return items
-    
-    def check_win(self, status):
-        for indv in status:
-            if indv != "match":
-                return False
-        return True
-
-    
-
-    def start(self):
-        # Choose random word
-        r = random.randint(0, self.length-1)
-        chosen_word = ReferenceWord(self.word_bank[r])
-
-        current_display = ""
-        self.win_status = False
-        
-        # Intro
-        print("Guess the Word!")
-
-        # Let player Guess
-        for _ in range(self.max_guesses):
+    def display_game_board(self):
+        final_board = "\n"
+        for _, row in enumerate(self.game_board):
             
-            user_input = input("\n>>> ")
+            for char in row:
+                final_board += f"{char} "
             
-            current_status = chosen_word.compare(user_input)
-
-            current_display += f"\n{chosen_word.display_comparison(user_input, current_status)}"
-            
-            self.guesses.append( f"{chosen_word.display_comparison(user_input, current_status)}")
-            
-            print(current_display)
-
-            guessed = self.check_win(current_status)
-            if guessed:
+            if _ == self.word_length:
                 break
 
-        if not guessed:
-            print(f"\nFailed! Word was {chosen_word.reference}")
-            return
+            final_board += f"\n\n"
         
-        # Default is Win
-        print(f"\nYou Won! Word was {chosen_word.reference}")
+        print(final_board)
+        return final_board
+    
+    def load_data(self):
+        self.word_bank = []
+        with open(self.filepath, 'r') as in_words:
+            for line in in_words:
+                # Parse line if needed
+                cleaned_line = line.strip()
+                # Add to word bank
+                self.word_bank.append(cleaned_line)
+                # Record length if not already recorded
+                if self.word_length is None:
+                    self.word_length = len(cleaned_line)
+
+        return True
+
+    def start_round(self):
+        # Num of Guesses = 6
+        for _ in range(6):
+            self.display_game_board()
+            u_input = input("\n>>> ")
+
+            match u_input:
+                case 'q':
+                    print("\n[ Quit Program ]\n")
+                    break
+        return   
 
 
 if __name__ == "__main__":
     cols, rows = os.get_terminal_size()
 
     filepath = "data/sample_word_bank.txt"
-    new_round = WordleMatch(filepath)
+    new_game = WordleGame()
 
-    while True:
-        new_round.start()
-        
-        cont = input("\nContinue?: ")
+    new_game.start_round()
 
-        quit_conditions = ['n', 'q']
-
-        if cont.lower() in quit_conditions:
-            break
-        
-        print(f"{cols*'-'}")
+    print(new_game)
