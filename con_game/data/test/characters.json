@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Ash Ketchum",
+        "level": 3,
+        "hp": 20,
+        "attack": 8,
+        "resistance": 6,
+        "speed": 11
+    },
+    {
+        "name": "Small Goblin",
+        "level": 2,
+        "hp": 15,
+        "attack": 7,
+        "resistance": 5,
+        "speed": 7
+    }
+]

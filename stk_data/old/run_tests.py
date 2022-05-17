@@ -1,6 +1,6 @@
 import os
 
-from stock_object import Stock
+from utils.stock_object import Stock
 
 from get_data import get_data
 from handle_json import save_json, load_json

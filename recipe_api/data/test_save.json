@@ -1,0 +1,26 @@
+[
+    {
+        "name": "banana",
+        "price": 3.12,
+        "quantity": 5,
+        "unit": "single",
+        "expiration_date": "05/16/22",
+        "purchase_date": "05/11/22"
+    },
+    {
+        "name": "apple",
+        "price": "0.95",
+        "quantity": "1",
+        "unit": "single",
+        "expiration_date": "05/16/22",
+        "purchase_date": "05/11/22"
+    },
+    {
+        "name": "avocado",
+        "price": "4.23",
+        "quantity": "3",
+        "unit": "single",
+        "expiration_date": "05/16/22",
+        "purchase_date": "05/11/22"
+    }
+]

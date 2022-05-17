@@ -1,0 +1,17 @@
+[ Player Name's Bag ]
+-------------------------------
+- [3] Escape Rope
+- [1] Sword
+- [1] Shield
+- [1] Boots
+- [1] Armor
+
+-------------------------------
+
+all in one or sub menus?
+
+[E] Equipment
+[C] Consumables
+[K] Key Items
+
+-----------------------------------------------------------------------------

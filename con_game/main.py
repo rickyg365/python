@@ -210,17 +210,17 @@ def main():
 # HP: 15/20 [#########_____]
 # """)
     char_data = {
-        "name": "ash ketchum",
+        "name": "Stack Overflow",
         "level": 3,
         "hp": 20,
-        "attack": 8,
+        "attack": 10,
         "resistance": 6,
         "speed": 11
     }
     new_char = Character(**char_data)
 
     enemy_data = {
-        "name": "small goblin",
+        "name": "Tiny Goblin",
         "level": 2,
         "hp": 15,
         "attack": 7,
