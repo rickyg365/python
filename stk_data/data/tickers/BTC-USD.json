@@ -1,0 +1,57 @@
+[
+    {
+        "ticker_symbol": "BTC-USD",
+        "date": "05-13-2022",
+        "open": 29030.91015625,
+        "high": 30924.802734375,
+        "low": 28782.330078125,
+        "close": 29283.103515625,
+        "volume": 42841124537,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "BTC-USD",
+        "date": "05-14-2022",
+        "open": 29285.642578125,
+        "high": 30192.802734375,
+        "low": 28702.91015625,
+        "close": 30101.265625,
+        "volume": 28579868620,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "BTC-USD",
+        "date": "05-15-2022",
+        "open": 30098.5859375,
+        "high": 31308.19140625,
+        "low": 29527.740234375,
+        "close": 31305.11328125,
+        "volume": 25835372065,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "BTC-USD",
+        "date": "05-16-2022",
+        "open": 31304.375,
+        "high": 31305.341796875,
+        "low": 29251.884765625,
+        "close": 29862.91796875,
+        "volume": 32613897286,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "BTC-USD",
+        "date": "05-17-2022",
+        "open": 29844.75390625,
+        "high": 30670.640625,
+        "low": 29577.3515625,
+        "close": 30303.154296875,
+        "volume": 28869496832,
+        "dividends": 0,
+        "stock_splits": 0
+    }
+]

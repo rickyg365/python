@@ -1,0 +1,57 @@
+[
+    {
+        "ticker_symbol": "TSLA",
+        "date": "05-11-2022",
+        "open": 795.0,
+        "high": 809.77001953125,
+        "low": 727.2000122070312,
+        "close": 734.0,
+        "volume": 32408200,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "TSLA",
+        "date": "05-12-2022",
+        "open": 701.0,
+        "high": 759.6599731445312,
+        "low": 680.0,
+        "close": 728.0,
+        "volume": 46771000,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "TSLA",
+        "date": "05-13-2022",
+        "open": 773.47998046875,
+        "high": 787.3499755859375,
+        "low": 751.5700073242188,
+        "close": 769.5900268554688,
+        "volume": 30651800,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "TSLA",
+        "date": "05-16-2022",
+        "open": 767.1599731445312,
+        "high": 769.760009765625,
+        "low": 719.0900268554688,
+        "close": 724.3699951171875,
+        "volume": 28699500,
+        "dividends": 0,
+        "stock_splits": 0
+    },
+    {
+        "ticker_symbol": "TSLA",
+        "date": "05-17-2022",
+        "open": 747.3599853515625,
+        "high": 764.47998046875,
+        "low": 728.8499755859375,
+        "close": 761.6099853515625,
+        "volume": 26243585,
+        "dividends": 0,
+        "stock_splits": 0
+    }
+]

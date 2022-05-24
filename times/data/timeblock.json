@@ -1,0 +1,44 @@
+[
+    {
+        "title": "Title #1",
+        "start_time": {
+            "military": 7,
+            "minutes": 30,
+            "hours": 7
+        },
+        "end_time": {
+            "military": 8,
+            "minutes": 30,
+            "hours": 8
+        },
+        "duration": 1.0
+    },
+    {
+        "title": "Title #2",
+        "start_time": {
+            "military": 8,
+            "minutes": 30,
+            "hours": 8
+        },
+        "end_time": {
+            "military": 10,
+            "minutes": 0,
+            "hours": 10
+        },
+        "duration": 1.5
+    },
+    {
+        "title": "Title #3",
+        "start_time": {
+            "military": 10,
+            "minutes": 0,
+            "hours": 10
+        },
+        "end_time": {
+            "military": 12,
+            "minutes": 0,
+            "hours": 12
+        },
+        "duration": 2.0
+    }
+]

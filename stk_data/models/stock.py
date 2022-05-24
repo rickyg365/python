@@ -1,13 +1,55 @@
 
 import datetime
 
+from enum import Enum
+
 from typing import List, Dict
 from dataclasses import dataclass, field
+
+
+"""
+TBI: 
+- Overide addition so that you can add data together!
+- Overide equality to check if symbol and date are the same!
+
+
+
+Ideas for refactor
+
+class Ticker:
+    name: str
+    data: [
+        {
+            date,
+            open,
+            high,
+            low,
+            close,
+            volume,
+            dividends,
+            stock_splits
+        },
+        StockDataPoint
+    ]
+
+
+class StockDataPoint:
+    date
+    open
+    high
+    low
+    close
+    volume
+    dividends
+    stock_splits
+    
+
+"""
 
 @dataclass
 class Stock:
     ticker_symbol: str
-    date: datetime.date  # str
+    date: str  # datetime.date  # str
     open: float = field(compare=False)
     high: float = field(compare=False)
     low: float = field(compare=False)
@@ -15,6 +57,10 @@ class Stock:
     volume: int = field(compare=False)
     dividends: int = field(compare=False)
     stock_splits: int = field(compare=False)
+
+    def __str__(self) -> str:
+        txt = f"{self.date} [{self.ticker_symbol}]: "
+        return txt
 
     def export(self) -> Dict[str, any]:
         return {
