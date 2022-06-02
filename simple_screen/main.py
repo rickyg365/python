@@ -27,11 +27,11 @@ class Game:
         self.p_running = True
 
     def draw_player_on_screen(self):
-        r, c = [*self.player.player_pos]
-        pr, pc = [*self.player.prev_player_pos]
+        r, c = [*self.player.pos]
+        pr, pc = [*self.player.prev_pos]
 
         # Unset Player
-        if self.player.prev_player_pos != self.player.player_pos:
+        if self.player.prev_pos != self.player.pos:
             self.screen.set_pixel(pr, pc, self.screen._blank_square)
 
         # Set up Player
@@ -40,6 +40,12 @@ class Game:
         # Debug
         # print(prev_player_pos, player_pos, prev_player_pos != player_pos)
         # input()
+    
+    def display(self):
+        clear_screen()
+        # Render Screen
+        self.draw_player_on_screen()        
+        print(self.screen.render())
     
     def on_press(self, key):
         """     
@@ -51,36 +57,25 @@ class Game:
         # print(f"{key} pressed!")
         if key == keyboard.Key.down:
             self.player.move_down(self.screen.height - 1)
-            clear_screen()
-            # Render Screen
-            self.draw_player_on_screen()        
-            print(self.screen.render())
+            self.display()
+
         if key == keyboard.Key.up:
             self.player.move_up()
-            clear_screen()
-            # Render Screen
-            self.draw_player_on_screen()        
-            print(self.screen.render())
+            self.display()
+
         if key == keyboard.Key.right:
             self.player.move_right(self.screen.width - 1)
-            clear_screen()
-            # Render Screen
-            self.draw_player_on_screen()        
-            print(self.screen.render())
+            self.display()
+            
         if key == keyboard.Key.left:
             self.player.move_left()
-            clear_screen()
-            # Render Screen
-            self.draw_player_on_screen()        
-            print(self.screen.render())
+            self.display()
+            
         if hasattr(key, 'char') and key.char == 'm':
-            t = threading.Thread(target=self.item_menu.open_menu())
-            t.start()        
+            t = threading.Thread(target=self.item_menu.open())
+            t.start()
 
-            clear_screen()
-            # Render Screen
-            self.draw_player_on_screen()        
-            print(self.screen.render())
+            self.display()
         
     def on_release(self, key):
         # print(f"{key} released!")
@@ -91,10 +86,7 @@ class Game:
 
     def run_display(self):
         if self.use_pynput:
-            clear_screen()
-            # Render Screen
-            self.draw_player_on_screen()        
-            print(self.screen.render())
+            self.display()
 
             # while self.p_running:
             # Blocking, handle input
@@ -111,17 +103,12 @@ class Game:
 
             # while listener.running:
             #     time.sleep(0.05)
-            #     clear_screen()
-            #     # Render Screen
-            #     self.draw_player_on_screen()        
-            #     print(self.screen.render())
+            #     self.display()
+            
 
         else:
             while True:
-                clear_screen()
-                # Render Screen
-                self.draw_player_on_screen()        
-                print(self.screen.render())
+                self.display()
                 user_input = input("\n[input]: ")
 
                 # Do something to screen based on input
@@ -147,7 +134,7 @@ class Game:
                     
                     case "m":
                         # Open Menu
-                        self.item_menu.open_menu()
+                        self.item_menu.open()
                         continue
 
                     case _:
@@ -163,5 +150,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # clear_screen()
     main()

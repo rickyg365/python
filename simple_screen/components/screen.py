@@ -1,6 +1,5 @@
-import os
-
 """
+Date: 06/01/2022
 """
 
 class Screen:
@@ -17,17 +16,20 @@ class Screen:
         return txt
 
     def valid_index(self, row: int, col: int):
+        """ Check if row, col pair is valid """
         valid_row_index = row < self.height
         valid_col_index = col < self.width
         return valid_row_index and valid_col_index
 
     def get_pixel(self, row: int, col: int):
+        """ Return pixel value at (row, col) """
         # Throws index error if not valid index
         if (self.valid_index(row, col)):
             return self.rendered[row][col]
         return None
 
     def set_pixel(self, row: int, col: int, new_value: any):
+        """ Set the value of the pixel at (row, col) """
         # Throws index error if not valid index
         if (self.valid_index(row, col)):
             self.rendered[row][col] = new_value
@@ -40,12 +42,11 @@ class Screen:
         for i in range(self.height):
             for j in range(self.width):
                 if self.valid_index(i, j):
-                    #! print(i, j)
-                    #! print(self.rendered[i][j])
                     final_screen += self.rendered[i][j]
-                
+            # Add newline if not the last row
             if i != self.height - 1:
-                    final_screen += "\n"
+                final_screen += "\n"
+
         return final_screen
     
 

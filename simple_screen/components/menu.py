@@ -26,7 +26,6 @@ class Menu:
             f"Option #3",
             f"Option #4",
             f"Option #5"
-
         ]
 
         self.methods = {
@@ -38,20 +37,16 @@ class Menu:
         }
     
     def __str__(self) -> str:
-        txt = [
-            f".{'-'*self.width}.",
-            ]
+        txt = [f".{'-'*self.width}."]
 
         for _, line in enumerate(self.rows):
             padded_line = f"|   {line:<{self.width-3}}|"
             if _ == self.cursor_y:
                 padded_line = f"||{self.menu_cursor} {line:<{self.width-3}}|"
-                # padded_line[self.cursor_x] = self.menu_cursor
             txt.append(padded_line)
             
         txt.append(f"'{'-'*self.width}'")
         
-
         return "\n".join(txt)
 
     def cursor_up(self):
@@ -78,27 +73,29 @@ class Menu:
     def run_method(self, method_choice: str):
         self.methods.get(method_choice, lambda : print("Invalid Menu Choice"))()
 
+    def display(self):
+        clear_screen()
+        print(self)
+        
     def on_press(self, key):
         # print(f"{key} pressed!")
         if key == keyboard.Key.up:
             self.cursor_up()
-            clear_screen()
-            print(self)
+            self.display()
+
         if key == keyboard.Key.down:
             self.cursor_down()
-            clear_screen()
-            print(self)
-        
+            self.display()
+            
     def on_release(self, key):
         # print(f"{key} released!")
         if key == keyboard.Key.esc:
             # Stop listener
             return False
 
-    def open_menu(self):
+    def open(self):
         if self.use_pynput:
-            clear_screen()
-            print(self)
+            self.display()
             # Blocking
             with keyboard.Listener(
                 on_press=self.on_press,
@@ -109,8 +106,7 @@ class Menu:
         else:
             # simple menu loop
             while True:
-                clear_screen()
-                print(self)
+                self.display()
                 user_input = input(">>> ")
 
                 match user_input:
@@ -119,15 +115,12 @@ class Menu:
 
                     case _:
                         self.run_method(user_input)
-                        # print("Invalid Input")
-
 
 
 def main():
     # Menu
     # new_menu = Menu()
-    # new_menu.open_menu()
-    
+    # new_menu.open()
     return
 
 if __name__ == '__main__':
