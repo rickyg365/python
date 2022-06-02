@@ -44,16 +44,11 @@ class Game:
     def display(self):
         clear_screen()
         # Render Screen
-        self.draw_player_on_screen()        
+        self.draw_player_on_screen()
+        #? self.draw_obstacles()
         print(self.screen.render())
     
     def on_press(self, key):
-        """     
-        case "m":
-            # Open Menu
-            self.item_menu.open_menu()
-            continue
-        """
         # print(f"{key} pressed!")
         if key == keyboard.Key.down:
             self.player.move_down(self.screen.height - 1)
@@ -88,23 +83,11 @@ class Game:
         if self.use_pynput:
             self.display()
 
-            # while self.p_running:
             # Blocking, handle input
             with keyboard.Listener(
                 on_press=self.on_press,
                 on_release=self.on_release) as listener:
                 listener.join()
-
-            # Non Blocking
-            # listener = keyboard.Listener(
-            #     on_press=self.on_press,
-            #     on_release=self.on_release)
-            # listener.start()
-
-            # while listener.running:
-            #     time.sleep(0.05)
-            #     self.display()
-            
 
         else:
             while True:

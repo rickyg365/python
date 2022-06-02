@@ -86,6 +86,10 @@ class Menu:
         if key == keyboard.Key.down:
             self.cursor_down()
             self.display()
+        
+        if hasattr(key, 'char') and key.char == 'a':
+            self.accept()
+            self.display()
             
     def on_release(self, key):
         # print(f"{key} released!")
