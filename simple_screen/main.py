@@ -1,104 +1,166 @@
 import os
-import sys
 
-from screen import Screen
-from player import Player
+import threading
+from pynput import keyboard
+
+from utils.clear_screen import clear_screen
+
+from components.menu import Menu
+from components.screen import Screen
+from components.player import Player
 
 """
-Movement with w, a, s, d
 
-use pynput or some other keyread module instead of input() for taking in user input
 """
 
-def clear_screen():
-    clear_command = "clear"
+class Game:
+    def __init__(self, use_pynput: bool=True):
+        # Get Terminal Dimensions
+        columns, rows = os.get_terminal_size()
+        # print(rows, columns)
 
-    if sys.platform == "win32":
-        clear_command = "cls"
+        self.screen = Screen(columns, rows-2)  # Row -2 for no pynput, can use full height for pynput
+        self.player = Player()
+        self.item_menu = Menu(True)
+        
+        self.use_pynput = use_pynput
+        self.p_running = True
+
+    def draw_player_on_screen(self):
+        r, c = [*self.player.player_pos]
+        pr, pc = [*self.player.prev_player_pos]
+
+        # Unset Player
+        if self.player.prev_player_pos != self.player.player_pos:
+            self.screen.set_pixel(pr, pc, self.screen._blank_square)
+
+        # Set up Player
+        self.screen.set_pixel(r, c, self.player.current_player)
+
+        # Debug
+        # print(prev_player_pos, player_pos, prev_player_pos != player_pos)
+        # input()
     
-    os.system(clear_command)
+    def on_press(self, key):
+        """     
+        case "m":
+            # Open Menu
+            self.item_menu.open_menu()
+            continue
+        """
+        # print(f"{key} pressed!")
+        if key == keyboard.Key.down:
+            self.player.move_down(self.screen.height - 1)
+            clear_screen()
+            # Render Screen
+            self.draw_player_on_screen()        
+            print(self.screen.render())
+        if key == keyboard.Key.up:
+            self.player.move_up()
+            clear_screen()
+            # Render Screen
+            self.draw_player_on_screen()        
+            print(self.screen.render())
+        if key == keyboard.Key.right:
+            self.player.move_right(self.screen.width - 1)
+            clear_screen()
+            # Render Screen
+            self.draw_player_on_screen()        
+            print(self.screen.render())
+        if key == keyboard.Key.left:
+            self.player.move_left()
+            clear_screen()
+            # Render Screen
+            self.draw_player_on_screen()        
+            print(self.screen.render())
+        if hasattr(key, 'char') and key.char == 'm':
+            t = threading.Thread(target=self.item_menu.open_menu())
+            t.start()        
 
+            clear_screen()
+            # Render Screen
+            self.draw_player_on_screen()        
+            print(self.screen.render())
+        
+    def on_release(self, key):
+        # print(f"{key} released!")
+        if key == keyboard.Key.esc:
+            # Stop listener
+            self.p_running = False
+            return False
 
-def draw_player_on_screen(player: Player, screen: Screen):
-    r, c = [*player.player_pos]
-    pr, pc = [*player.prev_player_pos]
+    def run_display(self):
+        if self.use_pynput:
+            clear_screen()
+            # Render Screen
+            self.draw_player_on_screen()        
+            print(self.screen.render())
 
+            # while self.p_running:
+            # Blocking, handle input
+            with keyboard.Listener(
+                on_press=self.on_press,
+                on_release=self.on_release) as listener:
+                listener.join()
 
-    # Unset Player
-    if player.prev_player_pos != player.player_pos:
-        screen.set_pixel(pr, pc, screen._blank_square)
+            # Non Blocking
+            # listener = keyboard.Listener(
+            #     on_press=self.on_press,
+            #     on_release=self.on_release)
+            # listener.start()
 
-    # Set up Player
-    screen.set_pixel(r, c, player.current_player)
+            # while listener.running:
+            #     time.sleep(0.05)
+            #     clear_screen()
+            #     # Render Screen
+            #     self.draw_player_on_screen()        
+            #     print(self.screen.render())
 
-    # Debug
-    # print(prev_player_pos, player_pos, prev_player_pos != player_pos)
-    # input()
-    return
+        else:
+            while True:
+                clear_screen()
+                # Render Screen
+                self.draw_player_on_screen()        
+                print(self.screen.render())
+                user_input = input("\n[input]: ")
 
+                # Do something to screen based on input
+                match user_input.lower():
+                    case "q":
+                        break
 
-def run_display(screen: Screen):
-    player = Player()
+                    case "s":
+                        # Move Down
+                        self.player.move_down(self.screen.height - 1)
 
-    while True:
-        clear_screen()
-        # Render Screen
-        draw_player_on_screen(player, screen)        
-        print(screen.render())
-        user_input = input("\n[input]: ")
+                    case "w":
+                        # Move Up
+                        self.player.move_up()
 
-        # Do something to screen based on input
-        match user_input.lower():
-            case "q":
-                break
+                    case "d":
+                        # Move Right
+                        self.player.move_right(self.screen.width - 1)
 
-            case "s":
-                # Move Down
-                player.move_down(screen.height - 1)
+                    case "a":
+                        # Move Left
+                        self.player.move_left()
+                    
+                    case "m":
+                        # Open Menu
+                        self.item_menu.open_menu()
+                        continue
 
-            case "w":
-                # Move Up
-                player.move_up()
-
-            case "d":
-                # Move Right
-                player.move_right(screen.width - 1)
-
-            case "a":
-                # Move Left
-                player.move_left()
-
-            case _:
-                continue
+                    case _:
+                        continue
 
 
 def main():
-    # Get Terminal Dimensions
-    columns, rows = os.get_terminal_size()
-    # print(rows, columns)
-
-    # Create a screen
-    new_screen = Screen(columns, rows-2)
-    # print(new_screen)
-
-    # Set specific pixel
-    # new_val = 'x'  # Can be of any length maybe add a check for each square to ensure valid values
-    # new_screen.set_pixel(1, 1, new_val)
-
-    # Get specific pixel
-    # my_pixel = new_screen.get_pixel(1, 1)
-    # print(my_pixel)
-
-    # Render Screen
-    # rendered_screen = new_screen.render()
-    # print(rendered_screen)
-    # input("\n>>> ")
+    # Game
+    new_game = Game()
 
     # Run Display
-    run_display(new_screen)
+    new_game.run_display()
 
-    # Debug
-    # print(new_screen)
 
 if __name__ == '__main__':
     # clear_screen()

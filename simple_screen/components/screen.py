@@ -9,7 +9,7 @@ class Screen:
         self.width = width
         self.height = height
         
-        self._blank_square = '.'  # Default Char
+        self._blank_square = ' '  # Default Char
         self.rendered = [[self._blank_square for h in range(self.width)] for w in range(self.height)]
     
     def __str__(self) -> str:
@@ -50,6 +50,30 @@ class Screen:
     
 
 def main():
+    # Get Terminal Dimensions
+    # columns, rows = os.get_terminal_size()
+    # print(rows, columns)
+
+    # Create a screen
+    # new_screen = Screen(columns, rows-2)
+    # print(new_screen)
+
+    # Set specific pixel
+    # new_val = 'x'  # Can be of any length maybe add a check for each square to ensure valid values
+    # new_screen.set_pixel(1, 1, new_val)
+
+    # Get specific pixel
+    # my_pixel = new_screen.get_pixel(1, 1)
+    # print(my_pixel)
+
+    # Render Screen
+    # rendered_screen = new_screen.render()
+    # print(rendered_screen)
+    # input("\n>>> ")
+
+    # Debug
+    # print(new_screen)
+
     return
 
 if __name__ == '__main__':
