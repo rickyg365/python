@@ -10,10 +10,27 @@ class Player:
         self.pos = [0, 0]
         self.prev_pos = [0, 0]
 
+        self.player_items = {}
+
     def __str__(self) -> str:
         txt = ""
         return txt
     
+    def add_item(self, name: str, amount: int=1):
+        self.player_items[name] = amount + self.player_items.get(name, 0)
+
+    def remove_item(self, name: str, amount: int=1):
+        curr_amount = self.player_items.get(name, 0)
+        if curr_amount - amount > 0:
+            self.player_items[name] -= amount
+        if curr_amount - amount == 0:
+            del self.player_items[name]
+        return
+
+    def get_items(self):
+        """ Returns a dict of current items """
+        return self.player_items
+
     def move_up(self):
         # Move Up
         self.prev_pos = [*self.pos]

@@ -40,11 +40,24 @@ class Game:
         # Debug
         # print(prev_player_pos, player_pos, prev_player_pos != player_pos)
         # input()
+
+    def draw_status_on_screen(self):
+        raw_status = " | ".join([f"{k}: {v%999:03}" for k, v in self.player.get_items().items()])
+        if raw_status == "":
+            raw_status = "Empty"
+        status = f"[ {raw_status} ]"
+        if len(raw_status) > self.screen.width:
+            status = raw_status[:self.screen.width - 4]
+        
+        for _, character in enumerate(status):
+            self.screen.set_pixel(self.screen.height - 1, _, character)
+
     
     def display(self):
         clear_screen()
         # Render Screen
         self.draw_player_on_screen()
+        self.draw_status_on_screen()
         #? self.draw_obstacles()
         print(self.screen.render())
     
@@ -71,6 +84,13 @@ class Game:
             t.start()
 
             self.display()
+        if hasattr(key, 'char') and key.char == 'i':
+            
+            self.player.add_item("Wood")
+            self.player.add_item("Metal")
+            self.player.add_item("Dirt", 5)
+
+            self.display()
         
     def on_release(self, key):
         # print(f"{key} released!")
@@ -86,7 +106,8 @@ class Game:
             # Blocking, handle input
             with keyboard.Listener(
                 on_press=self.on_press,
-                on_release=self.on_release) as listener:
+                on_release=self.on_release,
+                suppress=True) as listener:
                 listener.join()
 
         else:
@@ -126,7 +147,7 @@ class Game:
 
 def main():
     # Game
-    new_game = Game()
+    new_game = Game(use_pynput=True)
 
     # Run Display
     new_game.run_display()
