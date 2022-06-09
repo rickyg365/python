@@ -1,55 +1,10 @@
-
-import datetime
-
-from enum import Enum
-
-from typing import List, Dict
+from typing import Dict, List
 from dataclasses import dataclass, field
 
 
-"""
-TBI: 
-- Overide addition so that you can add data together!
-- Overide equality to check if symbol and date are the same!
-
-
-
-Ideas for refactor
-
-class Ticker:
-    name: str
-    data: [
-        {
-            date,
-            open,
-            high,
-            low,
-            close,
-            volume,
-            dividends,
-            stock_splits
-        },
-        StockDataPoint
-    ]
-
-
-class StockDataPoint:
-    date
-    open
-    high
-    low
-    close
-    volume
-    dividends
-    stock_splits
-    
-
-"""
-
 @dataclass
 class Stock:
-    ticker_symbol: str
-    date: str  # datetime.date  # str
+    entry_id: str
     open: float = field(compare=False)
     high: float = field(compare=False)
     low: float = field(compare=False)
@@ -59,13 +14,13 @@ class Stock:
     stock_splits: int = field(compare=False)
 
     def __str__(self) -> str:
-        txt = f"{self.date} [{self.ticker_symbol}]: "
+        txt = f"[{self.entry_id.replace('_', ' ')}]: "
         return txt
 
     def export(self) -> Dict[str, any]:
+        """ Should this also return the date? """
         return {
-            "ticker_symbol": self.ticker_symbol,
-            "date": self.date,
+            "entry_id": self.entry_id,
             "open": self.open,
             "high": self.high,
             "low": self.low,
@@ -74,5 +29,3 @@ class Stock:
             "dividends": self.dividends,
             "stock_splits": self.stock_splits
         }
-
-        

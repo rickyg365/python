@@ -56,8 +56,7 @@ class Menu:
         self.cursor_y = min(self.cursor_y+1, len(self.rows)-1)
 
     def accept(self):
-        print("Accept!")
-        input()
+        input(f"\n{self.rows[self.cursor_y]} Accepted!")
         return
 
     def back(self):
@@ -85,6 +84,10 @@ class Menu:
 
         if key == keyboard.Key.down:
             self.cursor_down()
+            self.display()
+
+        if key == keyboard.Key.enter:
+            self.accept()
             self.display()
         
         if hasattr(key, 'char') and key.char == 'a':
