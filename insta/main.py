@@ -5,17 +5,13 @@ import instaloader
 
 def get_args():
     args = sys.argv
-    length = len(args)
 
-    # Defaults
-    name = "thv"
-
-    # if length < 0 or length > 3:
-
-    if length == 2:
+    # if length != 2: Return Default
+    if len(args) == 2:
         return sys.argv[1]
-
-    return name
+    
+    # Default
+    return "thv"
 
 def download_user_posts(username: str, post_count: int, client: instaloader.Instaloader):
     posts = instaloader.Profile.from_username(client.context, username).get_posts()
