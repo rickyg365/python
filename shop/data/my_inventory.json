@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Yerba Mate - Tropical Uprising",
+        "price": 3.29,
+        "quantity": "1 can"
+    },
+    {
+        "name": "Payday",
+        "price": 1.55,
+        "quantity": "1 bar"
+    },
+    {
+        "name": "MilkyWay",
+        "price": 1.24,
+        "quantity": "1 bar"
+    },
+    {
+        "name": "Crunch",
+        "price": 1.39,
+        "quantity": "1 bar"
+    },
+    {
+        "name": "Milk",
+        "price": 3.29,
+        "quantity": "1 gallon"
+    },
+    {
+        "name": "Eggs",
+        "price": 2.45,
+        "quantity": "1 dozen"
+    },
+    {
+        "name": "Tomato Sauce",
+        "price": 0.59,
+        "quantity": "1 can"
+    }
+]

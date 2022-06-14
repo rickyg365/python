@@ -1,0 +1,31 @@
+{
+    "title": "Need for Cognition Scale (from Cacioppo, Petty, & Kao, 1984)",
+    "instructions": "For each of the statements below, please indicate wether or not the statement is characteristic of you or of what you believe. \n    1 -> Uncharacteristic | Fuck No, I Would NOT do/Like that\n    5 -> Characteristic   | Yup, I would do/like that",
+    "keys": {
+        "1": "extremely uncharacteristic of me",
+        "2": "somewhat uncharacteristic of me",
+        "3": "uncertain",
+        "4": "somewhat characteristic of me",
+        "5": "extremely characteristic of me"
+    },
+    "questions": [
+        "I perfer complex to simple problems.",
+        "I like to have the responsibility of handling a situation that requires a lot of thinking.",
+        "Thinking is not my idea of fun.**",
+        "I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.**",
+        "I try to anticipate and avoid situations where there is likely chance I will have to think in depth about something.**",
+        "I find satisfaction in deliberating hard and for long hours.",
+        "I only think as hard as I have to.**",
+        "I perfer to think about small daily projets to ong term ones.**",
+        "I like tasks that require little thought once I've learned them.**",
+        "The idea of relying on thought to make my way to the top appeals to me.",
+        "I really enjoy a task that involves coming up with new solutions to problems.",
+        "Learning new ways to think doesn't excite me very much.**",
+        "I perfer my life to be filled with puzzles I must solve.",
+        "The notion of thinkind abstractly is appealing to me.",
+        "I would perfer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.",
+        "I feel relief rather than satisfaction after completing a task that requires a lot of mental effort.**",
+        "It's enough for me that something gets the job done; I don't care how or why it works.",
+        "I usually end up [thinking] about issues even when they do not affect me personally."
+    ]
+}
