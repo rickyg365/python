@@ -2,7 +2,7 @@ import os
 from typing import List
 
 
-def load_env_var(env_path: str, key_list: List[str], show_status: bool=True) -> List[str]:
+def load_env_var(env_path: str, key_list: List[str], show_status: bool=False) -> List[str]:
     """ Load env var from a file, then add them to a list """
     # Imports
     from dotenv import load_dotenv
