@@ -1,4 +1,4 @@
-from models.entry import Entry
+from models.entry import AnimeEntry
 
 """ 
 Abstract these more so they dont neeed the Anime Entry import and so that they are more reusable
@@ -37,29 +37,29 @@ def complex_view(anime_entry: AnimeEntry):
 #         raise NotImplementedError
 
 
-class View:
-    def  __init__(self, entry: Entry):
-        self.ref_obj = entry
-
+class AnimeView:
+    def  __init__(self, anime_entry: AnimeEntry):
+        self.ref_obj = anime_entry
     def __str__(self) -> str:
-        data = " ".join([f"[{d}]" for d in self.ref_obj.data])
+        genres = " ".join([f"[{g}]" for g in self.ref_obj.genres])
         
         view = f"""
-{self.ref_obj.name} | {self.ref_obj.size} | {data}
-"""
+{self.ref_obj.name} | {self.ref_obj.release_date} | {genres} 
+{self.ref_obj.notes}"""
         return view
 
 
-class ComplexView(View):
-    def __init__(self, entry: Entry):
-        super().__init__(entry)
+class ComplexView(AnimeView):
+    def __init__(self, anime_entry: AnimeEntry):
+        super().__init__(anime_entry)
     
     def __str__(self) -> str:
-        data = " > ".join(self.ref_obj.data)
+        genres = " > ".join(self.ref_obj.genres)
         
         view = f"""
-[ {self.ref_obj.name} ] {self.ref_obj.size}
-< {data} > 
+[ {self.ref_obj.name} ] {self.ref_obj.release_date}
+< {genres} > 
+{self.ref_obj.notes}
 """ 
         return view
 

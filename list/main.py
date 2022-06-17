@@ -4,11 +4,11 @@ from typing import List, Dict
 from dataclasses import dataclass, field
 
 # Data
-from utils.insert_data import input_anime_entry_data
+from utils.insert_data import create_entry_list, input_entry_data
 
 # Models and Views
-from models.entry import AnimeEntry
-from views.terminal_views import AnimeView, ComplexView
+from models.entry import Entry, ENTRY_CONFIG
+from views.terminal_views import View, ComplexView
 
 """ 
 Data Journey
@@ -27,26 +27,18 @@ def load(filepath):
         data = json.load(in_file)
     return data
 
-def create_anime_list():
-    """ Loop for inputting multiple anime entries, creates raw data list """
-    raw_data = []
-    
-    while True:
-        new_data = input_anime_entry_data()
-
-        raw_data.append(new_data)
-
-        # Repeat Choice
-        again = input("\nAdd another?: ")
-        if again != 'y':
-            break
-    
-    return raw_data
-
 
 def main():
-    # Test input anime data
-    # new_anime_data = input_anime_entry_data()
+    title = "Shopping Data"
+    # sample_config = {
+    #     "name": str,
+    #     "price": float,
+    #     "amount": int,
+    #     "data": list
+    # }
+
+    # Test entry input
+    # new_data = create_entry_list(sample_config, title)
 
     # Test Create new anime entry obj
     # new_anime_entry = AnimeEntry(**new_anime_data)
@@ -63,19 +55,19 @@ def main():
     # print(complex_v)
 
     # Create Raw List
-    new_raw_list = create_anime_list()
+    new_raw_list = create_entry_list(ENTRY_CONFIG, title)
 
     # Working and View List, We should only need 
     # to convert the current chosen obj into working and view
-    new_working_list = [AnimeEntry(**rd) for rd in new_raw_list]
-    new_view_list = [AnimeView(ae) for ae in new_working_list]
+    new_working_list = [Entry(**rd) for rd in new_raw_list]
+    new_view_list = [View(ae) for ae in new_working_list]
 
     # Display Views
     for view in new_view_list:
         print(view)
 
     # Save Raw Data as json
-    save(new_raw_list, "data/raw_anime_list.json")
+    save(new_raw_list, "data/raw_list.json")
 
     # Save Working Data as pickle
     # Save View ?????

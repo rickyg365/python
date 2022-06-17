@@ -1,25 +1,34 @@
 from typing import List, Dict
 from dataclasses import dataclass, field
 
-
+ENTRY_CONFIG = {
+            "name": str,
+            "size": int,
+            "data": list
+        }
 @dataclass
-class AnimeEntry:
+class Entry:
     name: str
-    release_date: str = "No Release Date"
-    genres: List[str] = field(default_factory=lambda: ["No Genre"])
-    notes: str = "No Notes"
+    size: int = 0
+    data: List[str] = field(default_factory=lambda: ["No Data"])
 
     def __str__(self) -> str:
-        genres = " | ".join(self.genres)
+        data = " | ".join(self.data)
         
-        txt = f"\n{self.name}\n[{self.release_date}]\n| {genres} |\n{self.notes}\n"
+        txt = f"\n{self.name}\n[{self.size}]\n| {data} |"
         return txt
+
+    # def config(self):
+    #     return {
+    #         "name": str,
+    #         "size": int,
+    #         "data": list
+    #     }
 
     def export(self):
         return {
             "name": self.name,
-            "release_date": self.release_date,
-            "genres": self.genres,
-            "notes": self.notes
+            "size": self.size,
+            "data": self.data
         }
 

@@ -1,0 +1,112 @@
+[
+    {
+        "name": "Bubble",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Fantasy",
+            "Family"
+        ],
+        "notes": "Inspired by lil mermaid lmaooo"
+    },
+    {
+        "name": "Vampire in the Garden",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Fantasy",
+            "Action"
+        ],
+        "notes": "Human vs Vampire conflict, both desire change. Only 5 episodes"
+    },
+    {
+        "name": "Tomodachi Game",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Psychological",
+            "Thriller"
+        ],
+        "notes": "Cult Classic? Niche? Similar vibe to Squid Game and Donganropa? Mystery???"
+    },
+    {
+        "name": "Shikimori's not just a Cutie",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Comedy",
+            "Romance"
+        ],
+        "notes": "Slice of Life, new/cute/entertaining plus high production/visuals"
+    },
+    {
+        "name": "Aharen-san wa Hakarenai",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Comedy"
+        ],
+        "notes": "Odd couple Rom-Com"
+    },
+    {
+        "name": "Ao Ashi",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Sport",
+            "Futbol"
+        ],
+        "notes": "Not a ton of fantasy like haikyuu or other sports shows"
+    },
+    {
+        "name": "Ya Boy Kongming!",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Music",
+            "Comedy"
+        ],
+        "notes": "Sleeper Anime, Entertaining and lovable characters"
+    },
+    {
+        "name": "Summertime Render",
+        "release_date": "Spring 2022",
+        "genres": [
+            "Mystery",
+            "Supernatural",
+            "Suspense"
+        ],
+        "notes": "Time Loop and mysterious"
+    },
+    {
+        "name": "My Isekai Life",
+        "release_date": "Summer 2020",
+        "genres": [
+            "Fantasy",
+            "Isekai"
+        ],
+        "notes": "N/A"
+    },
+    {
+        "name": "Call of the Night",
+        "release_date": "Summer 2020",
+        "genres": [
+            "Romance",
+            "Supernatural"
+        ],
+        "notes": "N/A"
+    },
+    {
+        "name": "Bastard",
+        "release_date": "Summer 2020",
+        "genres": [
+            "Action",
+            "Adventure",
+            "Comedy",
+            "Fantasy"
+        ],
+        "notes": "Dark Fantasy"
+    },
+    {
+        "name": "Made in Abyss",
+        "release_date": "Summer 2020",
+        "genres": [
+            "Fantasy",
+            "Adventure"
+        ],
+        "notes": "6th layer"
+    }
+]
