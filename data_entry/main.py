@@ -4,6 +4,19 @@ import json
 from utils.data_entry import input_config, input_entry, save_json
 
 
+def display_dirs(path):
+    if os.path.exists(path):
+        print(os.listdir(path))
+        # Overkill
+        # for (dirpath, dirnames, filenames) in os.walk(path):
+        #     print("\n+")
+        #     print(dirpath)
+        #     print(dirnames)
+        #     print(filenames)
+        return True
+    return False
+
+
 def main():
     # Start
     print("Welcome to terminal data entry!")
@@ -53,4 +66,5 @@ def main():
     return
 
 if __name__ == '__main__':
-    main()
+    # main()
+    display_dirs("data")

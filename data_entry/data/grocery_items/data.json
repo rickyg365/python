@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Ketchup",
+        "price": 2.12,
+        "amount": 1,
+        "tags": "Condiment"
+    },
+    {
+        "name": "Mustard",
+        "price": 2.22,
+        "amount": 1,
+        "tags": "Condiment"
+    },
+    {
+        "name": "Potatoes",
+        "price": 1.25,
+        "amount": 3,
+        "tags": "Produce"
+    }
+]

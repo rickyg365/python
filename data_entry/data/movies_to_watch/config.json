@@ -1,0 +1,6 @@
+{
+    "title": "str",
+    "length(min)": "float",
+    "director": "str",
+    "rating": "int"
+}

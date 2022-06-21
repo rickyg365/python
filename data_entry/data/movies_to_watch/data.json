@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Jaws",
+        "length(min)": 123.2,
+        "director": "Steven Spielberg",
+        "rating": 5
+    },
+    {
+        "title": "Jurassic Park",
+        "length(min)": 98.1,
+        "director": "Johnny Depp",
+        "rating": 5
+    },
+    {
+        "title": "The Phone",
+        "length(min)": 62.0,
+        "director": "M Night Shamalan",
+        "rating": 3
+    }
+]
