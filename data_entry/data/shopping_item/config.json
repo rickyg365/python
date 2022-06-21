@@ -1,0 +1,6 @@
+{
+    "name": "str",
+    "price": "float",
+    "store": "str",
+    "date": "str"
+}

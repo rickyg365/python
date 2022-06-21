@@ -45,6 +45,7 @@ def input_config(type_match: Dict[str, Callable]=None):
         }
     # Starter Variables
     config = {}
+    raw_config = {}
 
     # Infinite loop
     while True:
@@ -55,32 +56,14 @@ def input_config(type_match: Dict[str, Callable]=None):
 
         new_type = input("Corresponding Type: ")
         
-        # Check Key
-        # Check Type
-            # Method #1
-            # match new_type:
-            #     case 'str':
-            #         new_type = str   
-            #     case 'int':
-            #         new_type = int
-            #     case 'float':
-            #         new_type = float
-            #     case _:
-            #         new_type = str
-            
-            # Method #2
-            # type_match = {
-            #     "str": str,
-            #     "int": int,
-            #     "float": float,
-            #     "custom": bool
-            # }
+        raw_config[new_key] = new_type
 
+        # Check Key
         new_type = type_match[new_type]
 
         # Add to config
         config[new_key] = new_type
-    return config
+    return config, raw_config
 
 def input_entry(config: Dict[str, Callable], title: str="New Entry"):
     # Starter Variables
