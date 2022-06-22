@@ -1,0 +1,22 @@
+[
+    {
+        "name": "monkey",
+        "habitat": "worldwide(idk)",
+        "diet": "omnivore"
+    },
+    {
+        "name": "dog",
+        "habitat": "wordlwide",
+        "diet": "omnivore"
+    },
+    {
+        "name": "zebra",
+        "habitat": "africa",
+        "diet": "herbivore"
+    },
+    {
+        "name": "hippopotamus",
+        "habitat": "african rivers",
+        "diet": "omnivore"
+    }
+]

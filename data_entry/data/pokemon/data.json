@@ -1,0 +1,17 @@
+[
+    {
+        "name": "bulbasaur",
+        "id": 1,
+        "type": "grass"
+    },
+    {
+        "name": "squirtle",
+        "id": 4,
+        "type": "water"
+    },
+    {
+        "name": "charmander",
+        "id": 7,
+        "type": "fire"
+    }
+]
