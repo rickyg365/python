@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Hash browns",
+        "price": 2.49,
+        "quantity": 2
+    },
+    {
+        "name": "Cilantro - .75oz",
+        "price": 1.79,
+        "quantity": 1
+    },
+    {
+        "name": "Salad - Romaine",
+        "price": 2.69,
+        "quantity": 1
+    },
+    {
+        "name": "Mushrooms - White",
+        "price": 2.69,
+        "quantity": 1
+    },
+    {
+        "name": "Baby Spinach - 12oz",
+        "price": 2.49,
+        "quantity": 1
+    },
+    {
+        "name": "Pepper Jack - Shredded",
+        "price": 3.99,
+        "quantity": 1
+    },
+    {
+        "name": "Kombucha - Strawberry Kiwi",
+        "price": 2.99,
+        "quantity": 1
+    },
+    {
+        "name": "Dressing - Spicy Peanut",
+        "price": 3.49,
+        "quantity": 1
+    },
+    {
+        "name": "Salad - Champ Elysees",
+        "price": 2.29,
+        "quantity": 1
+    },
+    {
+        "name": "White Bread",
+        "price": 1.99,
+        "quantity": 1
+    },
+    {
+        "name": "Strawberries - 1lb",
+        "price": 3.99,
+        "quantity": 1
+    },
+    {
+        "name": "Onion - Jumbo White",
+        "price": 1.29,
+        "quantity": 1
+    },
+    {
+        "name": "Tortillas - Corn/Wheat",
+        "price": 1.99,
+        "quantity": 1
+    },
+    {
+        "name": "Tomatoes - Grape",
+        "price": 2.69,
+        "quantity": 1
+    },
+    {
+        "name": "Bag Fee",
+        "price": 0.1,
+        "quantity": 2
+    },
+    {
+        "name": "Bottle Deposit",
+        "price": 0.05,
+        "quantity": 1
+    }
+]

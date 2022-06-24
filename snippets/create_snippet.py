@@ -5,6 +5,10 @@ import json
 Turn into TUI
 """
 
+def save_snippet(snippet_data, filepath: str):
+    with open(filepath, 'a') as out_json:
+        json.dump(snippet_data, out_json, indent=4)
+    return True
 
 def split_file_by_line(filepath: str):
     output = []
@@ -13,13 +17,13 @@ def split_file_by_line(filepath: str):
             output.append(line)
     return output
 
-def save_snippet(snippet_data, filepath: str):
-    with open(filepath, 'a') as out_json:
-        json.dump(snippet_data, out_json, indent=4)
-    return True
-
-def create_snippet(title: str, prefix: str, description: str, input_path: str, output_path: str="snippets.json"):
+def create_snippet(input_path: str, output_path: str="snippets.json", title: str="New Snippet", prefix: str=None, description: str=None):
     """ 
+    KEY: Title
+    PREFIX: Command to type to envoke
+    BODY: what gets expanded out
+    DESCRIPTION: description for tooltip
+    
     "Start Python File": {
         "prefix": "pystart",
         "body": [
@@ -34,10 +38,7 @@ def create_snippet(title: str, prefix: str, description: str, input_path: str, o
         ],
         "description": "Create Base Python File"
     }
-    KEY: Title
-    PREFIX: Command to type to envoke
-    BODY: what gets expanded out
-    DESCRIPTION: description for tooltip
+   
     """
     new_data = split_file_by_line(input_path)
     
@@ -53,13 +54,15 @@ def create_snippet(title: str, prefix: str, description: str, input_path: str, o
 
 
 def main():
+    filepath = "sample_file.py"
+    base_name, ext = filepath.split('.')
+    output_path = f"snippets/{base_name}.json"
+    
     title = "Start a python file"
     prefix = "python_start"
-    in_path = "s.py"
     description = "Start off a python file"
-    out_path = "python_snippets.py"
 
-    create_snippet(title, prefix, description, in_path, out_path)
+    create_snippet(filepath, output_path, title, prefix, description)
 
 
 if __name__ == '__main__':
