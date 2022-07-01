@@ -1,0 +1,5 @@
+{
+    "name": "str",
+    "price": "float",
+    "tags": "list"
+}

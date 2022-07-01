@@ -1,0 +1,26 @@
+[
+    {
+        "name": "banana",
+        "price": 0.43,
+        "tags": [
+            "fruit",
+            "produce"
+        ]
+    },
+    {
+        "name": "apple",
+        "price": 0.65,
+        "tags": [
+            "fruit",
+            "produce"
+        ]
+    },
+    {
+        "name": "pear",
+        "price": 1.23,
+        "tags": [
+            "fruit",
+            "produce"
+        ]
+    }
+]
