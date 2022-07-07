@@ -71,7 +71,8 @@ def get_config(config_path: str="data/config.json"):
     if not os.path.exists(config_path):
         print("[ Creating New Config ]")
         raw_config = input_raw_config()
-        # save_json(config, config_path)
+        with open(config_path) as out_config:
+            json.dump(raw_config, out_config, indent=4)
     else:
         print("[ Loading Config ]")
         with open(config_path, 'r') as in_fig:

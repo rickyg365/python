@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Ear Ache Drops",
+        "price": 8.49,
+        "specifics": "HOMEOP",
+        "quantity": 1,
+        "unit": "bottle",
+        "category": "medicine",
+        "details": "for ear aches and water log"
+    },
+    {
+        "name": "Gum",
+        "price": 3.99,
+        "specifics": "Extra Watermelon",
+        "quantity": 1,
+        "unit": "big pack",
+        "category": "Candy",
+        "details": "A big pack of gum has like 30 pieces"
+    },
+    {
+        "name": "Arizona Tea",
+        "price": 1.0,
+        "specifics": "Green Tea",
+        "quantity": 1,
+        "unit": "can",
+        "category": "Drink",
+        "details": "Arizony tea"
+    }
+]
