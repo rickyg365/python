@@ -227,7 +227,7 @@ Pg.{self.page}  data: {self.chosen_dir}
 
 
 def main():
-    new_app = DataEntryApp(title="Custom Data App" ,default_path="data")
+    new_app = DataEntryApp(title="Custom Data App", default_path="data")
     new_app.run()
     return
 

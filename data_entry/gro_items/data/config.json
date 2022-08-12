@@ -1,5 +1,9 @@
 {
     "name": "str",
+    "specifics": "str",
     "price": "float",
-    "tags": "list"
+    "quantity": "int",
+    "unit": "str",
+    "category": "str",
+    "details": "str"
 }

@@ -89,8 +89,26 @@ class GroceryList:
     def __str__(self) -> str:
         return f"{self.length}"
 
-    def get_data(self) -> List[GroceryItem]:
-        return self.data
+    def display(self):
+        final_display = ""
+        for item in self.data:
+            final_display += f"\n{item}"
+        return final_display
+
+    def get_data(self, index: int) -> GroceryItem:
+        return self.data[index]
+
+    def add_item(self):
+        return
+
+    def remove_item(self, index: int):
+        return
+    
+    def edit_item(self, index: int):
+        return
+    
+    def view_item(self, index: int):
+        return
 
     def export(self):
         return [item.export() for item in self.data]
@@ -115,7 +133,7 @@ def main():
     # Grocery List
     shopping_list = GroceryList([new_grocery_item, new_grocery_item, new_grocery_item, new_grocery_item])
     print(shopping_list)
-    print(shopping_list.data)
+    print(shopping_list.display())
     print(shopping_list.export())
 
     for item in shopping_list.data:

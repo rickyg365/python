@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Potato Chips",
+        "specifics": "Lays - Limon",
+        "price": 4.09,
+        "quantity": 1,
+        "unit": "bag",
+        "category": "Junk",
+        "details": "7.750oz"
+    },
+    {
+        "name": "Iced Tea",
+        "specifics": "Arizona - Raspberry",
+        "price": 1.22,
+        "quantity": 1,
+        "unit": "can",
+        "category": "Drink",
+        "details": "23oz"
+    },
+    {
+        "name": "Cold Medicine",
+        "specifics": "NyQuil - Severe",
+        "price": 9.99,
+        "quantity": 1,
+        "unit": "bottle",
+        "category": "Medicine",
+        "details": "12oz"
+    }
+]

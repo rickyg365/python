@@ -1,9 +1,0 @@
-{
-    "name": "str",
-    "specifics": "str",
-    "price": "float",
-    "quantity": "int",
-    "unit": "str",
-    "category": "str",
-    "details": "str"
-}
