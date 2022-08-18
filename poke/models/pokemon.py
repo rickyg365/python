@@ -1,4 +1,3 @@
-import os
 from dataclasses import dataclass
 
 
@@ -9,11 +8,18 @@ class Pokemon:
     type: str=None
 
     def __str__(self):
-        txt = f"[{self.id:03}] {self.name}"
+        txt = f"[{self.id:03}] {self.name.title()} [{self.type}]"
         return txt
+    
+    def export(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "type": self.type
+            }
 
 
-def main():
+if __name__ == '__main__':
     fake_poke_data = {
             "id": 42,
             "name": "Fakemon",
@@ -23,8 +29,3 @@ def main():
     new_pokemon = Pokemon(**fake_poke_data)
 
     print(new_pokemon)
-
-
-if __name__ == '__main__':
-    main()
-

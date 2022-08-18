@@ -1,0 +1,32 @@
+[
+    {
+        "id": 183,
+        "name": "marill",
+        "type": "water"
+    },
+    {
+        "id": 148,
+        "name": "dragonair",
+        "type": "dragon"
+    },
+    {
+        "id": 42,
+        "name": "golbat",
+        "type": "poison"
+    },
+    {
+        "id": 13,
+        "name": "weedle",
+        "type": "bug"
+    },
+    {
+        "id": 75,
+        "name": "graveler",
+        "type": "rock"
+    },
+    {
+        "id": 181,
+        "name": "ampharos",
+        "type": "electric"
+    }
+]
