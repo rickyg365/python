@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Fake Name",
+        "post_id": 5,
+        "path": "fake/path/1"
+    },
+    {
+        "id": 2,
+        "name": "Fake Name",
+        "post_id": 3,
+        "path": "fake/path/2"
+    },
+    {
+        "id": 3,
+        "name": "Fake Name",
+        "post_id": 2,
+        "path": "fake/path/3"
+    }
+]

@@ -46,7 +46,7 @@ class Party:
             self.slots.append(Pokemon(**item))
             self.filled_slots += 1
 
-        return True
+        return self
     
     def add(self, new_pokemon: Pokemon):
         if self.filled_slots == 6:

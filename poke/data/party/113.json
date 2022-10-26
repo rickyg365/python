@@ -1,0 +1,32 @@
+[
+    {
+        "id": 491,
+        "name": "darkrai",
+        "type": "dark"
+    },
+    {
+        "id": 185,
+        "name": "sudowoodo",
+        "type": "rock"
+    },
+    {
+        "id": 126,
+        "name": "magmar",
+        "type": "fire"
+    },
+    {
+        "id": 29,
+        "name": "nidoran-f",
+        "type": "poison"
+    },
+    {
+        "id": 454,
+        "name": "toxicroak",
+        "type": "poison"
+    },
+    {
+        "id": 3,
+        "name": "venusaur",
+        "type": "grass"
+    }
+]

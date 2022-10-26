@@ -1,0 +1,32 @@
+[
+    {
+        "id": 115,
+        "name": "kangaskhan",
+        "type": "normal"
+    },
+    {
+        "id": 169,
+        "name": "crobat",
+        "type": "poison"
+    },
+    {
+        "id": 197,
+        "name": "umbreon",
+        "type": "dark"
+    },
+    {
+        "id": 319,
+        "name": "sharpedo",
+        "type": "water"
+    },
+    {
+        "id": 54,
+        "name": "psyduck",
+        "type": "water"
+    },
+    {
+        "id": 383,
+        "name": "groudon",
+        "type": "ground"
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "id": 391,
+        "name": "monferno",
+        "type": "fire"
+    },
+    {
+        "id": 247,
+        "name": "pupitar",
+        "type": "rock"
+    },
+    {
+        "id": 299,
+        "name": "nosepass",
+        "type": "rock"
+    },
+    {
+        "id": 332,
+        "name": "cacturne",
+        "type": "grass"
+    },
+    {
+        "id": 422,
+        "name": "shellos",
+        "type": "water"
+    },
+    {
+        "id": 158,
+        "name": "totodile",
+        "type": "water"
+    }
+]

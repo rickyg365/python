@@ -1,0 +1,32 @@
+[
+    {
+        "id": 401,
+        "name": "kricketot",
+        "type": "bug"
+    },
+    {
+        "id": 72,
+        "name": "tentacool",
+        "type": "water"
+    },
+    {
+        "id": 454,
+        "name": "toxicroak",
+        "type": "poison"
+    },
+    {
+        "id": 139,
+        "name": "omastar",
+        "type": "rock"
+    },
+    {
+        "id": 436,
+        "name": "bronzor",
+        "type": "steel"
+    },
+    {
+        "id": 154,
+        "name": "meganium",
+        "type": "grass"
+    }
+]
