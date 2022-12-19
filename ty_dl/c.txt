@@ -1,0 +1,1 @@
+yt-dlp -o "%(playlist)s/%(title)s.%(ext)s" "https://youtube.com/playlist?list=PLD85eRe7NELF7EFIl4YMQOxFw_3S7LNaR"
