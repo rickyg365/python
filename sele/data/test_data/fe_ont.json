@@ -1,0 +1,92 @@
+[
+    {
+        "title": "Frontend Web Designer - React/Javascript",
+        "company": "IHOUSEWEB INC. (www.ihouseweb.com)",
+        "location": "Remote in California",
+        "salary": "$70,000 - $110,000 a year\nFull-time\nMonday to Friday\n+1"
+    },
+    {
+        "title": "Senior Android Software Engineer",
+        "company": "TlPlough&Associates",
+        "location": "California",
+        "salary": "$125,000 - $160,000 a year\nFull-time\nMonday to Friday\n+2"
+    },
+    {
+        "title": "Sr. Front End Engineer",
+        "company": "Roc Search",
+        "location": "Remote in California",
+        "salary": "$160,000 - $200,000 a year\nFull-time\nMonday to Friday"
+    },
+    {
+        "title": "Application Developer",
+        "company": "California State University",
+        "location": "Pomona, CA",
+        "salary": "$3,713 - $7,149 a month\nFull-time\nMonday to Friday"
+    },
+    {
+        "title": "Web Developer",
+        "company": "Garbage Dream Agency",
+        "location": "Chino Hills, CA 91709",
+        "salary": "$65,000 - $75,000 a year\nFull-time\n8 hour shift"
+    },
+    {
+        "title": "Part-Time PHP and React Developer",
+        "company": "CCS Interactive",
+        "location": "Upland, CA 91786",
+        "salary": "$26 - $32 an hour\nPart-time\nMonday to Friday\n+1"
+    },
+    {
+        "title": "Wordpress Developer",
+        "company": "Student Hires",
+        "location": "Hybrid remote in Montclair, CA 91763",
+        "salary": "$18 - $22 an hour\nFull-time\n+3\nMonday to Friday"
+    },
+    {
+        "title": "JD Logistics - UI Developer",
+        "company": "JD.com",
+        "location": "Fontana, CA 92337",
+        "salary": "Contract\n+1"
+    },
+    {
+        "title": "UI Senior Developer SiteCore",
+        "company": "Business Integra Inc",
+        "location": "Rancho Cucamonga, CA 91701",
+        "salary": "$65 - $75 an hour\nFull-time\n+1\nMonday to Friday\n+1"
+    },
+    {
+        "title": "Engineer II - Net & UI Full Stack (Hybrid Work Schedule)",
+        "company": "Inland Empire Health Plans",
+        "location": "Hybrid remote in Rancho Cucamonga, CA 91730",
+        "salary": "Estimated $86.7K - $110K a year"
+    },
+    {
+        "title": "Dynamics 365 F&O Application Developer",
+        "company": "Tyler Technologies",
+        "location": "United States",
+        "salary": "Estimated $76.8K - $97.3K a year\nOn call"
+    },
+    {
+        "title": "Application Developer I",
+        "company": "OneNeck IT Solutions",
+        "location": "Remote in United States",
+        "salary": "Estimated $77.8K - $98.6K a year\nFull-time"
+    },
+    {
+        "title": "Web Developer",
+        "company": "Axle Informatics",
+        "location": "United States",
+        "salary": "Estimated $82.2K - $104K a year\nContract"
+    },
+    {
+        "title": ".Net/Front-End Developer",
+        "company": "ITAC Solutions",
+        "location": "United States",
+        "salary": "Estimated $90.2K - $114K a year"
+    },
+    {
+        "title": "PHP Developer",
+        "company": "Whisker",
+        "location": "United States",
+        "salary": null
+    }
+]
