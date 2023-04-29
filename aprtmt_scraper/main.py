@@ -268,18 +268,18 @@ def main():
         "bedrooms_max": 2,
     }
 
-    queries = [empty_query, city_state_query, capped_query]
-    urls = [build_apartment_query_url(**q) for q in queries]
+    # queries = [empty_query, city_state_query, capped_query]
+    # urls = [build_apartment_query_url(**q) for q in queries]
 
-    print("\n".join(urls))
+    # print("\n".join(urls))
 
     # Run Search
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'
     }
-
-    r = requests.get("https://www.apartments.com/los-angeles-ca/",
-                     timeout=5, headers=headers)
+    # https://www.apartments.com/los-angeles-ca/
+    q = build_apartment_query_url(**city_state_query)
+    r = requests.get(q, timeout=5, headers=headers)
 
     # print(r.content)
     # Get soup
@@ -296,73 +296,112 @@ def main():
 
     soup = soup.find('ul')
 
-    if soup is not None:
-        listings = soup.find_all('li', class_='mortar-wrapper')
+    if soup is None:
+        return
 
-        for listing in listings:
-            url_element = listing.find('article')
-            new_url = url_element['data-url']
-            # Find ID
-            # new_url[-8:-1]
-            apartment_id = new_url.split("/")[-2]
+    listings = soup.find_all('li', class_='mortar-wrapper')
 
-            # Scrape for initial data
-            constructed_path = f"{BASE_PATH}{apartment_id}.json"
-            if os.path.exists(constructed_path):
-                new_listing = Listing().load_path(constructed_path)
-                apartment_urls.append(new_listing)
-                continue
+    for listing in listings:
+        # Find URL
+        url_element = listing.find('article')
+        new_url = url_element['data-url']
 
-            def txt_if_valid(soup_result: BeautifulSoup):
-                if soup_result is None:
-                    return
-                return soup_result.text
+        # Find ID
+        apartment_id = new_url.split("/")[-2]
 
-            title = listing.find('span', class_="js-placardTitle title")
-            title = txt_if_valid(title)
+        # Scrape for initial data
+        constructed_path = f"{BASE_PATH}{apartment_id}.json"
+        if os.path.exists(constructed_path):
+            new_listing = Listing().load_path(constructed_path)
+            apartment_urls.append(new_listing)
+            continue
 
-            street_address = listing.find(
-                'div', class_="property-address js-url")
-            street_address = txt_if_valid(street_address)
+        def txt_if_valid(soup_result: BeautifulSoup):
+            if soup_result is None:
+                return
+            return soup_result.text
 
-            price = listing.find('p', class_="property-pricing")
-            price = txt_if_valid(price)
+        title = listing.find('span', class_="js-placardTitle title")
 
-            beds = listing.find('p', class_="property-beds")
-            beds = txt_if_valid(beds)
+        street_address = listing.find(
+            'div', class_="property-address js-url")
 
-            amenity_node = listing.find('p', class_="property-amenities")
-            amenities = amenity_node.find_all('span')
-            amenities = [txt_if_valid(a) for a in amenities]
+        price = listing.find('p', class_="property-pricing")
 
-            phone_num = listing.find('a', class_="phone-link js-phone")
-            if phone_num is None:
-                phone_num = listing.find(
-                    'a', class_="phone-link js-phone js-student-housing")
+        beds = listing.find('p', class_="property-beds")
 
-            phone_num = txt_if_valid(phone_num)
+        amenity_node = listing.find('p', class_="property-amenities")
+        amenities = amenity_node.find_all('span')
+        amenities = [txt_if_valid(a) for a in amenities]
+
+        phone_num = listing.find('a', class_="phone-link js-phone")
+        if phone_num is None:
+            phone_num = listing.find(
+                'a', class_="phone-link js-phone js-student-housing")
 
 #             print(f"""{title}{street_address}{price}{beds}{amenities}{phone_num}""")
 
-            # Create Listing
-            new_listing = Listing(new_url)
-            new_listing._id = apartment_id
-            new_listing.name = title
-            new_listing.address = street_address
-            new_listing.price = price
-            new_listing.beds = beds
-            new_listing.ameneties = amenities
-            new_listing.contact_phone = phone_num.strip()
+        # Create Listing
+        new_listing = Listing(new_url)
+        new_listing._id = apartment_id
+        new_listing.name = txt_if_valid(title)
+        new_listing.address = txt_if_valid(street_address)
+        new_listing.price = txt_if_valid(price)
+        new_listing.beds = txt_if_valid(beds)
+        new_listing.ameneties = amenities
+        new_listing.contact_phone = txt_if_valid(phone_num).strip()
 
-            apartment_urls.append(new_listing)
+        apartment_urls.append(new_listing)
 
     # Parse through each url for data, or only when requesting more data
-    for l in apartment_urls:
+    length = len(apartment_urls)
+    new = 0
+    old = 0
+    for i, l in enumerate(apartment_urls):
+        print(f"{i + 1:02}/{length:02}", end="\r")
         constructed_path = f"{BASE_PATH}{l._id}.json"
         if os.path.exists(constructed_path):
+            old += 1
             continue
         print(l)
+        new += 1
+
+        # Extract all Content
+        indv_page_response = requests.get(l.url)
+        indv_soup = BeautifulSoup(indv_page_response.content, 'html.parser')
+
+        # bathrooms
+        # square feet
+        # pricing and floor plans
+        # description
+        # features
+        # contact
+        # phone
+        # property website
+        # amenities(re)
+        # services
+        # extra*
+        # features
+        # Lease details and features
+        # Parking
+        # utilities
+        # lease options
+        # property info
+        # neighborhood
+        # transportation
+        # points of interest
+        # shopping centers
+        # parks and recreation
+        # confirm address and phone number
+
+        # Add to listing
+
         l.save_data(BASE_PATH)
+    print(f"""
+new: {new}
+old: {old}
+total: {length}
+""")
 
 
 if __name__ == "__main__":
