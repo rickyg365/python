@@ -1,16 +1,19 @@
 {
-    "url": "https://www.apartments.com/maxwell-apartments-los-angeles-ca/m4mhmgk/",
-    "id": "m4mhmgk",
-    "name": "Maxwell Apartments",
-    "address": "1855 Westwood Blvd, Los Angeles, CA 90025",
-    "price": "$2,995 - 6,675",
-    "beds": "1-3 Beds",
+    "url": "https://www.apartments.com/rise-koreatown-los-angeles-ca/qzle2gx/",
+    "id": "qzle2gx",
+    "name": "Rise Koreatown",
+    "address": "750 S Oxford Ave, Los Angeles, CA 90005",
+    "price": "$2,170 - 4,260",
+    "beds": "Studio - 1 Bed",
     "ameneties": [
         "Dog & Cat Friendly",
-        "Balcony",
-        "Stainless Steel Appliances"
+        "Fitness Center",
+        "Pool",
+        "Kitchen",
+        "Clubhouse",
+        "Lounge"
     ],
-    "contact_phone": "(747) 233-1018",
+    "contact_phone": "(323) 990-4302",
     "bathrooms": null,
     "square_feet": null,
     "pricing_floor_plans": null,
