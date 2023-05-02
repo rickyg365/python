@@ -279,7 +279,7 @@ def main():
     }
     # https://www.apartments.com/los-angeles-ca/
     q = build_apartment_query_url(**city_state_query)
-    r = requests.get(q, timeout=5, headers=headers)
+    r = requests.get(q, timeout=3, headers=headers)
 
     # print(r.content)
     # Get soup
@@ -367,8 +367,8 @@ def main():
         new += 1
 
         # Extract all Content
-        indv_page_response = requests.get(l.url)
-        indv_soup = BeautifulSoup(indv_page_response.content, 'html.parser')
+        # indv_page_response = requests.get(l.url)
+        # indv_soup = BeautifulSoup(indv_page_response.content, 'html.parser')
 
         # bathrooms
         # square feet
