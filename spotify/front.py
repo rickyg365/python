@@ -1,4 +1,5 @@
 import os
+import json
 
 """
 [Page 1]
@@ -11,8 +12,8 @@ Africa   Toto      Classic   1:23        09/23/23
 * type song name to select
 [P]rev Page  [N]ext Page  [G]oto page #
 >>> 
-
 """
+
 # UI Variables
 SONG_GAP = 15
 ARTIST_GAP = 10
@@ -42,43 +43,14 @@ def songs_page(data):
 # App Variables
 CURRENT_PAGE = 0
 
-SINGLE_ENTRY = {
-    "song": "Africa",
-    "artist": "Toto",
-    "genre": "Classic",
-    "duration": 123,
-    "date": "09/23/23"
-}
-SAMPLE_DATA = [
-    {
-        "song": "Africa",
-        "artist": "Toto",
-        "genre": "Classic",
-        "duration": 123,
-        "date": "09/23/23"
-    },
-    {
-        "song": "Africa",
-        "artist": "Toto",
-        "genre": "Classic",
-        "duration": 123,
-        "date": "09/23/23"
-    },
-    {
-        "song": "Africa",
-        "artist": "Toto",
-        "genre": "Classic",
-        "duration": 123,
-        "date": "09/23/23"
-    },
-    {
-        "song": "Africa",
-        "artist": "Toto",
-        "genre": "Classic",
-        "duration": 123,
-        "date": "09/23/23"
-    }
-]
+SINGLE_ENTRY = None
+SAMPLE_DATA = None
+
+# Load Data
+with open('sample_data.json', 'r') as sample_data:
+    SAMPLE_DATA = json.load(sample_data)
+
+SINGLE_ENTRY = SAMPLE_DATA[0]
 
 
 def app():
