@@ -16,6 +16,37 @@ class Screen():
     def refresh(self):
         self.data = [[self.default_char for y in range(self.width)] for x in range(self.height)]
 
+class Box(Screen):
+    def __init__(self, width: int, height: int):
+        super().__init__(width, height)
+
+    def refresh(self):
+        data = []
+        top = ['.']
+        
+        for _ in range(self.width):
+            top.append('-')
+
+        top.append('.')
+        data.append(top)
+        
+        for _ in range(self.height):
+            new_row = ['|']
+            for _ in range(self.width): 
+                new_row.append(' ')
+            new_row.append('|')
+            data.append(new_row)
+
+        bot = ["'"]
+
+        for _ in range(self.width):
+            bot.append('-')
+        bot.append("'")
+        data.append(bot)
+
+        self.data = data
+
+
 
 class Object:
     def __init__(self, starting_x: int=0, starting_y: int=0):
@@ -79,4 +110,7 @@ if __name__ == "__main__":
     TERMINAL_WIDTH, TERMINAL_HEIGHT = os.get_terminal_size()
     # print(TERMINAL_WIDTH, TERMINAL_HEIGHT)
     game(TERMINAL_WIDTH, TERMINAL_HEIGHT - 2)
+    
+    b = Box(4, 2)
+    print(b)
 
