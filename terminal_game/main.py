@@ -18,34 +18,47 @@ class Screen():
 
 class Box(Screen):
     def __init__(self, width: int, height: int):
+        self.box_characters = {
+            "top_left": "╭",
+            "top_right": "╮",
+            "bot_left": "╰",
+            "bot_right": "╯",
+            "horizontal": "─",
+            "vertical": "│",
+            "empty": " ",
+            "fill": "."            
+        }
         super().__init__(width, height)
+        
 
     def refresh(self):
         data = []
-        top = ['.']
+        top = [f'{self.box_characters["top_left"]}']
         
         for _ in range(self.width):
-            top.append('-')
+            top.append(f'{self.box_characters["horizontal"]}')
 
-        top.append('.')
+        top.append(f'{self.box_characters["top_right"]}')
         data.append(top)
         
         for _ in range(self.height):
-            new_row = ['|']
+            new_row = [f'{self.box_characters["vertical"]}']
             for _ in range(self.width): 
-                new_row.append(' ')
-            new_row.append('|')
+                new_row.append(f'{self.box_characters["empty"]}')
+            new_row.append(f'{self.box_characters["vertical"]}')
             data.append(new_row)
 
-        bot = ["'"]
+        bot = [f'{self.box_characters["bot_left"]}']
 
         for _ in range(self.width):
-            bot.append('-')
-        bot.append("'")
+            bot.append(f'{self.box_characters["horizontal"]}')
+        bot.append(f'{self.box_characters["bot_right"]}')
         data.append(bot)
 
         self.data = data
 
+# class TextBox(Box):
+#     # if width * height < len(self.text): not enough room to display whole string
 
 
 class Object:
