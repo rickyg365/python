@@ -1,0 +1,35 @@
+{
+    "level": 1,
+    "name": "Billy Bob",
+    "total_tasks": 2,
+    "completed_tasks": 0,
+    "gold": 0,
+    "current_experience": 0,
+    "experience_needed": 35,
+    "tags": [
+        "ALL",
+        "READING"
+    ],
+    "tasks": [
+        {
+            "name": "Read 15 pages",
+            "tag": "READING",
+            "gold": 20,
+            "experience": 25,
+            "progress_bar": true,
+            "progress": 0,
+            "total_progress": 20,
+            "status": "COMPLETED"
+        },
+        {
+            "name": "Organize physical space",
+            "tag": "ALL",
+            "gold": 15,
+            "experience": 20,
+            "progress_bar": false,
+            "progress": 0,
+            "total_progress": 20,
+            "status": "INCOMPLETE"
+        }
+    ]
+}
