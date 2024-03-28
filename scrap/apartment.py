@@ -1,4 +1,11 @@
 import os
+import datetime
+
+import requests
+from bs4 import BeautifulSoup
+
+
+from main import hydrate_listing
 from utils.simple_save import load_json, save_json
 
 class Apartment:
@@ -44,7 +51,33 @@ class Apartment:
         self.low_baths = low_baths
         self.high_baths = high_baths
 
+        self.extra_data = dict()
+
     def __str__(self):
+        hydrated = ""
+        txt = f"""
+{self.street_address}
+{self.url}
+"""
+        if self.hydrated:
+            hydrated = f"""
+|${self.monthly_rent}| {self.street_address}
+{self.bedrooms} beds - {self.bathrooms} baths | {self.square_feet}
+{self.phone_number}
+{self.url}
+
+Lowest
+${self.low_price}
+{self.low_beds} beds - {self.low_baths} baths
+
+Highest
+${self.high_price}
+{self.high_beds} beds - {self.high_baths} baths
+"""
+            return hydrated
+        return txt
+    
+    def debug_print(self):
         txt = f"""
 {self.url=}
 {self.street_address=}
@@ -63,6 +96,88 @@ class Apartment:
 {self.high_baths=}
 """
         return txt
+    
+    def hydrate(self):
+        self.hydrated = True
+        HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0'}
+        url = self.url
+        self.last_updated = datetime.datetime.now().strftime('%y%m%d')
+        
+        page = requests.get(url, headers=HEADERS, timeout=5)
+
+        soup = BeautifulSoup(page.content, "html.parser")
+        # articles = placards.find_all("article", attrs={"data-url": True})
+
+        # Phone Number
+        phone_number = soup.find("span", class_="phoneNumber").text
+
+        # Main Info
+        main_info = soup.find('ul', class_="priceBedRangeInfo")
+
+        data_points = main_info.find_all('div', class_="priceBedRangeInfoInnerContainer")
+
+        for d in data_points:
+
+            t = d.find('p', class_='rentInfoLabel').text
+            i = d.find('p', class_='rentInfoDetail').text
+
+            if t is None: 
+                continue
+            t = t.lower()
+            t = t.replace(' ', '_')
+
+            match t:
+                # Rent
+                case "monthly_rent":
+                    nl = i.split("-")
+
+                    if len(nl) > 1:
+                        self.low_price = nl[0].strip().replace('$', '')
+                        self.high_price = nl[1].strip().replace('$', '')
+                        self.monthly_rent = self.low_price
+                    else:
+                        self.monthly_rent = nl[0].strip().replace('$', '')
+                    
+                # Beds
+                case "bedrooms":
+                    nl = i.split("-")
+                    
+                    if len(nl) > 1:
+                        self.low_beds = nl[0].strip()
+                        self.high_beds = nl[1].strip().split(' ')[0]
+                        self.bedrooms = self.low_beds
+                    else:
+                        self.bedrooms = nl[0].strip().split(' ')[0]
+                    
+                # Baths
+                case "bathrooms":
+                    nl = i.split("-")
+                    
+                    if len(nl) > 1:
+                        self.low_baths = nl[0].strip()
+                        self.high_baths = nl[1].strip().split(' ')[0]
+                        self.bathrooms = self.low_baths
+                    else:
+                        self.bathrooms = nl[0].strip().split(' ')[0]
+                    
+                # Square Feet
+                # Pricing and Floor Plans
+                # Community Ammenities
+                # Apartment Features
+                # Fees and Policies
+                # Neighborhood
+                # Education
+                # Transportation
+                # Points of Interest
+                # Ratings
+                # Photos
+                        
+                # Default case
+                case _:
+                    self.extra_data[t] = i
+                    
+        self.phone_number = phone_number
+
 
     def save(self, data, filename: str):
         # File Format 
