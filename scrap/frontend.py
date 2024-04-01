@@ -3,7 +3,7 @@ import os
 from main import build_url, get_listings, hydrate_listing
 from utils.simple_save import load_json, save_json
 
-from apartment import Apartment
+from objects.apartment import Apartment
 
 
 def get_user_input(input_text: str, return_type=None):
