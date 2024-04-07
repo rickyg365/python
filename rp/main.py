@@ -39,25 +39,19 @@ def prog_bar(current_value: int, max_value: int, bar_width: int=20, config=None)
 
 
 class Character:
-    def __init__(self, name: str, level: int, attributes=None, items=None, equipment=None):
+    def __init__(self, name: str, level: int=0, max_hp: int=0, hp: int=0, atk: int=0, res: int=0, spd: int=0, items=None, equipment=None):
         self.name = name
-        self.level = level
+        self.level = level  # Level 0 uninitiated level 1 initiated
         
         # Attributes
-        if attributes is None:
-            attributes = {
-                "max_hp": 30,
-                "hp": 30,
-                "atk": 5,
-                "res": 4,
-                "spd": 5
-            }
-        
-        self.max_hp = attributes.get('max_hp', 0)
-        self.hp = attributes.get('hp', 0)
-        self.atk = attributes.get('atk', 0)
-        self.res = attributes.get('res', 0)
-        self.spd = attributes.get('spd', 0)
+        self.max_hp = max_hp
+        self.hp = hp
+        self.atk = atk
+        self.res = res
+        self.spd = spd
+
+        self.max_mana = 20
+        self.mana = 20
 
         # Items
         self.items = items
@@ -67,11 +61,41 @@ class Character:
 
 
     def __str__(self):
-        txt = f"lvl {self.level:02}  {self.name}\nHP{prog_bar(self.hp, self.max_hp)} {self.hp}/{self.max_hp}"
+        hp_bar_config = {
+            "fill": "*",
+            "space": " ",
+            "side": '|'
+        }
+        mana_bar_config = {
+            "fill": "-",
+            "space": " ",
+            "side": '|'
+        }
+
+        txt = f"""lvl {self.level:02}  {self.name}
+HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
+MP{prog_bar(self.mana, self.max_mana, config=mana_bar_config)} {self.mana}/{self.max_mana}"""
         return txt
 
     def method(self):
         return
+
+
+class Enemy(Character):
+    def __init__(self, name: str, level: int = 0, max_hp: int = 0, hp: int = 0, atk: int = 0, res: int = 0, spd: int = 0, items=None, equipment=None):
+        super().__init__(name, level, max_hp, hp, atk, res, spd, items, equipment)
+
+    def __str__(self):
+        hp_bar_config = {
+            "fill": "*",
+            "space": " ",
+            "side": '|'
+        }
+
+        txt = f"""lvl {self.level:02}  {self.name}
+HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
+"""
+        return txt
 
 
 if __name__ == "__main__":
@@ -85,15 +109,51 @@ if __name__ == "__main__":
     character_data = {
         "name": "Bob Joe",
         "level": 1,
-        "attributes": {
-            "max_hp": 30,
-            "hp": 30,
-            "atk": 5,
-            "res": 4,
-            "spd": 5
-            },
+        "max_hp": 30,
+        "hp": 30,
+        "atk": 5,
+        "res": 4,
+        "spd": 5
+    }
+    slime_data = {
+        "name": "Slime",
+        "level": 1,
+        "max_hp": 20,
+        "hp": 20,
+        "atk": 3,
+        "res": 4,
+        "spd": 3
+    }
+    zombie_data = {
+        "name": "Zombie",
+        "level": 1,
+        "max_hp": 30,
+        "hp": 30,
+        "atk": 4,
+        "res": 2,
+        "spd": 2
     }
 
     c = Character(**character_data)
 
-    print(c)
+    enemy1 = Character(**slime_data)
+    enemy2 = Character(**zombie_data)
+
+
+    # Sample loop
+    while c.hp >= 0 and enemy1.hp >= 0 and enemy2.hp >= 0:    
+        text = f"""
+    {c}
+
+    Enemies:
+    {enemy1}
+
+    {enemy2}
+
+    """
+        print(text)
+        user_input = input(">>> ")
+
+        c.hp -= 1
+        enemy1.hp -= 1
+        enemy2.hp -= 1
