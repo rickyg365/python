@@ -1,5 +1,6 @@
 import os
-
+from game.character import Character, Enemy
+from battle import Battle
 
 sample_output = f"""
 lvl 03  Enemy 
@@ -16,87 +17,6 @@ MP|@@@@@@@@@@@      | 15/20
 """
 
 
-def prog_bar(current_value: int, max_value: int, bar_width: int=20, config=None):
-    DEFAULT_FILL = "*"
-    DEFAULT_SPACE = " "
-    DEFAULT_SIDE = "|"
-    if config is None:
-        config = {
-            "fill": DEFAULT_FILL,
-            "space": DEFAULT_SPACE,
-            "side": DEFAULT_SIDE
-        }
-
-    ratio = current_value/max_value
-    fill_width = int(ratio * bar_width)
-    if current_value > 0:
-        fill_width = max(fill_width, 1)
-
-    space_width = bar_width - fill_width
-
-    return f"{config.get('side', DEFAULT_SIDE)}{config.get('fill', DEFAULT_FILL) * fill_width}{config.get('space', DEFAULT_SPACE) * space_width}{config.get('side', DEFAULT_SIDE)}"
-
-
-
-class Character:
-    def __init__(self, name: str, level: int=0, max_hp: int=0, hp: int=0, atk: int=0, res: int=0, spd: int=0, items=None, equipment=None):
-        self.name = name
-        self.level = level  # Level 0 uninitiated level 1 initiated
-        
-        # Attributes
-        self.max_hp = max_hp
-        self.hp = hp
-        self.atk = atk
-        self.res = res
-        self.spd = spd
-
-        self.max_mana = 20
-        self.mana = 20
-
-        # Items
-        self.items = items
-
-        # Equipment
-        self.equipment = equipment
-
-
-    def __str__(self):
-        hp_bar_config = {
-            "fill": "*",
-            "space": " ",
-            "side": '|'
-        }
-        mana_bar_config = {
-            "fill": "-",
-            "space": " ",
-            "side": '|'
-        }
-
-        txt = f"""lvl {self.level:02}  {self.name}
-HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
-MP{prog_bar(self.mana, self.max_mana, config=mana_bar_config)} {self.mana}/{self.max_mana}"""
-        return txt
-
-    def method(self):
-        return
-
-
-class Enemy(Character):
-    def __init__(self, name: str, level: int = 0, max_hp: int = 0, hp: int = 0, atk: int = 0, res: int = 0, spd: int = 0, items=None, equipment=None):
-        super().__init__(name, level, max_hp, hp, atk, res, spd, items, equipment)
-
-    def __str__(self):
-        hp_bar_config = {
-            "fill": "*",
-            "space": " ",
-            "side": '|'
-        }
-
-        txt = f"""lvl {self.level:02}  {self.name}
-HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
-"""
-        return txt
-
 
 if __name__ == "__main__":
 
@@ -108,52 +28,85 @@ if __name__ == "__main__":
 
     character_data = {
         "name": "Bob Joe",
-        "level": 1,
+        "starting_experience": 75,
         "max_hp": 30,
         "hp": 30,
-        "atk": 5,
+        "atk": 6,
         "res": 4,
         "spd": 5
     }
     slime_data = {
         "name": "Slime",
-        "level": 1,
         "max_hp": 20,
         "hp": 20,
-        "atk": 3,
+        "atk": 5,
         "res": 4,
         "spd": 3
     }
     zombie_data = {
         "name": "Zombie",
-        "level": 1,
-        "max_hp": 30,
-        "hp": 30,
-        "atk": 4,
+        "max_hp": 28,
+        "hp": 28,
+        "atk": 5,
         "res": 2,
         "spd": 2
     }
 
     c = Character(**character_data)
 
-    enemy1 = Character(**slime_data)
-    enemy2 = Character(**zombie_data)
+    enemy1 = Enemy(**slime_data)
+    enemy2 = Enemy(**zombie_data)
 
 
-    # Sample loop
-    while c.hp >= 0 and enemy1.hp >= 0 and enemy2.hp >= 0:    
-        text = f"""
-    {c}
+    # Sample Battle Loop - battle_condition
+    combatants = [enemy1, enemy2]
 
-    Enemies:
-    {enemy1}
+    Battle(c, combatants)
 
-    {enemy2}
 
-    """
-        print(text)
-        user_input = input(">>> ")
+#     while True:
+#         # Check Status of enemies
+#         updated_combatants = []
+#         for combatant in combatants:
+#             # Alive
+#             if combatant.hp > 0:
+#                 updated_combatants.append(combatant)
+#             # Dead
+#             else:
+#                 # Hasn't been marked dead
+#                 if combatant.is_alive:
+#                     combatant.is_alive = False
+#                     c.level_sys.add_experience(combatant.reward_value)
+#         combatants = updated_combatants
+#         enemies = '\n'.join(f'{e}' for e in combatants)
+#         text = f"""
+# Enemies:
+# {enemies}
 
-        c.hp -= 1
-        enemy1.hp -= 1
-        enemy2.hp -= 1
+# {c}
+# """
+#         # Display
+#         print(text)
+        
+#         # Break if all enemies defeated
+#         if len(combatants) == 0: break
+        
+#         user_input = input("[  (a)ttack | (d)efend | (i)tems | (r)un  ]\n>>> ")
+
+#         enemy_dmg = sum(x.atk - c.res for x in combatants)
+
+#         match user_input:
+#             case 'a':
+#                 e = combatants[-1]
+#                 e.hp -= (c.atk - e.res)
+#             case 'd':
+#                 enemy_dmg -= c.res
+#             case 'i':
+#                 print("Not implemented yet!")
+#             case _:
+#                 # for combatant in combatants:
+#                 #     combatant.hp -= 1
+#                 pass
+
+#         c.hp -= min(enemy_dmg, 0)
+
