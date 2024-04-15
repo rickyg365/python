@@ -1,6 +1,9 @@
 import os
+
+from utils.quick_load import load_json, save_json
+
+from game.battle import Battle
 from game.character import Character, Enemy
-from battle import Battle
 
 sample_output = f"""
 lvl 03  Enemy 
@@ -16,7 +19,10 @@ MP|@@@@@@@@@@@      | 15/20
 
 """
 
-
+# Load Enemies
+raw_enemy_data = load_json("enemies.json")
+SLIME = raw_enemy_data.get('slime', None)
+ZOMBIE = raw_enemy_data.get('zombie', None)
 
 if __name__ == "__main__":
 
@@ -28,34 +34,34 @@ if __name__ == "__main__":
 
     character_data = {
         "name": "Bob Joe",
-        "starting_experience": 75,
+        "starting_experience": 95,
         "max_hp": 30,
         "hp": 30,
         "atk": 6,
         "res": 4,
         "spd": 5
     }
-    slime_data = {
-        "name": "Slime",
-        "max_hp": 20,
-        "hp": 20,
-        "atk": 5,
-        "res": 4,
-        "spd": 3
-    }
-    zombie_data = {
-        "name": "Zombie",
-        "max_hp": 28,
-        "hp": 28,
-        "atk": 5,
-        "res": 2,
-        "spd": 2
-    }
+    # slime_data = {
+    #     "name": "Slime",
+    #     "max_hp": 20,
+    #     "hp": 20,
+    #     "atk": 5,
+    #     "res": 4,
+    #     "spd": 3
+    # }
+    # zombie_data = {
+    #     "name": "Zombie",
+    #     "max_hp": 28,
+    #     "hp": 28,
+    #     "atk": 5,
+    #     "res": 2,
+    #     "spd": 2
+    # }
 
     c = Character(**character_data)
 
-    enemy1 = Enemy(**slime_data)
-    enemy2 = Enemy(**zombie_data)
+    enemy1 = Enemy(**SLIME, starting_experience=200)
+    enemy2 = Enemy(**ZOMBIE)
 
 
     # Sample Battle Loop - battle_condition

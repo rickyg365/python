@@ -67,6 +67,8 @@ class Enemy(Character):
     def __init__(self, name: str, starting_experience: int = 0, max_hp: int = 0, hp: int = 0, atk: int = 0, res: int = 0, spd: int = 0, items=None, equipment=None, reward_value: int=10):
         super().__init__(name, starting_experience, max_hp, hp, atk, res, spd, items, equipment)
         self.reward_value = reward_value
+        self.action_turn = 0
+        self.actions = [self.attack, self.defend]
 
     def __str__(self):
         hp_bar_config = {
@@ -79,3 +81,16 @@ class Enemy(Character):
 HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
 """
         return txt
+    
+    def act(self, enemy):
+        self.actions[self.action_turn%len(self.actions)](enemy)
+        self.action_turn += 1
+        return 
+    
+    def attack(self, enemy):
+        return (self.atk - enemy.res, 0)
+    
+    def defend(self, enemy):
+        return (0, self.res)
+    
+

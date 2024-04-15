@@ -1,0 +1,18 @@
+{
+    "slime": {
+        "name": "Slime",
+        "max_hp": 20,
+        "hp": 20,
+        "atk": 5,
+        "res": 4,
+        "spd": 3
+    },
+    "zombie": {
+        "name": "Zombie",
+        "max_hp": 28,
+        "hp": 28,
+        "atk": 5,
+        "res": 2,
+        "spd": 2
+    }
+}
