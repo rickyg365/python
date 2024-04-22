@@ -24,14 +24,8 @@ raw_enemy_data = load_json("enemies.json")
 SLIME = raw_enemy_data.get('slime', None)
 ZOMBIE = raw_enemy_data.get('zombie', None)
 
-if __name__ == "__main__":
-
-    # print(sample_output)
-
-    # for _ in range(101):
-    #     curr_bar = prog_bar(_, 100)
-    #     print(f"{_:03}/100 {curr_bar}")
-
+def game_loop():
+    # Create Character
     character_data = {
         "name": "Bob Joe",
         "starting_experience": 95,
@@ -41,78 +35,48 @@ if __name__ == "__main__":
         "res": 4,
         "spd": 5
     }
-    # slime_data = {
-    #     "name": "Slime",
-    #     "max_hp": 20,
-    #     "hp": 20,
-    #     "atk": 5,
-    #     "res": 4,
-    #     "spd": 3
-    # }
-    # zombie_data = {
-    #     "name": "Zombie",
-    #     "max_hp": 28,
-    #     "hp": 28,
-    #     "atk": 5,
-    #     "res": 2,
-    #     "spd": 2
-    # }
-
     c = Character(**character_data)
 
+    # Create Enemies
     enemy1 = Enemy(**SLIME, starting_experience=200)
     enemy2 = Enemy(**ZOMBIE)
 
-
     # Sample Battle Loop - battle_condition
-    combatants = [enemy1, enemy2]
 
-    Battle(c, combatants)
+    while True:
+        combatants = [enemy1, enemy2]
+        all_gone = True
+        for _ in combatants:
+            if _.is_alive:
+                all_gone = False
 
-
-#     while True:
-#         # Check Status of enemies
-#         updated_combatants = []
-#         for combatant in combatants:
-#             # Alive
-#             if combatant.hp > 0:
-#                 updated_combatants.append(combatant)
-#             # Dead
-#             else:
-#                 # Hasn't been marked dead
-#                 if combatant.is_alive:
-#                     combatant.is_alive = False
-#                     c.level_sys.add_experience(combatant.reward_value)
-#         combatants = updated_combatants
-#         enemies = '\n'.join(f'{e}' for e in combatants)
-#         text = f"""
-# Enemies:
-# {enemies}
-
-# {c}
-# """
-#         # Display
-#         print(text)
+        if all_gone: break
         
-#         # Break if all enemies defeated
-#         if len(combatants) == 0: break
-        
-#         user_input = input("[  (a)ttack | (d)efend | (i)tems | (r)un  ]\n>>> ")
+        enemy_display = '\n'.join(f'{e}' for e in combatants)
+        display = f"""
+Enemy Encounter!
+{enemy_display}
 
-#         enemy_dmg = sum(x.atk - c.res for x in combatants)
+{c}
+What will you do?
+"""
+        print(display)
 
-#         match user_input:
-#             case 'a':
-#                 e = combatants[-1]
-#                 e.hp -= (c.atk - e.res)
-#             case 'd':
-#                 enemy_dmg -= c.res
-#             case 'i':
-#                 print("Not implemented yet!")
-#             case _:
-#                 # for combatant in combatants:
-#                 #     combatant.hp -= 1
-#                 pass
+        # User input
+        user_input = input("[ (b)attle | (r)un ] >>> ")
 
-#         c.hp -= min(enemy_dmg, 0)
+        match user_input:
+            case 'b':
+                Battle(c, combatants)
+            case 'r':
+                pass
+            case 'q':
+                break
+            case _:
+                pass
+
+
+if __name__ == "__main__":
+    # print(sample_output)
+    game_loop()
 

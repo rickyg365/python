@@ -1,12 +1,33 @@
-from utils.level import LevelSystem
 from utils.progress_bar import prog_bar
 
+
+HP_BAR_CONFIG = {
+    "fill": "*",
+    "space": " ",
+    "side": '|'
+}
+MANA_BAR_CONFIG = {
+    "fill": "-",
+    "space": " ",
+    "side": '|'
+}
+XP_BAR_CONFIG = {
+    "fill": "=",
+    "space": " ",
+    "side": '|'
+}
 
 class Character:
     def __init__(self, name: str, starting_experience: int=0, max_hp: int=0, hp: int=0, atk: int=0, res: int=0, spd: int=0, items=None, equipment=None):
         self.name = name
-        self.level_sys = LevelSystem(starting_experience)  # Level 0 uninitiated level 1 initiated
         
+        # Level
+        self.level = 0
+        self.max_level = 100
+        self.experience = 0
+        self.total_experience = 0
+        self.experience_to_next_level = 0
+
         # Attributes
         self.max_hp = max_hp
         self.hp = hp
@@ -26,35 +47,58 @@ class Character:
         # Status
         self.is_alive = True
 
-
+        self.add_experience(starting_experience)
 
     def __str__(self):
-        hp_bar_config = {
-            "fill": "*",
-            "space": " ",
-            "side": '|'
-        }
-        mana_bar_config = {
-            "fill": "-",
-            "space": " ",
-            "side": '|'
-        }
-        xp_bar_config = {
-            "fill": "=",
-            "space": " ",
-            "side": '|'
-        }
 
-        txt = f"""lvl {self.level_sys.level:02}  {self.name}
-HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
-MP{prog_bar(self.mana, self.max_mana, config=mana_bar_config)} {self.mana}/{self.max_mana}
-  {prog_bar(self.level_sys.experience, self.level_sys.experience_to_next_level, config=xp_bar_config)} {self.level_sys.experience}/{self.level_sys.experience_to_next_level} EXP"""
+        txt = f"""lvl {self.level:02}  {self.name}
+HP{prog_bar(self.hp, self.max_hp, config=HP_BAR_CONFIG)} {self.hp}/{self.max_hp}
+MP{prog_bar(self.mana, self.max_mana, config=MANA_BAR_CONFIG)} {self.mana}/{self.max_mana}
+  {prog_bar(self.experience, self.experience_to_next_level, config=XP_BAR_CONFIG)} {self.experience}/{self.experience_to_next_level} EXP"""
         return txt
+    
+    def add_experience(self, experience_points: int):
+        self.experience += experience_points
+        self.total_experience += experience_points
+        
+        # Max Level
+        if self.level >= self.max_level:
+            return
+        
+        # Exp not enough to level
+        if self.experience < self.experience_to_next_level:
+            return
+        
+        # Exp enough to level
+        leftover_exp = self.experience - self.experience_to_next_level 
+        self.level_up()
+
+        # Exp enough to level more than once
+        if leftover_exp > 0:
+            self.add_experience(leftover_exp)
+
+
+    def level_up(self, leftover_exp: int=0, functions=None):
+        self.level += 1
+        self.experience_to_next_level = 100  # int(self.starting_exp * (self.growth_curve)**(self.level))
+        
+        self.experience = leftover_exp
+        print(f"""
+{self.name} Leveled Up!!!
+Level: {self.level}
+HP: {self.max_hp}
+Attack: {self.atk}
+Defense: {self.res}
+Speed: {self.spd}
+Total Experience: {self.total_experience}
+""")
+        input("")
+
 
     def export(self):
         return {
         "name": self.name,
-        "starting_experience": self.level_sys.total_experience,
+        "starting_experience": self.total_experience,
         "max_hp": self.max_hp,
         "hp": self.hp,
         "atk": self.atk,
@@ -71,14 +115,8 @@ class Enemy(Character):
         self.actions = [self.attack, self.defend]
 
     def __str__(self):
-        hp_bar_config = {
-            "fill": "*",
-            "space": " ",
-            "side": '|'
-        }
-
-        txt = f"""lvl {self.level_sys.level:02}  {self.name}
-HP{prog_bar(self.hp, self.max_hp, config=hp_bar_config)} {self.hp}/{self.max_hp}
+        txt = f"""lvl {self.level:02}  {self.name}
+HP{prog_bar(self.hp, self.max_hp, config=HP_BAR_CONFIG)} {self.hp}/{self.max_hp}
 """
         return txt
     

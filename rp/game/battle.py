@@ -14,7 +14,7 @@ def Battle(hero: Character, combatants: List[Enemy]):
                 # Hasn't been marked dead
                 if combatant.is_alive:
                     combatant.is_alive = False
-                    hero.level_sys.add_experience(combatant.reward_value)
+                    hero.add_experience(combatant.reward_value)
         combatants = updated_combatants
         
         # Create Display
