@@ -1,0 +1,14 @@
+{
+    "name": "Bob Joe",
+    "job": null,
+    "starting_experience": 40,
+    "hp": 30,
+    "max_hp": 30,
+    "mana": 20,
+    "max_mana": 20,
+    "atk": 6,
+    "res": 4,
+    "sp_atk": 5,
+    "sp_res": 5,
+    "spd": 5
+}

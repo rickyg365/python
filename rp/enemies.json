@@ -1,18 +1,26 @@
 {
     "slime": {
         "name": "Slime",
-        "max_hp": 20,
-        "hp": 20,
-        "atk": 5,
-        "res": 4,
-        "spd": 3
+        "hp": 18,
+        "max_hp": 18,
+        "mana": 20,
+        "max_mana": 20,
+        "atk": 4,
+        "res": 5,
+        "sp_atk": 5,
+        "sp_res": 5,
+        "spd": 4
     },
     "zombie": {
         "name": "Zombie",
-        "max_hp": 28,
-        "hp": 28,
+        "hp": 20,
+        "max_hp": 20,
+        "mana": 20,
+        "max_mana": 20,
         "atk": 5,
-        "res": 2,
+        "res": 3,
+        "sp_atk": 2,
+        "sp_res": 4,
         "spd": 2
     }
 }
