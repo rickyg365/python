@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from utils.simp_lib import prettify_dict
-from utils.simp_data import create_defaulted_data, input_data
+from utils.simp_data import create_defaulted_data, input_data, create_config, get_config_options
 from utils.easy_save import save_json, load_json
 
 
@@ -15,47 +15,69 @@ TBD
 
 
 def main():
-    FILENAME = "data/sample_collection.json"
-    CONFIG_FILEPATH = "data/configs/sample_config.json"
+    DATA_PATH = "data/sample_collection.json"
+    CONFIG_PATH = "data/configs/sample_config.json"
     
-
     data = []
-    # Check if files exist 
-    if os.path.isfile(FILENAME):
-        data = load_json(FILENAME)
+    SAMPLE_CONFIG = None
 
-    if os.path.isfile(CONFIG_FILEPATH):
-        SAMPLE_CONFIG = load_json(CONFIG_FILEPATH)
+    # Check if files exist 
+    if os.path.isfile(DATA_PATH):
+        data = load_json(DATA_PATH)
+
+    if os.path.isfile(CONFIG_PATH):
+        SAMPLE_CONFIG = load_json(CONFIG_PATH)
 
     # Track Save Status
     added_data = False
-    save_data = False
     
     while True:
-        display = "\n".join([prettify_dict(d) for d in data])
         print(f"""
-{display}""")
-        user_hint = f"""New Data: {'*' if added_data else ' '}  Save: {'*' if save_data else ' '}
-[ (a)dd | (s)ave | (q)uit ]
-"""
-        u_in = input(f"{user_hint}>>> ")
+Config:
+{prettify_dict(SAMPLE_CONFIG)}
+
+[New Data: {'*' if added_data else ' '}]
+[ (a)dd | (c)reate config | (d)isplay data | (e)dit settings | (s)ave | (q)uit ]""")
+        
+        u_in = input(f">>> ")
 
         match u_in:
             case "a":
+                # Show prev data
+                # display = "\n".join([prettify_dict(d) for d in data])
+                # print(display)
+
                 new_point = input_data(SAMPLE_CONFIG)
                 data.append(new_point)
                 added_data = True
+
+            case 'c':
+                filename = input("Choose filename: ")
+                new_config = create_config()
+                save_json(new_config, f"data/configs/{filename}")
+
+            case "d":
+                display = "\n".join([prettify_dict(d) for d in data])
+                print(display)
+                input("")
+
+            case "e":
+                options = '\n'.join(get_config_options())
+                print(options)
+                input(">>> ")
             case "s":
-                save_data = True
+                if added_data:
+                    save_json(data, DATA_PATH)
+                    added_data = False
+                    print("Data Saved!")
+                else:
+                    print("No Data to Save!")
             case "q":
                 break
             case _:
                 pass
 
         
-    if added_data and save_data:
-        save_json(data, FILENAME)
-        added_data = False
     return
 
 
@@ -63,3 +85,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+
+
+
+

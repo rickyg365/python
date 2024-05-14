@@ -1,3 +1,4 @@
+import os
 from typing import List, Dict
 
 """
@@ -9,6 +10,27 @@ URL: str
 PRICE: float
 DATE_CREATED: datetime.now()
 """
+
+
+def get_config_options(filename: str="data/configs/"):
+    clean_filename = lambda x: x.split('.')[0].replace('_', ' ')
+    return [clean_filename(f) for f in os.listdir(filename)]
+
+def create_config():
+    """
+    Only Invalid key is q
+    """
+    # valid_types = ['int', 'float', 'str']
+    
+    new_config = {}
+    while True:
+        k = input("New Config Key: ")
+        if k == 'q':
+            break
+        t = input("New Key Type: ")
+        new_config[k] = t
+    
+    return new_config
 
 
 def create_defaulted_data(config: Dict[str, str], type_map=None):

@@ -1,0 +1,7 @@
+{
+    "ID": "int",
+    "NAME": "str",
+    "URL": "str",
+    "PRICE": "float",
+    "DATE_CREATED": "date"
+}
