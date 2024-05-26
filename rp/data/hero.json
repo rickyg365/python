@@ -1,7 +1,7 @@
 {
     "name": "Bob Joe",
     "job": null,
-    "starting_experience": 40,
+    "starting_experience": 0,
     "hp": 30,
     "max_hp": 30,
     "mana": 20,
