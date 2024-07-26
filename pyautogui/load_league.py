@@ -28,8 +28,7 @@ if __name__ == "__main__":
     time.sleep(2)
     find_n_click("images/find_match.png", confidence=0.75)
     
-    repeat = True
-    while repeat:
-        find_n_click("images/accept.png", search_time=480)
-        repeat = True if pyautogui.prompt("Break?") == '' else False
+    repeat = 3
+    for _  in range(repeat):
+        find_n_click("images/accept.png", search_time=320)
 
