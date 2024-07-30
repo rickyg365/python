@@ -1,18 +1,16 @@
 import pyautogui
 import time
 
-
-def find_n_click(image: str, search_time: int=20, confidence:float=0.85):
-    result = pyautogui.locateCenterOnScreen(image=image, minSearchTime=search_time, confidence=confidence)
-    pyautogui.sleep(0.5)
-    pyautogui.click(result.x, result.y,)
-
+from utils.rapper import find_n_click
 
 
 if __name__ == "__main__":
+    # Choose Gamemode
     gamemode = pyautogui.prompt('Select Gamemode:')
+    # Play Button
     find_n_click('images/play.png')
     time.sleep(1.5)
+    # Gamemode Button
     match gamemode:
         case 'aram':
             find_n_click("images/aram.png")
@@ -24,11 +22,16 @@ if __name__ == "__main__":
             find_n_click("images/aram.png")
     time.sleep(1)
 
+    # Confirm
     find_n_click("images/confirm.png")
-    time.sleep(2)
+    time.sleep(1.75)
+
+    # Find Match
     find_n_click("images/find_match.png", confidence=0.75)
     
-    repeat = 3
+    # Accept Match
+    repeat = 8
     for _  in range(repeat):
-        find_n_click("images/accept.png", search_time=320)
+        find_n_click("images/accept.png", search_time=280)
+        time.sleep(1)
 
