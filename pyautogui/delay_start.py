@@ -7,6 +7,12 @@ from utils.rapper import find_n_click
 if __name__ == "__main__":
     # Choose Gamemode
     gamemode = pyautogui.prompt('Select Gamemode:')
+    delay = pyautogui.prompt('Select Delay(seconds):')
+
+    # Delay
+    d = int(delay)
+    time.sleep(d)
+
     # Play Button
     find_n_click('images/play.png')
     time.sleep(1.5)
