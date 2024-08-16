@@ -21,9 +21,11 @@ while True:
     client, addr = server.accept()
     client.send('Hello Client!'.encode())
     print(client.recv(1024).decode())
+    
     msg_count += 1
-    print(msg_count)
-    if msg_count > 5:
+    if msg_count > 4:
         break
+   
+   
 
 
