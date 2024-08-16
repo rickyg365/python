@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv('.env')
 
 IP = os.environ.get('IP')
-PORT = os.environ.get('PORT')
+PORT = int(os.environ.get('PORT'))
 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
