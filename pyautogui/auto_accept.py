@@ -1,13 +1,7 @@
-import pyautogui
-import time
-
-from utils.rapper import find_n_click
+from utils.rapper import wait_for
 
 
 if __name__ == "__main__":
-    repeat = 3
-    for _ in range(repeat):
-        find_n_click("images/accept.png", search_time=300)
-        time.sleep(1)
+    wait_for("images/accept.png", max_iterations=15, redundancy=True, delay=1)    
       
 

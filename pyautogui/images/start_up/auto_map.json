@@ -1,0 +1,28 @@
+[
+    {
+        "type": "click",
+        "image": "images/start_up/play.png",
+        "delay": 2
+    },
+    {
+        "type": "click",
+        "image": "images/start_up/aram.png",
+        "delay": 2
+    },
+    {
+        "type": "click",
+        "image": "images/start_up/confirm.png",
+        "delay": 2
+    },
+    {
+        "type": "click",
+        "image": "images/start_up/find_match.png",
+        "delay": 2
+    },
+    {
+        "type": "wait",
+        "image": "images/start_up/accept.png",
+        "delay": 2
+    }
+    
+]

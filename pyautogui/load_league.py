@@ -1,18 +1,18 @@
 import pyautogui
-import time
 
-from utils.rapper import find_n_click
+from utils.rapper import wait_for, find_n_click
 
 
-if __name__ == "__main__":
-    # Choose Gamemode
-    gamemode = pyautogui.prompt('Select Gamemode:')
+def start_gamemode(gamemode: str):
     # Play Button
     find_n_click('images/play.png')
-    time.sleep(1.5)
+    pyautogui.sleep(1.5)
+
     # Gamemode Button
     match gamemode:
         case 'aram':
+            find_n_click("images/aram.png")
+        case 'auto':
             find_n_click("images/aram.png")
         case 'normal':
             find_n_click("images/aram.png")
@@ -20,18 +20,36 @@ if __name__ == "__main__":
             find_n_click("images/special.png")
         case _:
             find_n_click("images/aram.png")
-    time.sleep(1)
 
     # Confirm
     find_n_click("images/confirm.png")
-    time.sleep(1.75)
+    pyautogui.sleep(1.75)
 
     # Find Match
     find_n_click("images/find_match.png", confidence=0.75)
     
     # Accept Match
-    repeat = 4
-    for _ in range(repeat):
-        find_n_click("images/accept.png", search_time=300)
-        time.sleep(1)
+    wait_for('images/accept.png', max_iterations=15, redundancy=True)
 
+
+
+def main():
+    # Choose Gamemode
+    gamemode = pyautogui.prompt('Select Gamemode:')
+
+    if gamemode == 'auto':
+        wait_for('images/accept.png', max_iterations=15, redundancy=True)
+        return 
+
+    delay = pyautogui.prompt('Select Delay(seconds):')
+
+    if delay != "":
+        # Delay
+        d = int(delay)
+        pyautogui.sleep(d)
+
+    start_gamemode(gamemode)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,12 @@
+[
+    {
+        "type": "click",
+        "image": "images/update_store/library.png",
+        "delay": 1
+    },
+    {
+        "type": "click",
+        "image": "images/update_store/get_updates.png",
+        "delay": 1
+    }
+]

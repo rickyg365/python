@@ -1,0 +1,21 @@
+[
+    {
+        "type": "click",
+        "image": "images/lol_test/store.png",
+        "delay": 2
+    },
+    {
+        "type": "click",
+        "image": "images/lol_test/skins.png",
+        "delay": 3
+    },
+    {
+        "type": "text",
+        "text": "nunu",
+        "coordinates": [
+            237,
+            437
+        ],
+        "delay": 1
+    }
+]
