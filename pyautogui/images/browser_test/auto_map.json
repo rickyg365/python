@@ -1,0 +1,31 @@
+[
+    {
+        "type": "click",
+        "image": "images/browser_test/yt.png",
+        "delay": 3
+    },
+    {
+        "type": "click",
+        "image": "images/browser_test/watch_later.png",
+        "delay": 2
+    },
+    {
+        "type": "click",
+        "image": "images/browser_test/sort.png",
+        "delay": 1
+    },
+    {
+        "type": "click",
+        "image": "images/browser_test/most_popular.png",
+        "delay": 1
+    },
+    {
+        "type": "text",
+        "text": "Programming tips",
+        "coordinates": [
+            644,
+            144
+        ],
+        "delay": 2
+    }
+]

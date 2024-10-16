@@ -1,0 +1,22 @@
+[
+    {
+        "type": "click",
+        "image": "maps/try/yt.png",
+        "delay": 1
+    },
+    {
+        "type": "wait",
+        "image": "maps/try/subs.png",
+        "iter_count": 60,
+        "delay": 1
+    },
+    {
+        "type": "text",
+        "text": "mit open course",
+        "coordinates": [
+            614,
+            193
+        ],
+        "delay": 1
+    }
+]

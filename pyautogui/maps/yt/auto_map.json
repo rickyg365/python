@@ -1,0 +1,13 @@
+[
+    {
+        "type": "click",
+        "image": "maps/yt/yt.png",
+        "delay": 2
+    },
+    {
+        "type": "wait",
+        "image": "maps/yt/sub.png",
+        "iter_count": 60,
+        "delay": 1
+    }
+]

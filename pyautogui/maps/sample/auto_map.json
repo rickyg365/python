@@ -1,0 +1,27 @@
+[
+    {
+        "type": "click",
+        "image": "maps/sample/yt.png",
+        "delay": 3
+    },
+    {
+        "type": "wait",
+        "image": "maps/sample/watch_later.png",
+        "iter_count": 60,
+        "delay": 1
+    },
+    {
+        "type": "click",
+        "image": "maps/sample/sort.png",
+        "delay": 1
+    },
+    {
+        "type": "text",
+        "text": "Programming projects",
+        "coordinates": [
+            635,
+            186
+        ],
+        "delay": 1
+    }
+]

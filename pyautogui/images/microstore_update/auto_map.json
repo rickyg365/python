@@ -1,0 +1,12 @@
+[
+    {
+        "type": "click",
+        "image": "images/microstore_update/library.png",
+        "delay": 1
+    },
+    {
+        "type": "click",
+        "image": "images/microstore_update/get_update.png",
+        "delay": 2
+    }
+]

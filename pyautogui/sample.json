@@ -1,0 +1,22 @@
+[
+    {
+        "type": "click",
+        "coordinates": [
+            460,
+            158
+        ],
+        "image": "",
+        "delay": 3,
+        "iter_count": 1
+    },
+    {
+        "type": "text",
+        "text": "hi",
+        "coordinates": [
+            814,
+            245
+        ],
+        "delay": 1,
+        "iter_count": 1
+    }
+]

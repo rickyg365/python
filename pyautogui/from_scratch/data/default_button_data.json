@@ -1,0 +1,30 @@
+{
+    "play": {
+        "filename": "images/play.png",
+        "coordinates": [
+            0,
+            0
+        ],
+        "search_time": 45
+    },
+    "aram": {
+        "filename": "images/aram.png",
+        "coordinates": null,
+        "search_time": 45
+    },
+    "confirm": {
+        "filename": "images/confirm.png",
+        "coordinates": null,
+        "search_time": 45
+    },
+    "find_match": {
+        "filename": "images/find_match.png",
+        "coordinates": null,
+        "search_time": 45
+    },
+    "accept": {
+        "filename": "images/accept.png",
+        "coordinates": null,
+        "search_time": 60
+    }
+}
