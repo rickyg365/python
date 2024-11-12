@@ -8,7 +8,7 @@ Simplify PyAutoGUI tasks to basic functions that can be reused
 
 
 class AutomationHelperFunction:
-    def __init__():
+    def __init__(self):
         pass
 
     def defaulted_input(self, display_text: str, default_value=None):
@@ -75,10 +75,11 @@ class AutomationHelperFunction:
                 x , y = result.x, result.y
         
         if x is None or y is None:
-            return
+            return False
         
         # Click Coordinates
         pyautogui.click(x, y)
+        return True
 
     
     def input_text(self, text: str):

@@ -1,0 +1,24 @@
+[
+    {
+        "datatype": "button",
+        "data": {
+            "filename": "images/down.png",
+            "coordinates": [
+                140,
+                896
+            ],
+            "search_time": 25
+        }
+    },
+    {
+        "datatype": "button",
+        "data": {
+            "filename": "images/up.png",
+            "coordinates": [
+                1133,
+                162
+            ],
+            "search_time": 60
+        }
+    }
+]

@@ -1,5 +1,5 @@
-from utils.pushlet import PushBulletNotifier
 from utils.auto_rapper import AutomationHelperFunction
+from utils.pushlet import PushBulletNotifier
 
 
 helper = AutomationHelperFunction()

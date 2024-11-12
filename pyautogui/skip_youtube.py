@@ -1,13 +1,13 @@
-import pyautogui
 import time
 
-from utils.rapper import find_n_click
+from utils.auto_rapper import AutomationHelperFunction
 
 
 if __name__ == "__main__":
+    helper = AutomationHelperFunction()
+    
     repeat = 4
     for _ in range(repeat):
-        find_n_click("images/skip_full.png", search_time=200, confidence=0.8)
+        helper.click("images/skip_full.png", search_time=200)
         time.sleep(1)
-      
 
