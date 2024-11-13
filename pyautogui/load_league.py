@@ -1,16 +1,31 @@
+import time
+
 from utils.pushlet import PushBulletNotifier
 from utils.auto_rapper import AutomationHelperFunction
 
-
 helper = AutomationHelperFunction()
 notifier = PushBulletNotifier('sum.env')
+
+
+# User Input
+wait_time = helper.prompt("Would you like to set a delay?", 0)
+
+time.sleep(int(wait_time))
+
+# Game mode
+# gamemode = helper.prompt("What gamemode would you like to play?", default="aram")
+gamemode = 'aram'
 
 # Play button
 notifier.push_note('League Match Finder', "Starting League Match Finder...")
 helper.click('images/play.png', search_time=10)
 
 # Gamemode
-helper.click('images/aram.png', search_time=30)
+match gamemode:
+    case 'aram':
+        helper.click('images/aram.png', search_time=30)
+    case _:
+        pass
 
 # Confirm
 helper.click('images/confirm.png', search_time=30)

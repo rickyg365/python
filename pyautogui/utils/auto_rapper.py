@@ -18,6 +18,9 @@ class AutomationHelperFunction:
             return default_value
         
         return user_input
+    
+    def prompt(self, prompt_text: str, default=None):
+        return pyautogui.prompt(prompt_text, default=default)
 
     def get_image(self, image_path: str) -> List[int]:
         """
@@ -41,7 +44,7 @@ class AutomationHelperFunction:
         # Centered Coordinates
         return x1 + width//2, y1 + height//2
 
-    def find_coord(self, image: str, search_time: int=20, confidence: float=0.85):
+    def find_coord(self, image: str, search_time: int=20, confidence: float=0.80):
         """
         Find Coordinate from image
 
@@ -69,7 +72,7 @@ class AutomationHelperFunction:
         # Try Image first
         if image_path:
             # Find Image Coordinates
-            result = self.find_coord(filename, search_time, confidence=0.85)
+            result = self.find_coord(filename, search_time, confidence=0.80)
 
             if result is not None:
                 x , y = result.x, result.y
