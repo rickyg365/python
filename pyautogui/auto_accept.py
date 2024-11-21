@@ -14,7 +14,7 @@ if __name__ == "__main__":
     for _ in range(iterations):
         print(_)
         found_btn = helper.click('images/accept.png', search_time=60)
-        print(found_btn)
+
         if found_btn:
             # If wait time is long notifier can time out
             notifier.push_note('League Match Finder', "Match has been Found!")
