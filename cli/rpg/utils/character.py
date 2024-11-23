@@ -23,7 +23,7 @@ class Character:
     def use_item(self):
         return
     
-    def activate_skill(self):
+    def use_skill(self):
         return
     
     def attack(self):
