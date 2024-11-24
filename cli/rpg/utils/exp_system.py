@@ -1,10 +1,10 @@
 
 class ExperienceSystem:
-    def __init__(self):
-        self.level = 0
-        self.experience = 0
-        self.experience_to_level = 100
-        self.total_experience = 0
+    def __init__(self, level: int=1, experience: int=0, experience_to_level: int=100, total_experience: int=0, **kwargs):
+        self.level = level
+        self.experience = experience
+        self.experience_to_level = experience_to_level
+        self.total_experience = total_experience
 
     def __str__(self):
         FILL = '*'
