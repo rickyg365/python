@@ -7,7 +7,7 @@ from utils.items import Item
 from utils.skills import Skill
 from utils.exp_system import ExperienceSystem
 from utils.file_handle import load_json
-from utils.progress_bar import progress_bar
+from utils.ui_elements import progress_bar
 
 
 @dataclass
@@ -50,6 +50,9 @@ class Character:
         if self.exp is None:
             self.exp = ExperienceSystem()
 
+        if isinstance(self.exp, dict):
+            self.exp = ExperienceSystem(**self.exp)
+
 
     def __str__(self):
         hp_bar = progress_bar(self.current_hp, self.hp, 20)
@@ -67,7 +70,7 @@ MP {self.current_mp:>3}/{self.mp:<3} {mp_bar}
         display = f"""lvl.{self.exp.level:02} {self.name}
 HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
 """
-        return display    
+        return display  
 
 
     def show_status(self):
@@ -116,6 +119,31 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         self.skills = [Skill(**s) for s in data.get('skills', [])]
         self.exp = ExperienceSystem(**data.get('exp', {}))
         return
+    
+    def revive(self):
+        self.current_hp = self.hp
+        self.current_mp = self.mp
+        self.is_alive = True
+        
+    
+    def add_experience(self, amount: int):
+        prev_level = self.exp.level
+        self.exp.add_experience(amount)
+        print(f"+{amount} EXP")
+        if self.exp.level > prev_level:
+            self.level_up()
+            print("Leveled Up!")
+
+    def level_up(self):
+        self.hp = self.hp + 10
+        self.current_hp = self.hp
+        self.mp = self.mp + 5
+        self.current_mp = self.mp
+        self.attack += 2
+        self.defense += 2
+        self.speed += 3
+        
+        return
 
     def take_damage(self, damage_amount: int):
         # Evasion
@@ -144,9 +172,9 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         return
     
     def hit(self, enemy: Self):
-        dmg_formula = max(self.attack - enemy.defense, 0)
+        dmg_formula = max(self.attack * self.attack/enemy.defense, 0)
         
-        return dmg_formula
+        return int(dmg_formula)
     
     def defend(self):
         self.defending = True
