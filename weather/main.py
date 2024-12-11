@@ -5,6 +5,8 @@ from rich import print as pprint
 
 from dataclasses import dataclass
 
+from models.alert import Alert
+from weather_wrapper import WeatherAPI
 """
 Goal:
 Waether api wrapper
@@ -62,60 +64,6 @@ ________________________________________________________________________________
 
 
 @dataclass
-class Alert:
-    area_desc: str=None
-    sent: str=None
-    effective: str=None
-    ends: str=None
-    status: str=None
-    severity: str=None
-    certainty: str=None
-    urgency: str=None
-    event: str=None
-    sender_name: str=None
-    headline: str=None
-    description: str=None
-    instructions: str=None
-
-    def __str__(self):
-        return f"""
-[{self.severity}] - {self.event} - {self.urgency} - {self.certainty}
-{self.sender_name} - {self.sent}
-
-START: {self.effective}
-END: {self.ends}
-
-{self.area_desc}
-
-[ DETAILS ]
-{self.headline}
-
-
-{self.description}
-
-[ INSTRUCTIONS ]
-{self.instructions}
-
-"""
-    def from_data(self, raw_data):
-        self.area_desc = raw_data.get('areaDesc', None)
-        self.sent = raw_data.get('sent', None)
-        self.effective = raw_data.get('effective', None)
-        self.ends = raw_data.get('ends', None)
-        self.status = raw_data.get('status', None)
-        self.severity = raw_data.get('severity', None)
-        self.certainty = raw_data.get('certainty', None)
-        self.urgency = raw_data.get('urgency', None)
-        self.event = raw_data.get('event', None)
-        self.sender_name = raw_data.get('senderName', None)
-        self.headline = raw_data.get('headline', None)
-        self.description = raw_data.get('description', None)
-        self.instructions = raw_data.get('instructions', None)
-        
-        return self
-            
-
-@dataclass
 class Forecast:
     name: str
 
@@ -127,41 +75,21 @@ class HourlyForecast:
 
 
 class WeatherApp:
-    BASE_URL = 'https://api.weather.gov/points/'
-    ALERT_URL = 'https://api.weather.gov/alerts/active?area='
     def __init__(self, lattitude: float=None, longitude: float=None, state: str=None, city: str=None):
-        self.lat = lattitude
-        self.lon = longitude
-
-        self.gridx = None
-        self.gridy = None
-        self.grid_id = None
-
-        self.state = state
-        self.city = city
-
-        self.forecast = None
-        self.hourly_forecast = None
-        self.grid_forecast = None
+        self.api = WeatherAPI()
 
     def __str__(self):
-        txt = f"""[{self.lat:.2f}, {self.lon:.2f}] {self.city}, {self.state}
-Hourly: {self.hourly_forecast}
-Forecast: {self.forecast}
-Grid Forecast: {self.grid_forecast}
-{self.gridx} {self.gridy} | {self.grid_id}
+        txt = f"""[{self.api.lat:.2f}, {self.api.lon:.2f}] {self.api.city}, {self.api.state}
+Hourly: {self.api.hourly_forecast}
+Forecast: {self.api.forecast}
+Grid Forecast: {self.api.grid_forecast}
+{self.api.gridx} {self.api.gridy} | {self.api.grid_id}
 """
         return txt
     
     def get_alerts(self, state: str):
-        self.state = state
-
-        r = requests.get(self.ALERT_URL + state)
-        if r.status_code != 200:
-            print(r)
-            return None
         
-        raw_data = r.json()
+        raw_data = self.api.get_alerts(state)
 
         fixed_data = []
         print(raw_data['title'])
@@ -176,33 +104,7 @@ Grid Forecast: {self.grid_forecast}
         return fixed_data
 
     def get_forecast_data(self, lattitude: float, longitude: float):
-        self.lat = lattitude
-        self.lon = longitude
-        r = requests.get(f"{self.BASE_URL}{lattitude},{longitude}")
-
-        if r.status_code != 200:
-            print(r.status_code)
-            return None
-        
-        raw_data = r.json()
-
-        props = raw_data.get('properties')
-        if props is None:
-            print("something is wrong")
-
-        rel_loc = props['relativeLocation']
-
-        self.grid_id = props['gridId']
-        self.gridx = props['gridX']
-        self.gridy = props['gridY']
-
-        self.forecast = props['forecast']
-        self.hourly_forecast = props['forecastHourly']
-        self.grid_forecast = props['forecastGridData']
-
-        self.city = rel_loc['properties']['city']
-        self.state = rel_loc['properties']['state']
-
+        raw_data = self.api.get_forecast_data(lattitude, longitude)
 
         # fixed_data = {
         #     'grid_id': props['gridId'],
