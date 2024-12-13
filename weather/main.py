@@ -6,7 +6,11 @@ from rich import print as pprint
 from dataclasses import dataclass
 
 from models.alert import Alert
+from models.forecast import Forecast, HourlyForecast
 from weather_wrapper import WeatherAPI
+
+
+
 """
 Goal:
 Waether api wrapper
@@ -63,15 +67,6 @@ ________________________________________________________________________________
 """
 
 
-@dataclass
-class Forecast:
-    name: str
-
-
-@dataclass
-class HourlyForecast:
-    name: str
-
 
 
 class WeatherApp:
@@ -79,11 +74,14 @@ class WeatherApp:
         self.api = WeatherAPI()
 
     def __str__(self):
+        if not self.api.has_data:
+            return f"No Data"
+            
         txt = f"""[{self.api.lat:.2f}, {self.api.lon:.2f}] {self.api.city}, {self.api.state}
-Hourly: {self.api.hourly_forecast}
-Forecast: {self.api.forecast}
-Grid Forecast: {self.api.grid_forecast}
-{self.api.gridx} {self.api.gridy} | {self.api.grid_id}
+{self.api.grid_x} {self.api.grid_y} | {self.api.grid_id}
+Hourly: {self.api.hourly_forecast_url}
+Forecast: {self.api.forecast_url}
+Grid Forecast: {self.api.grid_forecast_url}
 """
         return txt
     
@@ -104,29 +102,30 @@ Grid Forecast: {self.api.grid_forecast}
         return fixed_data
 
     def get_forecast_data(self, lattitude: float, longitude: float):
-        raw_data = self.api.get_forecast_data(lattitude, longitude)
+        self.api.load_initial_data(lattitude, longitude)
 
-        # fixed_data = {
-        #     'grid_id': props['gridId'],
-        #     'grid_x': props['gridX'],
-        #     'grid_y': props['gridY'],
-        #     'forecast': props['forecast'],
-        #     'forecast_hourly': props['forecastHourly'],
-        #     'forecast_grid_data': props['forecastGridData'],
-        #     'location': {
-        #         'city': rel_loc['properties']['city'],
-        #         'state': rel_loc['properties']['state']
-        #     }
-        # }
-        
-        return r.json() 
+        raw_data1 = self.api.get_forecast()
 
+        forecast_data = raw_data1['properties']['periods']
+        forecasts = []
 
+        for f in forecast_data:
+            new_forecast = Forecast(**f)
+            print(new_forecast)
+            forecasts.append(new_forecast)
 
+        # raw_data2 = self.api.get_hourly_forecast()
+        # raw_data3 = self.api.get_grid_forecast()
+
+        # return raw_data1, raw_data2, raw_data3
 
 
 if __name__ == "__main__":
     COLS, ROWS = os.get_terminal_size()
+
+    LATITUDE = 34.12555414232492
+    LONGITUDE = -118.27979565480962
+
     app = WeatherApp()  
 
     # a = app.get_alerts("CA")
@@ -136,7 +135,7 @@ if __name__ == "__main__":
     # print(alerts_string)
 
     # time.sleep(1)
-    f_data = app.get_forecast_data(34.12555414232492, -118.27979565480962)
+    app.get_forecast_data(LATITUDE, LONGITUDE)
     # pprint(f_data)
     print(app)
 
