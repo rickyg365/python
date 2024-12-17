@@ -129,6 +129,9 @@ def generate_sample_data(save_dir: str=""):
 
 
 if __name__ == "__main__":
+
+    generate_sample_data('data')
+
     g = Game('new_save.json')
     g.run()
 

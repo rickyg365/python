@@ -47,18 +47,19 @@ class Seed:
     10 battles = 100/10 = 10
 
     phase 2 > final
-    20 battles = 100/20 = 5
+    50 battles = 100/50 = 2
     '''
     SYMBOL_MAP = {
         'seed': '.',
         'p1': '*',
-        'p2': 'o'
+        'p2': 'o',
+        'final': '?'
     }
 
     EXP_MAP = {
         'seed': 20,
         'p1': 10,
-        'p2': 5
+        'p2': 2
     }
 
     PHASE_MAP = {
@@ -157,16 +158,21 @@ if __name__ == "__main__":
 
     for _ in range(40):
         s.add_experience(1)
-        print(s)
     
     print(s.status())
 
 
-    f = Farm(6, 4)
+    COLS = 12
+    ROWS = 16
+    f = Farm(COLS, ROWS)
     print(f)
 
-    chosen = f.data[1][1]
-    chosen.add_experience(5)
+    
+    for i in range(ROWS):
+        for j in range(COLS):
+            chosen = f.data[i][j]
+            chosen.add_experience(i*j)
+
     print(f)
 
 

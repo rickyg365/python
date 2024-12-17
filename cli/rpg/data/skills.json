@@ -1,7 +1,27 @@
 [
     {
+        "name": "Skill #0",
+        "description": "This is the description of skill #0",
+        "required_level": 1
+    },
+    {
         "name": "Skill #1",
         "description": "This is the description of skill #1",
+        "required_level": 1
+    },
+    {
+        "name": "Skill #2",
+        "description": "This is the description of skill #2",
+        "required_level": 1
+    },
+    {
+        "name": "Skill #3",
+        "description": "This is the description of skill #3",
+        "required_level": 1
+    },
+    {
+        "name": "Skill #4",
+        "description": "This is the description of skill #4",
         "required_level": 1
     }
 ]
