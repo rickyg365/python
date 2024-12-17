@@ -72,6 +72,7 @@ ________________________________________________________________________________
 class WeatherApp:
     def __init__(self, lattitude: float=None, longitude: float=None, state: str=None, city: str=None):
         self.api = WeatherAPI()
+        self.forecasts = None
 
     def __str__(self):
         if not self.api.has_data:
@@ -107,13 +108,12 @@ Grid Forecast: {self.api.grid_forecast_url}
         raw_data1 = self.api.get_forecast()
 
         forecast_data = raw_data1['properties']['periods']
-        forecasts = []
+        self.forecasts = []
 
         for f in forecast_data:
             new_forecast = Forecast(**f)
-            print(new_forecast)
-            forecasts.append(new_forecast)
-
+            self.forecasts.append(new_forecast)
+            
         # raw_data2 = self.api.get_hourly_forecast()
         # raw_data3 = self.api.get_grid_forecast()
 
@@ -138,4 +138,11 @@ if __name__ == "__main__":
     app.get_forecast_data(LATITUDE, LONGITUDE)
     # pprint(f_data)
     print(app)
+    
+    display_num = 5
+    for _ in range(display_num):
+        print('_' * COLS)
+        print(app.forecasts[_])
+
+
 

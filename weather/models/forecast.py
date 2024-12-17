@@ -45,8 +45,7 @@ class Forecast:
     def __str__(self):
         day = 'day' if self.isDaytime else 'night'
         return f"""
-{self.number}] {self.name}
-{self.shortForecast}
+{self.number}] {self.name} - {self.shortForecast}
 {self.temperature} {self.temperatureUnit} | {self.precipitation} | {self.windSpeed} {self.windDirection}
 
 {self.detailedForecast}
@@ -54,13 +53,13 @@ class Forecast:
 Start: {self.startTime}
 End: {self.endTime}
 """
-    def extract_unit_val_from_dict(self, dictionary: Dict):
-        value = dictionary.get('value', 0)
+    def extract_unit_val_from_dict(self, dictionary: Dict) -> str:
+        v = dictionary.get('value', 0)
         raw_unit = dictionary.get('unitCode', ':?')
 
         u = raw_unit.split(':')[-1]
         unit = self.UNIT_MAP.get(u, u)
-
+        value = 0 if v is None else v        
         return f"{value} {unit}"
 
 @dataclass
