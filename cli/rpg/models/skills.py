@@ -1,11 +1,13 @@
-from dataclasses import dataclass, Field
+from engine.exp_system import ExperienceSystem
 
-@dataclass
-class Skill:
-    name: str
-    description: str
 
-    required_level: int=1
+class Skill(ExperienceSystem):
+    def __init__(self, name: str, description: str, required_level: int=1, **kwargs):
+        super().__init__(**kwargs)
+        self.name = name
+        self.description = description
+
+        self.required_level = required_level
 
     def __str__(self):
         txt = f"{self.name}: {self.description}"

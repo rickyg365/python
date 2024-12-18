@@ -1,17 +1,17 @@
 {
     "hero": {
         "name": "Hero",
-        "hp": 130,
-        "current_hp": 130,
-        "mp": 55,
-        "current_mp": 55,
-        "attack": 30,
-        "defense": 28,
-        "speed": 40,
+        "hp": 170,
+        "current_hp": 170,
+        "mp": 75,
+        "current_mp": 75,
+        "attack": 38,
+        "defense": 36,
+        "speed": 52,
         "inventory": [],
         "skills": [],
         "exp": {
-            "level": 12,
+            "level": 16,
             "experience": 0,
             "experience_to_level": 100,
             "total_experience": 0

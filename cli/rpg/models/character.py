@@ -3,9 +3,9 @@ import random
 from typing import List, Dict, Self
 from dataclasses import dataclass, Field
 
-from utils.items import Item
-from utils.skills import Skill
-from utils.exp_system import ExperienceSystem
+from models.items import Item
+from models.skills import Skill
+from engine.exp_system import ExperienceSystem
 from utils.file_handle import load_json
 from utils.ui_elements import progress_bar
 
@@ -128,7 +128,7 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
     
     def add_experience(self, amount: int):
         prev_level = self.exp.level
-        self.exp.add_experience(amount)
+        self.exp._add_experience(amount)
         print(f"+{amount} EXP")
         if self.exp.level > prev_level:
             self.level_up()

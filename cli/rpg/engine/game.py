@@ -3,10 +3,10 @@ import os
 
 from typing import List
 
-from utils.file_handle import load_json, save_json
-from utils.character import Character, Item, Skill
+from models.character import Character, Item, Skill
 
 from utils.ui_elements import text_box
+from utils.file_handle import load_json, save_json
 
 
 
