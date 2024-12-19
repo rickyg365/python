@@ -1,0 +1,17 @@
+{
+    "filename": "data/main_save/character.json",
+    "name": "Hero",
+    "hp": 310,
+    "current_hp": 94,
+    "mp": 145,
+    "current_mp": 145,
+    "attack": 66,
+    "defense": 64,
+    "speed": 94,
+    "inventory": [],
+    "skills": [],
+    "level": 15,
+    "experience": 75,
+    "experience_to_level": 100,
+    "total_experience": 0
+}

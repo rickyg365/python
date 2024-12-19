@@ -3,8 +3,6 @@ import os
 from utils.create_sample_data import generate_sample_data
 from engine.game import Game
 
-from utils.ui_elements import text_box
-from utils.file_handle import load_json, save_json
 
 
 """
@@ -103,9 +101,9 @@ skills = data/skills.json
 
 if __name__ == "__main__":
 
-    generate_sample_data('data/sample_data')
+    # generate_sample_data('data/sample_data')
 
-    g = Game('new_save.json')
+    g = Game('save_config.json')
     g.run()
 
         

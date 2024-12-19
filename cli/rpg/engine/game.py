@@ -12,8 +12,6 @@ from utils.ui_elements import text_box
 from utils.file_handle import load_json, save_json
 
 
-
-
 class Game:
     """
     hero can be a path: str to the location of hero data
@@ -23,6 +21,10 @@ class Game:
         self.filename = filename
         self.hero = hero
         self.enemies = enemies
+
+        self.hero_path = None
+        self.enemy_path = None
+
         self.load_game()
     
     def __str__(self):
@@ -58,17 +60,24 @@ class Game:
         if os.path.exists(self.filename):
             data = load_json(self.filename)
 
-        hero_data = data.get('hero', dict())
+
+        self.hero_path = data.get('hero', 'data/character.json')  # Change default
+        self.enemy_path = data.get('enemies', 'data/enemies.json')  # Change default
+
+        hero_data = load_json(self.hero_path)
         self.hero = Character(**hero_data)
         
-        enemy_data = data.get('enemies', list())
+        enemy_data = load_json(self.enemy_path)
         self.enemies = [Enemy(**e) for e in enemy_data]
 
         return
 
     def save_game(self):
-        data = self.export()
-        save_json(data, self.filename)
+        hero_data = self.hero.export()
+        enemies_data = [e.export() for e in self.enemies]
+
+        save_json(hero_data, self.hero_path)
+        save_json(enemies_data, self.enemy_path)
     
     def enemy_turn(self, current_enemy: Character):
         def turn_function():
@@ -182,15 +191,19 @@ class Game:
         lord_goblin = self.enemies[2]
         king_goblin = self.enemies[3]
 
+
+
         # Overworld (Exploration/Farming/)
-        while True:
-            options = f"""
+        overworld_options = f"""
 i)nventory | b)attle | e)xplore | f)arm | s)ave
 """
 
+        while True:
+
             # Check status
             display = f"""{self.hero.show_status()}
-{options}"""
+{overworld_options}"""
+            os.system('cls')
             print(display)
             u_in = input(">>> ")
 
@@ -221,13 +234,12 @@ i)nventory | b)attle | e)xplore | f)arm | s)ave
                     if master:
                         self.battle(king_goblin)
 
-
                 case 'e':
                     # Choose path
                     pass
                 case 'f':
                     pass
-                case 's':                            
+                case 's':
                     # Save
                     self.save_game()
                 case 'q':
@@ -256,7 +268,7 @@ i)nventory | b)attle | e)xplore | f)arm | s)ave
 
 
 if __name__ == "__main__":
-    g = Game('new_save.json')
+    g = Game('save_config.json')
     g.run()
 
     # Start with rogue like make into full rpg

@@ -1,0 +1,19 @@
+{
+    "name": "Hero",
+    "hp": 60,
+    "current_hp": 60,
+    "mp": 20,
+    "current_mp": 20,
+    "attack": 16,
+    "defense": 14,
+    "speed": 19,
+    "inventory": [],
+    "skills": [],
+    "exp": {
+        "level": 12,
+        "experience": 70,
+        "experience_to_level": 100,
+        "total_experience": 0
+    },
+    "filename": "data/sample_data/character.json"
+}

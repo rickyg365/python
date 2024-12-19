@@ -1,0 +1,4 @@
+{
+    "hero": "data/main_save/character.json",
+    "enemies": "data/enemies.json"
+}
