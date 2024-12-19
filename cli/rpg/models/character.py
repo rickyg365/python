@@ -1,7 +1,6 @@
 import random
 
 from typing import List, Dict, Self
-from dataclasses import dataclass, Field
 
 from models.items import Item
 from models.skills import Skill
@@ -68,15 +67,6 @@ MP {self.current_mp:>3}/{self.mp:<3} {mp_bar}
         d = load_json(filename)
         return self(**d)
         # return self.__init__(**d)
-    
-    def enemy_display(self):
-        hp_bar = progress_bar(self.current_hp, self.hp, 20)
-        
-        display = f"""lvl.{self.level:02} {self.name}
-HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
-"""
-        return display  
-
 
     def show_status(self):
         hp_bar = progress_bar(self.current_hp, self.hp, 20)
@@ -100,8 +90,12 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
     
     def add_experience(self, amount: int):
         prev_level = self.level
+        
+        # Update
         self._add_experience(amount)
         print(f"+{amount} EXP")
+
+        # Level Up
         if self.level > prev_level:
             self.level_up()
             print("Leveled Up!")
@@ -124,12 +118,6 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         if self.current_hp <=0:
             self.current_hp = 0
             self.is_alive = False
-    
-    def use_item(self):
-        return
-    
-    def use_skill(self):
-        return
     
     def hit(self, enemy: Self):
         # Evasion
@@ -156,6 +144,12 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
     
     def evade(self):
         self.evading = True
+        return
+        
+    def use_item(self):
+        return
+    
+    def use_skill(self):
         return
     
     def parse_reward(self, rewards: Dict):
@@ -202,6 +196,14 @@ class Enemy(Character):
         self.exp_reward = exp_reward
         self.gold_reward = gold_reward
         self.item_rewards = item_rewards
+ 
+    def __str__(self):
+        hp_bar = progress_bar(self.current_hp, self.hp, 20)
+        
+        display = f"""lvl.{self.level:02} {self.name}
+HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
+"""
+        return display  
 
     def drop_reward(self):
         # Rewards

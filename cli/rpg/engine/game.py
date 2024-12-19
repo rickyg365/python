@@ -138,7 +138,7 @@ class Game:
 
         while True:
             # Display
-            display = f"""{enemy.enemy_display()}
+            display = f"""{enemy}
 
 {self.hero}"""
             
