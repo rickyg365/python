@@ -10,36 +10,41 @@ from utils.file_handle import load_json
 from utils.ui_elements import progress_bar
 
 
-@dataclass
-class Character:
-    name: str = None
-    inventory: List[Item] = None
-    skills: List[Skill] = None
-    exp: ExperienceSystem = None
+class Character(ExperienceSystem):
+    def __init__(self, name: str=None, filename: str=None, hp: int=None, current_hp: int=None, mp: int=None, current_mp: int=None, attack: int=None, defense: int=None, speed: int=None, gold: int=0, inventory: List[Item]=None, skills: List[Skill]=None, is_alive: bool=True, defending: bool=False, evading: bool=False, **kwargs):
+        # Exp {level, experience, experience_to_level, total_experience}
+        super().__init__(**kwargs)
 
-    hp: int=10
-    current_hp: int=None
-    mp: int=0
-    current_mp: int=None
-    attack: int=0
-    defense: int=0
-    speed: int=0
+        # Meta
+        self.filename = filename
 
-    is_alive: bool=True
-    defending: bool=False
-    evading: bool=False
+        # Attributes
+        self.name = name
+        self.hp = hp
+        self.current_hp = current_hp
+        self.mp = mp
+        self.current_mp = current_mp
+        self.attack = attack
+        self.defense = defense
+        self.speed = speed
 
-    filename: str=None
+        # Data
+        self.gold = gold
+        self.inventory = inventory
+        self.skills = skills
+    
+        # Status
+        self.is_alive = is_alive
+        self.defending = defending
+        self.evading = evading
 
-    def __post_init__(self):
-        if self.filename is not None:
-            self.load_from_file()
-
+ 
+        # Create Initial Values
         if self.current_hp is None:
-            self.current_hp = self.hp
+            self.current_hp = hp
             
         if self.current_mp is None:
-            self.current_mp = self.mp
+            self.current_mp = mp
 
         if self.inventory is None:
             self.inventory = []
@@ -47,27 +52,27 @@ class Character:
         if self.skills is None:
             self.skills = []
 
-        if self.exp is None:
-            self.exp = ExperienceSystem()
-
-        if isinstance(self.exp, dict):
-            self.exp = ExperienceSystem(**self.exp)
-
 
     def __str__(self):
         hp_bar = progress_bar(self.current_hp, self.hp, 20)
         mp_bar = progress_bar(self.current_mp, self.mp, 20)
 
-        display = f"""lvl.{self.exp.level:02} {self.name}
+        display = f"""lvl.{self.level:02} {self.name}
 HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
 MP {self.current_mp:>3}/{self.mp:<3} {mp_bar}
 """
         return display
     
+    @classmethod
+    def load_from_filename(self, filename: str):
+        d = load_json(filename)
+        return self(**d)
+        # return self.__init__(**d)
+    
     def enemy_display(self):
         hp_bar = progress_bar(self.current_hp, self.hp, 20)
         
-        display = f"""lvl.{self.exp.level:02} {self.name}
+        display = f"""lvl.{self.level:02} {self.name}
 HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
 """
         return display  
@@ -76,49 +81,16 @@ HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
     def show_status(self):
         hp_bar = progress_bar(self.current_hp, self.hp, 20)
         mp_bar = progress_bar(self.current_mp, self.mp, 20)
-        exp_bar = progress_bar(self.exp.experience, self.exp.experience_to_level, 20)
+        exp_bar = progress_bar(self.experience, self.experience_to_level, 20)
 
         display = f"""
-lvl.{self.exp.level:02} {self.name}
+lvl.{self.level:02} {self.name}
 HP {self.current_hp:>3}/{self.hp:<3} {hp_bar}
 MP {self.current_mp:>3}/{self.mp:<3} {mp_bar}
-EXP {self.exp.experience}/{self.exp.experience_to_level} {exp_bar}
+EXP {self.experience}/{self.experience_to_level} {exp_bar}
 Items: {len(self.inventory)} | Skills: {len(self.skills)}
 """
         return display
-
-
-    def load_from_file(self):
-        ''' Raw Data Format
-        {
-            "name": str,
-            "inventory": [],
-            "skills": [],
-            "exp": {
-                "level": int,
-                "experience": int,
-                "experience_to_level": int,
-                "total_experience": int
-            }
-        }
-
-        *assuming filename was provided
-        '''
-        data = load_json(self.filename)
-        
-        self.name = data.get('name', '')
-        self.hp = data.get('hp', 0)
-        self.current_hp = data.get('current_hp', 0)
-        self.mp = data.get('mp', 0)
-        self.current_mp = data.get('current_mp', 0)
-        self.attack = data.get('attack', 0)
-        self.defense = data.get('defense', 0)
-        self.speed = data.get('speed', 0)
-        
-        self.inventory = [Item(**i) for i in data.get('inventory', [])]
-        self.skills = [Skill(**s) for s in data.get('skills', [])]
-        self.exp = ExperienceSystem(**data.get('exp', {}))
-        return
     
     def revive(self):
         self.current_hp = self.hp
@@ -127,10 +99,10 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         
     
     def add_experience(self, amount: int):
-        prev_level = self.exp.level
-        self.exp._add_experience(amount)
+        prev_level = self.level
+        self._add_experience(amount)
         print(f"+{amount} EXP")
-        if self.exp.level > prev_level:
+        if self.level > prev_level:
             self.level_up()
             print("Leveled Up!")
 
@@ -146,20 +118,8 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         return
 
     def take_damage(self, damage_amount: int):
-        # Evasion
-        if self.evading:
-            self.evading = False
-            r = random.randint(0, 100)
-            if self.speed > r:
-                return
-        # Defense
-        damage_reduction = 0
-        if self.defending:
-            damage_reduction = max(damage_amount - self.defense, 0)
-            self.defending = False
-        
         # Damage
-        self.current_hp -= (damage_amount - damage_reduction)
+        self.current_hp -= damage_amount
 
         if self.current_hp <=0:
             self.current_hp = 0
@@ -172,9 +132,23 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         return
     
     def hit(self, enemy: Self):
+        # Evasion
+        if enemy.evading:
+            enemy.evading = False
+            r = random.randint(0, 100)
+            if enemy.speed > r:
+                print(f"{enemy.name} evaded the attack!")
+                return 0
+        
+        # Defense
+        damage_reduction = 0
+        if enemy.defending:
+            damage_reduction = max(self.attack - enemy.defense, 0)
+            enemy.defending = False
+        
         dmg_formula = max(self.attack * self.attack/enemy.defense, 0)
         
-        return int(dmg_formula)
+        return int(dmg_formula) - damage_reduction
     
     def defend(self):
         self.defending = True
@@ -184,8 +158,29 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
         self.evading = True
         return
     
+    def parse_reward(self, rewards: Dict):
+        # Exp
+        exp_amount = rewards.get('exp', None)
+
+        if exp_amount is not None:
+            self.add_experience(exp_amount)
+        
+        # Gold
+        gold_amount = rewards.get('gold', None)
+
+        if gold_amount is not None:
+            self.gold += gold_amount
+
+        # Items
+        items = rewards.get('items', None)
+
+        if items is not None:
+            self.inventory.extend(items)
+
+    
     def export(self):
         return {
+            'filename': self.filename,
             'name': self.name,
             'hp': self.hp,
             'current_hp': self.current_hp,
@@ -196,6 +191,44 @@ Items: {len(self.inventory)} | Skills: {len(self.skills)}
             'speed': self.speed,
             'inventory': [i.export() for i in self.inventory],
             'skills': [s.export() for s in self.skills],
-            'exp': self.exp.export(),
-            'filename': self.filename
+            **self.level_data(),
         }
+
+
+class Enemy(Character):
+    def __init__(self, exp_reward: int=0, gold_reward: int=0, item_rewards: List[Item]=None, **kwargs):
+        super().__init__(**kwargs)
+
+        self.exp_reward = exp_reward
+        self.gold_reward = gold_reward
+        self.item_rewards = item_rewards
+
+    def drop_reward(self):
+        # Rewards
+        return {
+            'exp': self.exp_reward,
+            'gold': self.gold_reward,
+            'items': self.item_rewards
+        }
+    
+    def export(self):
+        return {
+            'exp_reward': self.exp_reward,
+            'gold_reward': self.gold_reward,
+            'item_rewards': self.item_rewards,
+            **super().export(),
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

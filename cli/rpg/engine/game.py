@@ -3,7 +3,10 @@ import os
 
 from typing import List
 
-from models.character import Character, Item, Skill
+from models.items import Item
+from models.skills import Skill
+from models.character import Character, Enemy
+
 
 from utils.ui_elements import text_box
 from utils.file_handle import load_json, save_json
@@ -12,7 +15,11 @@ from utils.file_handle import load_json, save_json
 
 
 class Game:
-    def __init__(self, filename: str, hero: Character=None, enemies: List[Character]=None):
+    """
+    hero can be a path: str to the location of hero data
+    
+    """
+    def __init__(self, filename: str, hero: Character=None, enemies: List[Enemy]=None):
         self.filename = filename
         self.hero = hero
         self.enemies = enemies
@@ -42,7 +49,9 @@ class Game:
                     'hp': 15,
                     'attack': 6,
                     'defense': 5,
-                    'speed': 5
+                    'speed': 5,
+                    'exp_reward': 25,
+                    'gold_reward': 5,
                 }
             ]
         }
@@ -53,14 +62,13 @@ class Game:
         self.hero = Character(**hero_data)
         
         enemy_data = data.get('enemies', list())
-        self.enemies = [Character(**e) for e in enemy_data]
+        self.enemies = [Enemy(**e) for e in enemy_data]
 
         return
 
     def save_game(self):
         data = self.export()
         save_json(data, self.filename)
-        return
     
     def enemy_turn(self, current_enemy: Character):
         def turn_function():
@@ -120,7 +128,7 @@ class Game:
                     pass
         return turn
 
-    def battle(self, enemy: Character):
+    def battle(self, enemy: Enemy):
         enemy_turn_function = self.enemy_turn(enemy)
         hero_turn_function = self.hero_turn(enemy)
         
@@ -143,12 +151,15 @@ class Game:
 
             # Check win
             if not enemy.is_alive:
-                self.hero.add_experience(50)
+                # Add Exp
+                self.hero.parse_reward(enemy.drop_reward())
+                # self.hero.add_experience(50)
                 
                 print("Hero Wins!!!")
                 # print(self.hero.show_status())
                 
                 enemy.revive()
+                input("")
                 break
 
             if not self.hero.is_alive:
@@ -194,9 +205,9 @@ i)nventory | b)attle | e)xplore | f)arm | s)ave
 
                 case 'b':
                     beginner = True
-                    intermediate = self.hero.exp.level > 5
-                    advanced = self.hero.exp.level >= 20
-                    master = self.hero.exp.level > 35
+                    intermediate = self.hero.level > 5
+                    advanced = self.hero.level >= 20
+                    master = self.hero.level > 35
 
                     if beginner:
                         self.battle(goblin)
@@ -222,6 +233,22 @@ i)nventory | b)attle | e)xplore | f)arm | s)ave
                 case 'q':
                     break
                 case _:
+                    beginner = True
+                    intermediate = self.hero.level > 5
+                    advanced = self.hero.level >= 20
+                    master = self.hero.level > 35
+
+                    if beginner:
+                        self.battle(goblin)
+                    
+                    if intermediate:
+                        self.battle(hobgoblin)
+                    
+                    if advanced:
+                        self.battle(lord_goblin)
+                    
+                    if master:
+                        self.battle(king_goblin)
                     pass
         return
 
@@ -231,11 +258,6 @@ i)nventory | b)attle | e)xplore | f)arm | s)ave
 if __name__ == "__main__":
     g = Game('new_save.json')
     g.run()
-
-        
-
- 
-
 
     # Start with rogue like make into full rpg
 
