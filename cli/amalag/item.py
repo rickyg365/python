@@ -159,7 +159,7 @@ class Inventory:
     def __str__(self):
         items = '\n'.join([f"{i}" for i in self.data])
         s = f'''
-Items
+Inventory
 _________________________________
 {items}
 '''

@@ -1,11 +1,8 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:  # Only imports the below statements during type checking
-    from item import Item, Equipment, Consumable
 
 import os
 from typing import List, Dict, Callable
 
+from item import Item, Equipment, Consumable, Inventory
 '''
 Goals:
 - save/load data
@@ -35,6 +32,7 @@ class Character:
             'accessory_1': None,
             'accessory_2': None
         }
+        self.inventory = Inventory()
         
     def __str__(self):
         return f"""
@@ -55,7 +53,11 @@ Equipment:
     Accessory 1: {self.equipment['accessory_1']}
     Accessory 2: {self.equipment['accessory_2']}
 
+{self.inventory}
 """
+    
+    def export(self):
+        return
 
     def apply_buff(self, attribute: str, buff_amount: int):
         attribute_exists = hasattr(self, attribute)
@@ -64,22 +66,6 @@ Equipment:
 
         current = getattr(self, attribute)
         setattr(self, attribute, current + buff_amount)
-
-        # match attribute:
-        #     case 'health':
-        #         self.health += buff_amount
-        #     case 'defense':
-        #         self.defense += buff_amount
-        #     case 'attack':
-        #         self.attack += buff_amount
-        #     case 'speed':
-        #         self.speed += buff_amount
-        #     case 'critical_chance':
-        #         self.critical_chance += buff_amount
-        #     case 'block_chance':
-        #         self.block_chance += buff_amount
-        #     case _:
-        #         pass
         
         return
 
@@ -103,5 +89,65 @@ Equipment:
         # Equip new
         self.equipment[part] = equipment
         equipment.apply(self)
+
         
         
+
+if __name__ == "__main__":
+    HERO_DATA = {
+        'name': 'Hero',
+        'health': 20,
+        'attack': 20,
+        'defense': 20,
+        'speed': 20,
+    }
+
+    hero = Character(**HERO_DATA)
+    print(hero)
+
+
+    POTION_DATA = {
+        'key': 'ttrrppid',
+        'name': 'Potion',
+        'item_type': 'consumable',
+        'description': 'Heals a small amount of health.',
+        'attributes': {
+            'health': 10
+        },
+    }
+
+    WOODEN_SWORD = {
+        'key': 'ttrrppid',
+        'name': 'Wooden Sword',
+        'item_type': 'weapon',
+        'description': 'A small wooden sword',
+        'attributes': {
+            'attack': 10,
+            'critical_chance': 2
+        },   
+    }
+
+    WOODEN_SHIELD = {
+        'key': 'ttrrppid',
+        'name': 'Wooden Shield',
+        'item_type': 'equipment',
+        'description': 'A small wooden shield',  # be careful not to get a splinter.
+        'attributes': {
+            'defense': 8,
+            'block_chance': 10
+        },
+    }
+
+    potion = Consumable(**POTION_DATA)
+    wood_sword = Equipment(**WOODEN_SWORD)
+    wood_shield = Equipment(**WOODEN_SHIELD)
+    
+
+    hero.equip('left_arm', wood_shield)
+    hero.equip('right_arm', wood_sword)
+
+    hero.consume(potion)
+
+    print()
+    print(hero)
+
