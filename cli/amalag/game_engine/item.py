@@ -126,6 +126,12 @@ class Consumable(Item):
     def use(self, target: Character):
         for key, value in self.attributes.items():
             target.apply_buff(key, value)
+    
+    def export(self):
+        return {
+            **super().export(),
+            'attributes': self.attributes
+        }
 
 class Equipment(Item):
     def __init__(self, key: str, name: str, description: str, attributes: Dict, **kwargs):
@@ -143,17 +149,41 @@ class Equipment(Item):
     def remove(self, target: Character):
         for attribute, value in self.attributes.items():
             target.apply_buff(attribute, -1*value)
+    
+    def export(self):
+        return {
+            **super().export(),
+            'attributes': self.attributes
+        }
+
+def item_creator(raw_data: Dict):
+    i_type = raw_data.get('item_type', 'item')  # default: item
+    obj_class = lambda **x: None
+
+    match i_type:
+        case 'item':
+            obj_class = Item
+        case 'equipment':
+            obj_class = Equipment
+        case 'consumable':
+            obj_class = Consumable
+        case _:
+            pass
+
+    return obj_class(**raw_data)
 
 
 class Inventory:
     def __init__(self, filename: str='default_appdata.json', data: List=None):
         self.filename = filename
         
-        if data is None:
-            data = list()
+        if data is not None:
+            is_raw = isinstance(data[0], dict)
+            if is_raw:
+                data = [item_creator(i) for i in data]
         
-        self.length = len(data)
-        self.data = data
+        self.length = 0 if data is None else len(data)
+        self.data = list() if data is None else data
 
 
     def __str__(self):
@@ -195,6 +225,9 @@ _________________________________
             setattr(i, k, v)
 
         return i
+    
+    def export(self):
+        return [i.export() for i in self.data]
     
 
 

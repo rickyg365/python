@@ -3,7 +3,7 @@ from typing import List, Dict, Callable
 from utils.menu import Menu, MenuOption
 from utils.screen import clear_screen
 
-from game_engine.character import Character
+from game_engine.character import Character, Enemy
 from game_engine.item import Item, Consumable, Equipment, Inventory
 
 '''
@@ -59,6 +59,7 @@ class Game:
         self.filename = filename
         self.player = Character(**self.STARTING_HERO_DATA)
         self.enemies = []
+        self.current_enemies = []
 
         # Add starting items
         self.player.equip('left_arm', Equipment(**WOODEN_SWORD))
@@ -72,11 +73,23 @@ class Game:
         return s
     
     def attack_menu(self):
-        input("attack")
-        return
-    
+        print('\n'.join([f'{e}' for e in self.current_enemies]))
+        idx = input(">>> ")
+        current_enemy = self.current_enemies[idx]
+        dmg_dealt = self.player.hit(current_enemy)
+        current_enemy.take_damage(dmg_dealt)
+
+        print(f"{self.player.name} hit for {dmg_dealt}dmg...")
+
+
     def skill_menu(self):
         input("use skill")
+        # skill_display = "\n".join([f"{s}" for s in self.player.skills])
+        # if skill_display == "":
+        #     skill_display = "No Skills Available"
+        # print(skill_display)
+
+        self.player.use_skill()
         return
     
     def item_menu(self):
@@ -100,7 +113,7 @@ class Game:
         return
     
     def status(self):
-        input(self.player)
+        input(self.player.show_status())
     
     def scout(self):
         input('scouting...')
@@ -125,12 +138,24 @@ class Game:
     
         return
     
-    def battle(self, enemies: List[Character]):
-        '''
-        Attack
-        Skill
-        Item
-        '''
+    def enemy_turn(self, current_enemy: Character):
+        def turn_function():
+            if current_enemy.current_health >= current_enemy.health/3:
+                dmg = current_enemy.hit(self.player)
+                self.player.take_damage(dmg)
+                print(f"{current_enemy.name} hit for {dmg}dmg...")
+            else:
+                if current_enemy.speed > self.player.speed:
+                    current_enemy.evade()
+                    print(f"{current_enemy.name} is ready to evade.")
+                else:
+                    current_enemy.defend()
+                    print(f"{current_enemy.name} is defending.")
+
+        return turn_function
+
+    def hero_turn(self):
+        # Display
         menu_options = [
             MenuOption(
                 key='a',
@@ -147,12 +172,70 @@ class Game:
                 display_text='Item',
                 action=self.item_menu
             ),
+            MenuOption(
+                key='d',
+                display_text='Defend',
+                action=self.player.defend
+            ),
+            MenuOption(
+                key='e',
+                display_text='Evade',
+                action=self.player.evade
+            ),
         ]
 
-        battle_menu = Menu('Battle', menu_options)
+        battle_menu = Menu('Player Attack Menu', menu_options, clear=False)
         battle_menu.run()
-        return    
+        
+    def battle(self, enemy: Enemy):
+        enemy_turn_function = self.enemy_turn(enemy)
+        hero_turn_function = self.hero_turn
+  
 
+        turn_order = [hero_turn_function, enemy_turn_function]
+        if enemy.speed > self.player.speed:
+            turn_order = [enemy_turn_function, hero_turn_function]
+
+        while True:
+            # Display
+            display = f"""{enemy}
+
+{self.player}"""
+
+            # Clear Display
+            clear_screen()
+
+            # Show Display
+            print(display)
+            # print(text_box(display))
+
+            # Check win
+            if not enemy.is_alive:
+                # Add Exp
+                self.player.parse_reward(enemy.drop_reward())
+                # self.player.add_experience(50)
+
+                print("Hero Wins!!!")
+                # print(self.player.show_status())
+
+                enemy.revive()
+                input("")
+                break
+
+            if not self.player.is_alive:
+                print("Game Over!")
+                # Reset Hero
+                self.player.revive()
+                enemy.revive()
+                break
+
+            # Handle Turns
+            for play_turn in turn_order:
+                play_turn()
+
+            input("")
+
+    
     def explore_menu(self):
         '''
         Battle
@@ -161,13 +244,13 @@ class Game:
         Skill
         Status
         '''
-        enemies = [None]
-        battle_wrapper = lambda : self.battle(enemies)
+        enemies = [Enemy(name="goblin", health=20)]
+        run_battle = lambda : self.battle(enemies[0])
         menu_options = [
             MenuOption(
                 key='b',
                 display_text='Battle',
-                action=battle_wrapper
+                action=run_battle
             ),
             MenuOption(
                 key='sc',

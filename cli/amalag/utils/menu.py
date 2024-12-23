@@ -46,10 +46,12 @@ class MenuOption:
 
 
 class Menu:
-    def __init__(self, menu_name: str='Menu', menu_data: List[MenuOption]=None):
+    def __init__(self, menu_name: str='Menu', menu_data: List[MenuOption]=None, clear: bool=True):
         self.data = menu_data
         self.map = dict()
         self.menu_name = menu_name
+        self.clear = clear
+
         if menu_data is not None:
             for option in menu_data:
                 if not isinstance(option, MenuOption):
@@ -73,7 +75,8 @@ _________________________
     
     def run(self):
         while True:
-            clear_screen()
+            if self.clear:
+                clear_screen()
             u_in = input(f"{self}\n>>> ")
 
             match u_in:
