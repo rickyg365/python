@@ -2,7 +2,7 @@
 import os
 from typing import List, Dict, Callable
 
-from item import Item, Equipment, Consumable, Inventory
+from game_engine.item import Item, Equipment, Consumable, Inventory
 '''
 Goals:
 - save/load data

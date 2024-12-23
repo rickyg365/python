@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:  # Only imports the below statements during type checking
-    from character import Character
+    from game_engine.character import Character
 
 import os
 import sqlite3
@@ -174,6 +174,10 @@ _________________________________
         self.length += 1
 
         return new_item
+    
+    def add_multiple(self, new_item: Item, amount: int=2):
+        for _ in range(amount):
+            self.add(new_item)
     
     def get(self, idx: int):
         return self.data[idx]

@@ -1,4 +1,6 @@
 from typing import List, Dict, Callable
+from utils.screen import clear_screen
+
 
 '''
 Menu
@@ -33,7 +35,7 @@ class MenuOption:
         self.action = action
 
     def __str__(self):
-        return f"{self.key}] {self.display_text}"
+        return f"{self.key}) {self.display_text}"
     
     def export(self):
         return {
@@ -44,26 +46,34 @@ class MenuOption:
 
 
 class Menu:
-    def __init__(self, menu_data: List[MenuOption]):
+    def __init__(self, menu_name: str='Menu', menu_data: List[MenuOption]=None):
         self.data = menu_data
         self.map = dict()
-        
-        for option in menu_data:
-            if not isinstance(option, MenuOption):
-                continue
-            k = option.key
-            a = option.action
-            self.map[k] = a
+        self.menu_name = menu_name
+        if menu_data is not None:
+            for option in menu_data:
+                if not isinstance(option, MenuOption):
+                    continue
+                k = option.key
+                a = option.action
+                self.map[k] = a
 
     def __str__(self):
-        menu_txt = '\n'.join([f'{mo}' for mo in self.data])
-        return f"{menu_txt}"
+        menu_txt = ""
+        if self.data is not None:
+            menu_txt = '\n'.join([f'{mo}' for mo in self.data])
+        
+        return f"""{self.menu_name}
+_________________________
+{menu_txt}
+"""
     
     def export(self):
         return [m.export() for m in self.data]
     
     def run(self):
         while True:
+            clear_screen()
             u_in = input(f"{self}\n>>> ")
 
             match u_in:
