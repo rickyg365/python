@@ -9,7 +9,7 @@ Test
 
 TEST_URLS = ["https://www.youtube.com/watch?v=AOrYKHwymIQ"]
 TEST_URL = TEST_URLS[-1]
-TEST_INFO_PATH = "sample.info.json"
+TEST_INFO_PATH = "data/sample.info.json"
 
 
 def test_info(url: str=TEST_URL, filename: str=TEST_INFO_PATH):
