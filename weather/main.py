@@ -73,6 +73,8 @@ class WeatherApp:
     def __init__(self, lattitude: float=None, longitude: float=None, state: str=None, city: str=None):
         self.api = WeatherAPI()
         self.forecasts = None
+        self.hourly_forecasts = None
+        self.location_loaded = False
 
     def __str__(self):
         if not self.api.has_data:
@@ -85,8 +87,14 @@ Forecast: {self.api.forecast_url}
 Grid Forecast: {self.api.grid_forecast_url}
 """
         return txt
+
+    def load_location(self, latitude: float, longitude: float):
+        self.location_loaded = True
+        self.api.load_initial_data(latitude=latitude, longitude=longitude)
     
-    def get_alerts(self, state: str):
+    def get_alerts(self, state: str=None):
+        if state is None and self.location_loaded:
+            state = self.api.state
         
         raw_data = self.api.get_alerts(state)
 
@@ -102,8 +110,9 @@ Grid Forecast: {self.api.grid_forecast_url}
 
         return fixed_data
 
-    def get_forecast_data(self, lattitude: float, longitude: float):
-        self.api.load_initial_data(lattitude, longitude)
+    def get_forecast_data(self, lattitude: float=None, longitude: float=None):
+        if not self.location_loaded and lattitude is not None:
+            self.load_location(lattitude, longitude)
 
         raw_data1 = self.api.get_forecast()
 
@@ -112,13 +121,45 @@ Grid Forecast: {self.api.grid_forecast_url}
 
         for f in forecast_data:
             new_forecast = Forecast(**f)
-            self.forecasts.append(new_forecast)
-            
-        # raw_data2 = self.api.get_hourly_forecast()
-        # raw_data3 = self.api.get_grid_forecast()
+            self.forecasts.append(new_forecast)            
 
-        # return raw_data1, raw_data2, raw_data3
+        return raw_data1
 
+    def get_hourly_forecast_data(self):
+        if not self.location_loaded:
+            return
+        
+        self.hourly_forecasts = []
+        raw_data = self.api.get_hourly_forecast()
+
+        
+        forecast_data = raw_data['properties']['periods']
+
+        for f in forecast_data:
+            new_forecast = HourlyForecast(**f)
+            self.hourly_forecasts.append(new_forecast)
+
+        return raw_data
+
+    def show_forecast(self, amount: int=None):
+        if amount is None:
+            amount = len(self.forecasts)
+
+        for _ in range(amount):
+            forecast = self.forecasts[_]
+            print(forecast)
+
+        return
+
+    def show_hourly(self, amount: int=None):
+        if amount is None:
+            amount = len(self.hourly_forecasts)
+
+        for _ in range(amount):
+            forecast = self.hourly_forecasts[_]
+            print(forecast)
+
+        return
 
 if __name__ == "__main__":
     COLS, ROWS = os.get_terminal_size()
@@ -135,14 +176,20 @@ if __name__ == "__main__":
     # print(alerts_string)
 
     # time.sleep(1)
-    app.get_forecast_data(LATITUDE, LONGITUDE)
+    
+    app.load_location(LATITUDE, LONGITUDE)
+    
+    app.get_forecast_data()
+    # app.get_forecast_data(LATITUDE, LONGITUDE)
     # pprint(f_data)
     print(app)
-    
-    display_num = 5
-    for _ in range(display_num):
-        print('_' * COLS)
-        print(app.forecasts[_])
 
+    print(f"Forecasts:")
+    app.show_forecast(2)
+
+    hd = app.get_hourly_forecast_data()    
+
+    print("Hourly Forecasts:")
+    app.show_hourly()
 
 

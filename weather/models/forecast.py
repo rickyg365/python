@@ -16,6 +16,35 @@ Mostly Sunny
 Mostly sunny, with a high near 64. South southwest wind around 5 mph.
 
 """
+API_DATETIME_FORMAT = f"YYYY-MM-DDT22:00:00-08:00"
+
+def parse_using_datetime():
+    return
+
+def parse_custom(date: str):
+    raw_date, raw_time = date.split('T')
+
+    # Handle Date
+    year, month, day = raw_date.split('-')
+
+    # Handle Time
+    current_time, final_time = raw_time.split('-')
+
+    hours, minutes, seconds = current_time.split(':')
+
+    hr = int(hours)
+
+    ampm = 'am'
+    if hr > 12:
+        ampm = 'pm'
+
+
+    date_str = f"{month}/{day}/{year}"
+    time_str = f"{hr%12}:{minutes} {ampm}"
+    # time_str = f"{hr%12}:{minutes}:{seconds} {ampm}"
+
+    return date_str, time_str
+
 
 class Forecast:
     UNIT_MAP = {
@@ -44,14 +73,15 @@ class Forecast:
 
     def __str__(self):
         day = 'day' if self.isDaytime else 'night'
+        sd, st = parse_custom(self.startTime)
+        ed, et = parse_custom(self.endTime)
         return f"""
-{self.number}] {self.name} - {self.shortForecast}
+{self.number}) {self.name}  > {self.shortForecast} <
 {self.temperature} {self.temperatureUnit} | {self.precipitation} | {self.windSpeed} {self.windDirection}
 
 {self.detailedForecast}
 
-Start: {self.startTime}
-End: {self.endTime}
+{st} -> {et}  [{sd}]
 """
     def extract_unit_val_from_dict(self, dictionary: Dict) -> str:
         v = dictionary.get('value', 0)
@@ -61,6 +91,23 @@ End: {self.endTime}
         unit = self.UNIT_MAP.get(u, u)
         value = 0 if v is None else v        
         return f"{value} {unit}"
+
+    def export(self):
+        return {
+            "number": self.number,
+            "name": self.name,
+            "startTime": self.startTime,
+            "endTime": self.endTime,
+            "isDaytime": self.isDaytime,
+            "temperature": self.temperature,
+            "temperatureUnit": self.temperatureUnit,
+            "probabilityOfPrecipitation": self.probabilityOfPrecipitation,
+            "windSpeed": self.windSpeed,
+            "windDirection": self.windDirection,
+            "shortForecast": self.shortForecast,
+            "detailedForecast": self.detailedForecast,
+        }
+    
 
 @dataclass
 class HourlyForecast:
@@ -76,6 +123,13 @@ class HourlyForecast:
     windDirection: str
     shortForecast: str
     detailedForecast: str
+
+    # Unimplemented
+    temperatureTrend: str=None
+    dewpoint: str=None
+    relativeHumidity: str=None
+    icon: str=None
+
 
     def __post_init__(self):
         unit_map = {
@@ -99,17 +153,28 @@ class HourlyForecast:
 
     def __str__(self):
         day = 'day' if self.isDaytime else 'night'
+        sd, st = parse_custom(self.startTime)
+        ed, et = parse_custom(self.endTime)
+
         return f"""
-{self.number}] {self.name} - {day}
-
-Chance of Precipitation: {self.precipitation}
-{self.temperature} {self.temperatureUnit}
-{self.windSpeed} {self.windDirection}
-
-Start: {self.startTime}
-End: {self.endTime}
-
-{self.shortForecast}
-{self.detailedForecast}
+[{st} - {et}] [{sd}]
+{self.shortForecast} - {day}
+{self.temperature} {self.temperatureUnit} | {self.precipitation} | {self.windSpeed} {self.windDirection}
 """
+
+    def export(self):
+        return {
+            "number": self.number,
+            "name": self.name,
+            "startTime": self.startTime,
+            "endTime": self.endTime,
+            "isDaytime": self.isDaytime,
+            "temperature": self.temperature,
+            "temperatureUnit": self.temperatureUnit,
+            "probabilityOfPrecipitation": self.probabilityOfPrecipitation,
+            "windSpeed": self.windSpeed,
+            "windDirection": self.windDirection,
+            "shortForecast": self.shortForecast,
+            "detailedForecast": self.detailedForecast,
+        }
 
