@@ -1,0 +1,12 @@
+{
+    "name": "Sword",
+    "kind": "equipable",
+    "hp": 0,
+    "mp": 0,
+    "attack": 5,
+    "defense": 0,
+    "speed": 2,
+    "special": 0,
+    "luck": 0,
+    "equipable": ["right_arm", "left_arm"]
+}

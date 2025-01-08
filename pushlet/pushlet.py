@@ -50,6 +50,7 @@ class PushBulletNotifier:
 
     def show_last_response(self):
         if self.last_response is None:
+            # Create response ?
             return
         
         print(self.last_response)

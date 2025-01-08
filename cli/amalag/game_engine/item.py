@@ -1,117 +1,80 @@
+import os
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:  # Only imports the below statements during type checking
     from game_engine.character import Character
 
-import os
-import sqlite3
-from typing import List, Dict, Callable
 
-'''
-Goals:
-- save/load data
-- basic crud operations
+from enum import Enum
+from typing import Union
+
+"""
 
 
-DATA
+"""
 
-Form
-data = {
-    'name': ...,
-}
-
-Object
-Item(**data)
-
-    handles parsing data into correct datatype
+class ItemType(Enum):
+    key = "key"
+    consumable = "consumable"
+    equipment = "equipment"
 
 
-Items
-- Key
-- Consumable
-- Equipment
-
-'''
-
-ITEM_DATA = {
-    'key': 'ttrrppid',
-    'name': 'Potion',
-    'item_type': 'consumable',
-    'description': 'Heals a small amount of health.',
-    'attributes': {
-        'health': 10
-    },
-}
-
-WOODEN_SWORD = {
-    'key': 'ttrrppid',
-    'name': 'Wooden Sword',
-    'item_type': 'weapon',
-    'description': 'A small wooden sword',
-    'attributes': {
-        'attack': 10,
-        'critical_chance': 0
-    },   
-}
-
-EQUIPMENT_DATA = {
-    'key': 'ttrrppid',
-    'name': 'Wooden Shield',
-    'item_type': 'equipment',
-    'description': 'A small wooden shield',  # be careful not to get a splinter.
-    'attributes': {
-        'defense': 8,
-        'block_chance': 10
-    },
-}
-
-class ItemType:
+class Item:
     ABBRV = {
         'item': '???',
         'weapon': 'WPN',
         'equipment': 'EQP',
         'consumable': 'CON',
     }
-    def __init__(self, item_type: str):
-        # Default invalid to 'item'
-        if item_type not in self.ABBRV.keys():
-            item_type = 'item'
-
-        self.item_type = item_type
-        self.abbrv = self.ABBRV[item_type]
-
-    def export(self):
-        return {
-            'item_type': self.item_type
-        }
-
-
-class Item:
-    def __init__(self, item_type: str, key: str, name: str, description: str):
-        self.item_type = ItemType(item_type)
-        self.key = key
+    def __init__(self, name: str, item_type: Union[ItemType, str]=ItemType.consumable, hp: int=0, mp: int=0, attack: int=0, defense: int=0, speed: int=0, special: int=0, luck: int=0):
         self.name = name
-        self.description = description
-    
+        self.item_type = item_type if isinstance(item_type, ItemType) else ItemType(item_type)
+        self._hp = hp
+        self._mp = mp
+        self._attack = attack
+        self._defense = defense
+        self._speed = speed
+        self._special = special
+        self._luck = luck
+
+
     def __str__(self):
-        s = f'[{self.item_type.abbrv}] {self.name}: {self.description}'
+        s = f'[{self.item_type.value}] {self.name}'
         return s
+    
+    def show_details(self):
+        hp = f"+{self._hp} hp"
+        mp = f"+{self._mp} mp"
+        atk = f"+{self._attack} atk"
+        defense = f"+{self._defense} def"
+        speed = f"+{self._speed} spd"
+        special = f"+{self._special} spl"
+        luck = f"+{self._luck} lck"
 
-    def data_map(self):
-        return {
-            'item_type': str,
-            'key': str,
-            'name': str,
-            'description': str,
-        }
-
+        print(f"""[{self.item_type}] {self.name}
+{hp}
+{mp}
+{atk}
+{defense}
+{speed}
+{special}
+{luck}
+""")
+    
     def export(self):
         return {
-            'key': self.key,
-            'name': self.name,
-            'description': self.description,
-            **self.item_type.export()
+            "name": self.name,
+            "item_type": self.item_type.value,
+            "hp": self._hp,
+            "mp": self._mp,
+            "attack": self._attack,
+            "defense": self._defense,
+            "speed": self._speed,
+            "special": self._special,
+            "luck": self._luck,
         }
+    
 
 
 class Consumable(Item):
@@ -133,28 +96,57 @@ class Consumable(Item):
             'attributes': self.attributes
         }
 
+
 class Equipment(Item):
-    def __init__(self, key: str, name: str, description: str, attributes: Dict, **kwargs):
-        super().__init__(item_type='equipment', key=key, name=name, description=description)
-        self.attributes = attributes
+    def __init__(self, name: str="Item", item_type: Union[ItemType, str]=ItemType.equipment, hp: int=0, mp: int=0, attack: int=0, defense: int=0, speed: int=0, special: int=0, luck: int=0, equipment=None):
+        super().__init__(name=name, item_type=item_type, hp=hp, mp=mp, attack=attack, defense=defense, speed=speed, special=special, luck=luck)
+        self.equipment = list() if equipment is None else equipment
 
     def __str__(self):
         s = f'{self.name}'
         return s
+    
+    
+    def show_details(self):
+        hp = f"+{self._hp} hp"
+        mp = f"+{self._mp} mp"
+        atk = f"+{self._attack} atk"
+        defense = f"+{self._defense} def"
+        speed = f"+{self._speed} spd"
+        special = f"+{self._special} spl"
+        luck = f"+{self._luck} lck"
 
-    def apply(self, target: Character):
-        for attribute, value in self.attributes.items():
-            target.apply_buff(attribute, value)
-
-    def remove(self, target: Character):
-        for attribute, value in self.attributes.items():
-            target.apply_buff(attribute, -1*value)
+        print(f"""[{self.item_type.value}] {self.name} - {self.equipment}
+{hp}
+{mp}
+{atk}
+{defense}
+{speed}
+{special}
+{luck}
+""")
     
     def export(self):
         return {
-            **super().export(),
-            'attributes': self.attributes
+            "name": self.name,
+            "item_type": self.item_type.value,
+            "hp": self._hp,
+            "mp": self._mp,
+            "attack": self._attack,
+            "defense": self._defense,
+            "speed": self._speed,
+            "special": self._special,
+            "luck": self._luck,
+            'equipment': self.equipment
         }
+    
+    def apply(self, target):
+        return
+    
+    def remove(self, target):
+        return
+    
+
 
 def item_creator(raw_data: Dict):
     i_type = raw_data.get('item_type', 'item')  # default: item
@@ -173,79 +165,66 @@ def item_creator(raw_data: Dict):
     return obj_class(**raw_data)
 
 
-class Inventory:
-    def __init__(self, filename: str='default_appdata.json', data: List=None):
-        self.filename = filename
-        
-        if data is not None:
-            is_raw = isinstance(data[0], dict)
-            if is_raw:
-                data = [item_creator(i) for i in data]
-        
-        self.length = 0 if data is None else len(data)
-        self.data = list() if data is None else data
 
-
+class EquipmentLoadout:
+    def __init__(self, head: Equipment=None, body: Equipment=None, legs: Equipment=None, right_arm: Equipment=None, left_arm: Equipment=None):
+        self.head = head, 
+        self.body = body, 
+        self.legs = legs, 
+        self.right_arm = right_arm, 
+        self.left_arm = left_arm
+    
     def __str__(self):
-        items = '\n'.join([f"{i}" for i in self.data])
-        s = f'''
-Inventory
-_________________________________
-{items}
+        print(self.head)
+        print(self.right_arm)
+        print(self.left_arm)
+        s = f'''Equipment Loadout
+Head: {self.head}
+Right Arm: {self.right_arm}
+Left Arm: {self.left_arm}
+Body: {self.body}
+Legs: {self.legs}
 '''
         return s
     
-    def meta_data(self):
-        s = f'{self.length}] {self.filename}'
-        return s
-
-    def add(self, new_item: Item):
-        self.data.append(new_item)
-        self.length += 1
-
-        return new_item
+    def load_from_raw(self, head=None, body=None, legs=None, right_arm=None, left_arm=None):
+        # Removed form init, 
+        # self.head = head if isinstance(head, Equipment) else Equipment(**head), 
+        # self.body = body if isinstance(body, Equipment) else Equipment(**body), 
+        # self.legs = legs if isinstance(legs, Equipment) else Equipment(**legs), 
+        # self.right_arm = right_arm if isinstance(right_arm, Equipment) else Equipment(**right_arm), 
+        # self.left_arm = left_arm if isinstance(left_arm, Equipment) else Equipment(**left_arm)
+        
+        self.head = Equipment(**head)
+        self.body = Equipment(**body)
+        self.legs = Equipment(**legs)
+        self.right_arm = Equipment(**right_arm)
+        self.left_arm = Equipment(**left_arm)
     
-    def add_multiple(self, new_item: Item, amount: int=2):
-        for _ in range(amount):
-            self.add(new_item)
     
-    def get(self, idx: int):
-        return self.data[idx]
-    
-    def remove(self, idx: int):
-        self.length -= 1
-        return self.data.pop()
-    
-    def update(self, idx: int, new_data: Dict):
-        i = self.data[idx]
-
-        for k, v in new_data.items():
-            if not hasattr(i, k):
-                continue
-            setattr(i, k, v)
-
-        return i
+        return self
     
     def export(self):
-        return [i.export() for i in self.data]
-    
+        return {
+            "head": self.head.export(),
+            "right_arm": self.right_arm.export(),
+            "left_arm": self.left_arm.export(),
+            "body": self.body.export(),
+            "legs": self.legs.export(),
+        }
 
 
 if __name__ == "__main__":
-    item = Consumable(**ITEM_DATA)
-    sword = Equipment(**WOODEN_SWORD)
+    ITEM_DATA = {}
+    EQUIPMENT_DATA = {}
+
+    i = Item(**ITEM_DATA)
+    e = Equipment(**EQUIPMENT_DATA)
+
+    print(i)
+
+    print(e)
 
 
-    inv = Inventory('default_inventory.json', [item, sword])
-
-    print(inv)
-
-    inv.add(item)
-    inv.add(sword)
-    inv.add(Equipment(**WOODEN_SWORD))
-    inv.add(Equipment(**WOODEN_SWORD))
-
-    print(inv)
-
-
+    e.show_details()
 

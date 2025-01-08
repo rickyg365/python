@@ -1,0 +1,11 @@
+{
+    "name": "Potion",
+    "kind": "consumable",
+    "hp": 10,
+    "mp": 0,
+    "attack": 0,
+    "defense": 0,
+    "speed": 0,
+    "special": 0,
+    "luck": 0
+}

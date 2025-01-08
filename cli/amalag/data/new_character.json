@@ -1,0 +1,87 @@
+{
+    "name": "Hero",
+    "hp": 20,
+    "current_hp": 20,
+    "mp": 10,
+    "current_mp": 10,
+    "attack": 5,
+    "defense": 5,
+    "speed": 4,
+    "special": 1,
+    "luck": 1,
+    "inventory": [
+        {
+            "name": "Potion",
+            "kind": "consumable",
+            "hp": 10,
+            "mp": 0,
+            "attack": 0,
+            "defense": 0,
+            "speed": 0,
+            "special": 0,
+            "luck": 0
+        }
+    ],
+    "equipments": {
+        "head": {
+            "name": "Helmet",
+            "kind": "equipable",
+            "hp": 10,
+            "mp": 0,
+            "attack": 0,
+            "defense": 10,
+            "speed": 0,
+            "special": 0,
+            "luck": 0,
+            "equipable": []
+        },
+        "right_arm": {
+            "name": "Sword",
+            "kind": "equipable",
+            "hp": 0,
+            "mp": 0,
+            "attack": 10,
+            "defense": 0,
+            "speed": 10,
+            "special": 0,
+            "luck": 0,
+            "equipable": []
+        },
+        "left_arm": {
+            "name": "Shield",
+            "kind": "equipable",
+            "hp": 10,
+            "mp": 0,
+            "attack": 0,
+            "defense": 10,
+            "speed": 0,
+            "special": 0,
+            "luck": 5,
+            "equipable": []
+        },
+        "body": {
+            "name": "Armor",
+            "kind": "equipable",
+            "hp": 10,
+            "mp": 0,
+            "attack": 0,
+            "defense": 10,
+            "speed": 0,
+            "special": 0,
+            "luck": 0,
+            "equipable": []
+        },
+        "legs": {
+            "name": "Pants",
+            "kind": "equipable",
+            "hp": 0,
+            "mp": 0,
+            "attack": 0,
+            "defense": 10,
+            "speed": 10,
+            "special": 0,
+            "luck": 0,
+            "equipable": []
+        }
+    }
+}
