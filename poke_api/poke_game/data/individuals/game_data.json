@@ -1,0 +1,14 @@
+{
+    "grooty": {
+        "number": 1,
+        "name": "bulbasaur",
+        "health": 100,
+        "current_health": 100
+    },
+    "chonky": {
+        "number": 3,
+        "name": "venusaur",
+        "health": 100,
+        "current_health": 100
+    }
+}
