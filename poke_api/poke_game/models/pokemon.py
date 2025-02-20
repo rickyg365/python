@@ -15,7 +15,7 @@ ____________________________________________
 * Current impl combines both
 """
 
-class PokemonBase:
+class PokemonSpecies:
     def __init__(self, name: str=None, number: int=None):
         self.number = number
         self.name = name
@@ -41,7 +41,7 @@ class PokemonBase:
             "name": self.name,
         }
 
-class Pokemon(PokemonBase):
+class Pokemon(PokemonSpecies):
     def __init__(self, name: str=None, number: int=None, nickname: str="", health: int=100, current_health: int=None):
         super().__init__(name=name, number=number)
 
@@ -59,9 +59,9 @@ HP {self.current_health:>3}/{self.health:<3} {progress_bar(self.current_health, 
         return s
     
     @classmethod
-    def from_pokemon_base(cls, data: PokemonBase):
+    def from_pokemon_base(cls, data: PokemonSpecies):
         """
-        This function depends on PokemonBase
+        This function depends on PokemonSpecies
         """
         return cls(**data.export())
     
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     
     # Data Exists | Data from API
     poke_data = load_json(POKE_PATH) if data_exists else get_pokemon(SAMPLE_NO)
-    poke_base_object = PokemonBase(**poke_data) if data_exists else PokemonBase.from_api_json(poke_data)
+    poke_base_object = PokemonSpecies(**poke_data) if data_exists else PokemonSpecies.from_api_json(poke_data)
     print(f"Pokemon Base Loaded: {poke_base_object}")
 
     u_in = input("(c)reate individual\n(l)oad individual\n>>> ")

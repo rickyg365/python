@@ -1,0 +1,6 @@
+FIRST LINE
+[=]
+[=]
+build_from_raw
+[=]
+This script controls the main process, which runs in a Node.js environment and is responsible for controlling your app's lifecycle, displaying native interfaces, performing privileged operations, and managing renderer processes (more on that later).

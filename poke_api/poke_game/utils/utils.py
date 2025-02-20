@@ -21,6 +21,19 @@ def load_json(filepath: str):
 
     return data
 
+def load_data_if_exists(filepath: str):
+    """
+    Return data if exists else returns none
+    """
+    # Try Loading Data
+    data_exists = os.path.isfile(filepath)
+    
+    if data_exists:
+        return load_json(filepath)
+
+    return None
+
+
 
 @dataclass
 class ProgressBarConfig:

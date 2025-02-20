@@ -1,0 +1,26 @@
+{
+    "store_id": "t1",
+    "items": [
+        {
+            "item_id": "hw01",
+            "name": "Command Hook",
+            "tag": "hardware",
+            "price": 9.99
+        },
+        {
+            "item_id": "gc01",
+            "name": "GM Cereal",
+            "tag": "grocery",
+            "price": 4.50
+        },
+        {
+            "item_id": "kn01",
+            "name": "Pyrex - Small 3 pack",
+            "tag": "kitchen",
+            "price": 9.99
+        }
+    ],
+    "subtotal": 176.45,
+    "total": 189.25,
+    "datetime": ""
+}

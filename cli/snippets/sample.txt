@@ -1,0 +1,1 @@
+Learning OpenCV by Bradski and Kaehler.

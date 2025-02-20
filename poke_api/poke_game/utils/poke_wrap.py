@@ -1,7 +1,7 @@
 import os
 import requests
 
-from utils.utils import progress_bar, save_json, load_json
+from utils.utils import progress_bar, save_json, load_json, load_data_if_exists
 
 from typing import List, Dict, Union
 
@@ -21,34 +21,48 @@ ENDPOINT: https://pokeapi.co/api/v2/pokemon/ditto
 ENDPOINT: https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0
 """
 
-def hit_poke_api(url: str, output_path: str="data/last_hit.json"):
+def hit_poke_api(url: str):
     """ Hit Poke API - cached """
+    print("+1 hit to pokeapi")
+    
     data = None
     
-    # Try Loading Data
-    data_exists = os.path.isfile(output_path)
-    
-    if data_exists:
-        return load_json(output_path)
-
     # Request
-    print("+1 hit to pokeapi")
     r = requests.get(url)
-    
-    data = r.json()    
-    save_json(data, output_path)
+    data = r.json()
 
     return data
 
 
+def load_pokemon(path: str):
+    # Try Loading Data
+    data = load_data_if_exists(path)
+    return data
 
-def get_pokemon(pokemon_no: Union[str, int]=None, save_dir: str="data/raw_data/"):
-    """ Get Pokemon Data """
+def get_pokemon(pokemon_no: Union[str, int]=None):
+    """ Get Pokemon Data - hits api
+    """
     POKE_URL = f"https://pokeapi.co/api/v2/pokemon/{pokemon_no}"
-    POKE_PATH = f"{save_dir}no_{pokemon_no}.json"
+    data = hit_poke_api(POKE_URL)
 
-    # Request or not?  
-    data = hit_poke_api(POKE_URL, POKE_PATH)
+    return data
+
+def get_pokemon_cached(pokemon_no: Union[str, int]=None, save_dir: str="data/raw_data", force_reload: bool=False):
+    """ Get Pokemon Data 
+    
+Checks for save data first then hits api
+    """
+    POKE_URL = f"https://pokeapi.co/api/v2/pokemon/{pokemon_no}"
+    POKE_PATH = f"{save_dir}/no_{pokemon_no}.json"
+    
+    if force_reload:
+        return hit_poke_api(POKE_URL)
+
+    # Try Loading Data
+    data = load_data_if_exists(POKE_PATH)
+    
+    if data is None:
+        data = hit_poke_api(POKE_URL)
 
     return data
 
@@ -59,14 +73,13 @@ def get_pokemon_collection(num_pokemon: Union[str, int]=None, offset: Union[str,
     POKE_URL = f"https://pokeapi.co/api/v2/pokemon?limit={num_pokemon}&offset={offset}"
     POKE_PATH = f"{save_dir}{offset}_{int(offset) + int(num_pokemon)}.json"
 
-    # Request or not?  
-    data = hit_poke_api(POKE_URL, POKE_PATH)
+    # Request or not?
+    data = load_data_if_exists(POKE_PATH)
+
+    if data is None:
+        data = hit_poke_api(POKE_URL)
 
     return data.get('results', None)
-
-
-
-
 
 
 
@@ -79,7 +92,7 @@ if __name__ == "__main__":
     print(poke_data)
 
 
-    poke_collection = get_pokemon_collection(9, save_dir="data/collections/")
+    poke_collection = get_pokemon_collection(9, save_dir="data/collections")
     
     for item in poke_collection:
         n = item['name']

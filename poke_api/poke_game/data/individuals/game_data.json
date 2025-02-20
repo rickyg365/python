@@ -10,5 +10,23 @@
         "name": "venusaur",
         "health": 100,
         "current_health": 100
+    },
+    "Copy": {
+        "number": 132,
+        "name": "ditto",
+        "health": 100,
+        "current_health": 100
+    },
+    "Chomp": {
+        "number": 444,
+        "name": "gabite",
+        "health": 100,
+        "current_health": 100
+    },
+    "buddy": {
+        "number": 802,
+        "name": "marshadow",
+        "health": 100,
+        "current_health": 100
     }
 }
